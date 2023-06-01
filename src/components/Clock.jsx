@@ -37,13 +37,13 @@ function Clock() {
         <div className="point"></div>
         <div
           className="hourHand"
-          style={{ transform: `rotate(${nowHou}deg)` }}></div>
+          style={{ transform: `rotate(${nowHou}deg)`, height: `150px`, transformOrigin:`3.5px 150px` , bottom: `150px` }}></div>
         <div
           className="minHand"
-          style={{ transform: `rotate(${nowMin}deg)` }}></div>
+          style={{ transform: `rotate(${nowMin}deg)`,height: `170px`, transformOrigin:`2.5px 170px` , bottom: `170px`}}></div>
         <div
           className="secHand"
-          style={{ transform: `rotate(${nowSec}deg)` }}></div>
+          style={{ transform: `rotate(${nowSec}deg)`, height: `200px`, transformOrigin:`1.5px 200px` , bottom: `200px` }}></div>
       </div>
     </div>
   );

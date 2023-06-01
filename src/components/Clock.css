@@ -9,72 +9,70 @@ body {
 .Clock {
   position: relative;
   border-radius: 50%;
-  height: 600px;
-  width: 600px;
+  height: 400px;
+  width: 400px;
   background: url(../img/clock.png);
   background-size: cover;
   border: 4px solid blue;
   box-shadow: 0px 0px 10px 5px blue, inset 0px 0px 10px 5px blue;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding: auto;
 }
 
 .point {
   position: absolute;
-  display: grid;
   height: 30px;
   width: 30px;
   border-radius: 50%;
   background-color: white;
-  top: 285px;
-  left: 285px;
   z-index: 100;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .hourHand {
   position: absolute;
   background-color: blue;
-  height: 150px;
   width: 7px;
   border-radius: 6px;
   z-index: 1;
-  top: 25.3%;
-  left: 47.5%;
-  transform-origin: 3.5px 200px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   opacity: 0.7;
 }
 
 .minHand {
   position: absolute;
   background-color: red;
-  height: 250px;
   width: 5px;
   border-radius: 6px;
   z-index: 2;
-  top: 16.8%;
-  left: 49.73%;
-  transform-origin: 2.5px 200px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   opacity: 0.7;
 }
 
 .secHand {
   position: absolute;
   background-color: white;
-  height: 300px;
   width: 3px;
   border-radius: 6px;
   z-index: 3;
-  top: 7%;
-  left: 49.88%;
-  transform-origin: 1.5px 260px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   opacity: 0.7;
-}
-
-/*  */
-
-.hi {
-  position: absolute;
-  color: white;
-  top: 60%;
-  left: 15%;
-  z-index: 0;
-  opacity: 0.3;
 }
