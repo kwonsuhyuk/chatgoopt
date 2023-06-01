@@ -16,6 +16,10 @@ function Clock() {
   const nowSec = sec * ang;
   const nowHou = hour * angHour + nowMin / 12;
 
+  const hrHe = 130
+  const mnHe = 170
+  const seHe = 190
+
   const getDate = () => {
     setState(`${hour}:${min}:${sec}`);
   };
@@ -37,13 +41,13 @@ function Clock() {
         <div className="point"></div>
         <div
           className="hourHand"
-          style={{ transform: `rotate(${nowHou}deg)`, height: `150px`, transformOrigin:`3.5px 150px` , bottom: `150px` }}></div>
+          style={{ transform: `rotate(${nowHou}deg)`, height: `${hrHe}px`, transformOrigin:`3.5px ${hrHe}px` , bottom: `${hrHe}px` }}></div>
         <div
           className="minHand"
-          style={{ transform: `rotate(${nowMin}deg)`,height: `170px`, transformOrigin:`2.5px 170px` , bottom: `170px`}}></div>
+          style={{ transform: `rotate(${nowMin}deg)`,height: `${mnHe}px`, transformOrigin:`2.5px ${mnHe}px` , bottom: `${mnHe}px`}}></div>
         <div
           className="secHand"
-          style={{ transform: `rotate(${nowSec}deg)`, height: `200px`, transformOrigin:`1.5px 200px` , bottom: `200px` }}></div>
+          style={{ transform: `rotate(${nowSec}deg)`, height: `${seHe}px`, transformOrigin:`1.5px ${seHe}px` , bottom: `${seHe}px` }}></div>
       </div>
     </div>
   );
