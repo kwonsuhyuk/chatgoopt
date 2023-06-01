@@ -16,9 +16,9 @@ function Clock() {
   const nowSec = sec * ang;
   const nowHou = hour * angHour + nowMin / 12;
 
-  const hrHe = 130
-  const mnHe = 170
-  const seHe = 190
+  const hrHe = 110
+  const mnHe = 150
+  const seHe = 180
 
   const getDate = () => {
     setState(`${hour}:${min}:${sec}`);

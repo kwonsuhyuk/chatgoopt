@@ -2,7 +2,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(29, 1, 33);
   min-height: 100vh;
 }
 
@@ -13,8 +12,9 @@ body {
   width: 400px;
   background: url(../img/clock.png);
   background-size: cover;
-  border: 4px solid blue;
-  box-shadow: 0px 0px 10px 5px blue, inset 0px 0px 10px 5px blue;
+  border: 4px solid black;
+  box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05), inset 0 -15px 15px rgba(255, 255, 255, 0.05),
+    0 -5px 15px rgba(0, 0, 0, 0.3), inset 0 -5px 15px rgba(0, 0, 0, 0.3);
   top: 0;
   bottom: 0;
   margin: auto;
@@ -23,10 +23,10 @@ body {
 
 .point {
   position: absolute;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
-  background-color: white;
+  background-color: rgba(255, 255, 255);
   z-index: 100;
   top: 0;
   bottom: 0;
@@ -37,7 +37,7 @@ body {
 
 .hourHand {
   position: absolute;
-  background-color: blue;
+  background-color: rgb(255, 255, 255);
   width: 7px;
   border-radius: 6px;
   z-index: 1;
@@ -46,12 +46,11 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  opacity: 0.6;
 }
 
 .minHand {
   position: absolute;
-  background-color: red;
+  background-color: rgb(255, 255, 255);
   width: 5px;
   border-radius: 6px;
   z-index: 2;
@@ -60,7 +59,6 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  opacity: 0.7;
 }
 
 .secHand {
@@ -74,5 +72,4 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  opacity: 0.7;
 }
