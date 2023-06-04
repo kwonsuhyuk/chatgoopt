@@ -1,10 +1,3 @@
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 .Clock {
   position: relative;
   border-radius: 50%;
@@ -13,8 +6,9 @@ body {
   background: url(../img/clock.png);
   background-size: cover;
   border: 4px solid black;
-  box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05), inset 0 -15px 15px rgba(255, 255, 255, 0.05),
-    0 -5px 15px rgba(0, 0, 0, 0.3), inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
+    inset 0 -15px 15px rgba(255, 255, 255, 0.05), 0 -5px 15px rgba(0, 0, 0, 0.3),
+    inset 0 -5px 15px rgba(0, 0, 0, 0.3);
   top: 0;
   bottom: 0;
   margin: auto;
@@ -73,3 +67,8 @@ body {
   right: 0;
   margin: auto;
 }
+
+/* 
+=======
+
+>>>>>>>df55c5db05c249b2a88a1db628a08550f9812b5f */
