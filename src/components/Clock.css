@@ -57,7 +57,7 @@
 
 .secHand {
   position: absolute;
-  background-color: white;
+  background-color: gray;
   width: 3px;
   border-radius: 6px;
   z-index: 3;
