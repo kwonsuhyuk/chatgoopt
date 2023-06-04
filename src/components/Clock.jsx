@@ -16,6 +16,10 @@ function Clock() {
   const nowSec = sec * ang;
   const nowHou = hour * angHour + nowMin / 12;
 
+  const hrHe = 110;
+  const mnHe = 150;
+  const seHe = 180;
+
   const getDate = () => {
     setState(`${hour}:${min}:${sec}`);
   };
@@ -31,19 +35,34 @@ function Clock() {
   });
   //setInterval 변수 선언후  clearInterval로 리턴하기
   return (
-    <div>
+    <div style={{ marginTop: "150px" }}>
       <div style={{ color: "white" }}></div>
       <div className="Clock">
         <div className="point"></div>
         <div
           className="hourHand"
-          style={{ transform: `rotate(${nowHou}deg)` }}></div>
+          style={{
+            transform: `rotate(${nowHou}deg)`,
+            height: `${hrHe}px`,
+            transformOrigin: `3.5px ${hrHe}px`,
+            bottom: `${hrHe}px`,
+          }}></div>
         <div
           className="minHand"
-          style={{ transform: `rotate(${nowMin}deg)` }}></div>
+          style={{
+            transform: `rotate(${nowMin}deg)`,
+            height: `${mnHe}px`,
+            transformOrigin: `2.5px ${mnHe}px`,
+            bottom: `${mnHe}px`,
+          }}></div>
         <div
           className="secHand"
-          style={{ transform: `rotate(${nowSec}deg)` }}></div>
+          style={{
+            transform: `rotate(${nowSec}deg)`,
+            height: `${seHe}px`,
+            transformOrigin: `1.5px ${seHe}px`,
+            bottom: `${seHe}px`,
+          }}></div>
       </div>
     </div>
   );

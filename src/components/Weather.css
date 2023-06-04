@@ -1,0 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway+Dots);
+
+.weather_name {
+  font-family: "Raleway Dots", cursive;
+  color: white;
+  font-size: 30px;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Weather from "../components/Weather";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
 import Clock from "../components/Clock";
@@ -70,6 +70,8 @@ function Main() {
             to="signin"
             ref={signinRef}
             style={{
+              fontFamily: "Raleway Dots",
+              fontWeight: 800,
               width: "250px",
               height: "100px",
               color: "black",
@@ -93,19 +95,16 @@ function Main() {
         </Box>
       </Box>
       <Box style={{ backgroundColor: "black" }}>
-        <Clock />
+        <Clock width={500} height={500} />
+        {/* <div
+          style={{
+            width: "500px",
+            height: "500px",
+            backgroundColor: "tomato",
+          }}></div> */}
         <Weather />
       </Box>
     </div>
-
-    // <Grid container direction="column" sx={{ height: "100vh", width: "100%" }}>
-    //   {/* <Box>
-    //       <Clock />
-    //     </Box> */}
-    //   <Box>
-    //
-    //   </Box>
-    // </Grid>
   );
 }
 
