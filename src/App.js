@@ -5,18 +5,38 @@ import Signup from "./pages/Signup";
 import { useEffect, useState } from "react";
 import "./firebase";
 import Index from "./pages/Index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { clearUser, setUser } from "./store/userSlice";
+import { CircularProgress, Stack } from "@mui/material";
 
 function App() {
-  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { currentUser, isLoading } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    console.log(currentUser, isLoading);
+    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
+      if (!!user) {
+        dispatch(setUser(user));
+      } else {
+        dispatch(clearUser());
+      }
+    });
+    return () => unsubscribe();
+  }, [dispatch, currentUser]);
+
+  if (isLoading) {
+    return (
+      <Stack alignItems="center" justifyContent="center" height="100vh">
+        <CircularProgress color="primary" size={150} />
+      </Stack>
+    );
+  }
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={currentUser ? <Navigate to="/index" /> : <Main />}
-      />
-      <Route path="/index" element={<Index />} />
+      <Route path="/" element={currentUser ? <Index /> : <Main />} />
       <Route
         path="/signin"
         element={currentUser ? <Navigate to="/" /> : <Signin />}

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import { channelSlice } from "./channelSlice";
 
@@ -7,7 +7,7 @@ export const store = configureStore({
     user: userReducer,
     channel: channelSlice,
   },
-  // middleware: getDefaultMiddleware({
-  //   serializableCheck: false,
-  // }),
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
