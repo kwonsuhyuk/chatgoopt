@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
 import ThreeScene from "../components/ThreeScene";
+import "./Main.css";
 
 function Main() {
   const typo1Ref = useRef(null);
@@ -108,16 +109,16 @@ function Main() {
           </Link>
         </Box>
       </Box>
-      {/* <Box style={{ backgroundColor: "black" }}>
-        <Clock width={500} height={500} />
-        <div
-          style={{
-            width: "500px",
-            height: "500px",
-            backgroundColor: "tomato",
-          }}></div>
-        <Weather />
-      </Box> */}
+      <div
+        style={{
+          fontFamily: "naming",
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          margin: "10px 10px",
+        }}>
+        Made by Suhyuk , Sungbin
+      </div>
     </div>
   );
 }
