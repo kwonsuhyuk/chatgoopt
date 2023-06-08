@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import Weather from "../components/Weather";
 import { Box, Typography } from "@mui/material";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
-import Clock from "../components/Clock";
+import ThreeScene from "../components/ThreeScene";
 
 function Main() {
   const typo1Ref = useRef(null);
@@ -44,8 +43,15 @@ function Main() {
         gridTemplateColumns: "2fr 1fr",
         height: "100vh",
         width: "100vw",
+        overflowX: "hidden",
+        // overflowY: "hidden",
       }}>
-      <Box sx={{ display: "flex", backgroundColor: "white" }}>
+      <Box
+        sx={{
+          display: "flex",
+          backgroundColor: "white",
+          position: "relative",
+        }}>
         <Typography
           variant="h1"
           ref={typo1Ref}
@@ -56,9 +62,17 @@ function Main() {
           }}>
           Chat
         </Typography>
+
         <Typography variant="h2" ref={typo2Ref} style={{ marginTop: "50px" }}>
           GooPT
         </Typography>
+        <ThreeScene
+          style={{
+            position: "absolute",
+            top: 0,
+            right: "50px",
+          }}
+        />
         <Box
           sx={{
             display: "flex",
@@ -94,16 +108,16 @@ function Main() {
           </Link>
         </Box>
       </Box>
-      <Box style={{ backgroundColor: "black" }}>
+      {/* <Box style={{ backgroundColor: "black" }}>
         <Clock width={500} height={500} />
-        {/* <div
+        <div
           style={{
             width: "500px",
             height: "500px",
             backgroundColor: "tomato",
-          }}></div> */}
+          }}></div>
         <Weather />
-      </Box>
+      </Box> */}
     </div>
   );
 }

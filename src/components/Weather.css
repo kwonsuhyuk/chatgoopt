@@ -3,5 +3,6 @@
 .weather_name {
   font-family: "Raleway Dots", cursive;
   color: white;
+  font-weight: 800;
   font-size: 30px;
 }

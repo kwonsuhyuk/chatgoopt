@@ -25,7 +25,7 @@ function App() {
       }
     });
     return () => unsubscribe();
-  }, [dispatch, currentUser]);
+  }, [dispatch, currentUser, isLoading]);
 
   if (isLoading) {
     return (
