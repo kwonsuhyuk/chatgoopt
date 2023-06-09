@@ -10,6 +10,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import { CircularProgress, Stack } from "@mui/material";
 import Notfound from "./pages/Notfound";
+import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
+import Board from "./pages/Board";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +40,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={currentUser ? <Index /> : <Main />} />
+      <Route path="/*" element={currentUser ? <Index /> : <Main />} />
+
       <Route
         path="/signin"
         element={currentUser ? <Navigate to="/" /> : <Signin />}
