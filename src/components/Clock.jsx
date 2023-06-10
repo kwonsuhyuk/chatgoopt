@@ -3,7 +3,7 @@ import "./Clock.css";
 
 function Clock() {
   const [state, setState] = useState();
-
+  const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const date = new Date();
   const hour = date.getHours();
   const min = date.getMinutes();
@@ -11,6 +11,7 @@ function Clock() {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
+  const daying = week[date.getDay()];
 
   const ang = 360 / 60;
   const angHour = 360 / 12;
@@ -70,7 +71,9 @@ function Clock() {
         </div>
       </div>
 
-      <div className="date">{`${month + 1}/${day}/${year}`}</div>
+      <div className="date">{`${
+        month + 1
+      }/${day}/${year}  ${daying.toUpperCase()}`}</div>
     </>
   );
 }

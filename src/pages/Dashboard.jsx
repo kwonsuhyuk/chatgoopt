@@ -5,9 +5,6 @@ import Clock from "../components/Clock";
 import Weather from "../components/Weather";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import "./Dashboard.css";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
-import { DateCalendar } from "@mui/x-date-pickers";
 
 function Dashboard() {
   const [timeImage, setTimeImage] = useState();
@@ -36,8 +33,6 @@ function Dashboard() {
   const Container = styled.div`
     width: 100vw;
     height: 100vh;
-    padding-bottom: 50px;
-    margin-bottom: 50px;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -49,7 +44,6 @@ function Dashboard() {
     & > div {
       position: relative;
       scroll-snap-align: center;
-      border-top: 1px solid red;
       height: 100vh;
     }
   `;

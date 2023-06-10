@@ -41,13 +41,11 @@ function Header() {
       position="static"
       sx={{
         backgroundColor: "black",
-        display: "flex",
-        alignItems: "center",
       }}>
       <Container
         maxWidth="xl"
         sx={{
-          height: "7vh",
+          height: "8vh",
         }}>
         <Toolbar disableGutters>
           <Typography
