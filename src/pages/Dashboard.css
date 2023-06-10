@@ -9,7 +9,6 @@
   animation: motion 1s ease-in-out 0s infinite alternate;
   margin-top: 0;
   -webkit-animation: motion 1s ease-in-out 0s infinite alternate;
-  margin-top: 0;
 }
 
 @keyframes motion {

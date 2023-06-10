@@ -21,7 +21,7 @@ function Index() {
     e.currentTarget.style.opacity = "0";
   };
   return (
-    <Box component={Paper} elevation={10}>
+    <div component={Paper} elevation={10} style={{ height: "100vh" }}>
       <div
         onMouseOver={onMouseEnter}
         onMouseOut={onMouseOut}
@@ -41,7 +41,7 @@ function Index() {
         <Route path="/board" element={<Board />} />
         <Route path="/*" element={<Notfound />} />
       </Routes>
-    </Box>
+    </div>
   );
 }
 

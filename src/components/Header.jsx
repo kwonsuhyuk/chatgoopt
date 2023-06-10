@@ -41,6 +41,8 @@ function Header() {
       position="static"
       sx={{
         backgroundColor: "black",
+        display: "flex",
+        alignItems: "center",
       }}>
       <Container
         maxWidth="xl"

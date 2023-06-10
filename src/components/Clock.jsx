@@ -69,7 +69,8 @@ function Clock() {
             }}></div>
         </div>
       </div>
-      <div className="date">{`${day}/${month + 1}/${year}`}</div>
+
+      <div className="date">{`${month + 1}/${day}/${year}`}</div>
     </>
   );
 }

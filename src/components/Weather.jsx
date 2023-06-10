@@ -64,7 +64,7 @@ function Weather() {
           <img
             src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
             alt="weather"
-            style={{ height: "250px", width: "250px" }}
+            style={{ height: "150px", width: "150px" }}
           />
           <h1 className="weather_name">Now is {weather}_</h1>
         </div>
