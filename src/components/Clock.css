@@ -5,7 +5,7 @@
   width: 400px;
   background: url(../img/clock.png);
   background-size: cover;
-  border: 4px solid black;
+  border: 4px solid whitesmoke 0.3;
   box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
     inset 0 -15px 15px rgba(255, 255, 255, 0.05), 0 -5px 15px rgba(0, 0, 0, 0.3),
     inset 0 -5px 15px rgba(0, 0, 0, 0.3);
@@ -44,7 +44,7 @@
 
 .minHand {
   position: absolute;
-  background-color: rgb(255, 255, 255);
+  background-color: whitesmoke;
   width: 5px;
   border-radius: 6px;
   z-index: 2;
@@ -57,7 +57,7 @@
 
 .secHand {
   position: absolute;
-  background-color: gray;
+  background-color: whitesmoke;
   width: 3px;
   border-radius: 6px;
   z-index: 3;
@@ -68,7 +68,12 @@
   margin: auto;
 }
 
-/* 
-=======
-
->>>>>>>df55c5db05c249b2a88a1db628a08550f9812b5f */
+.date {
+  font-family: "Raleway Dots", cursive;
+  color: rgb(111, 105, 105);
+  font-weight: 800;
+  font-size: 30px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}

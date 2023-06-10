@@ -6,19 +6,24 @@ import { faFrown } from "@fortawesome/free-regular-svg-icons";
 
 function Notfound() {
   return (
-    <Container
-      component="main"
-      maxWidth="xl"
-      style={{ padding: 0, height: `100vh`, width: "100vw", margin: 0 }}>
+    <div
+      style={{
+        padding: 0,
+        height: `100vh`,
+        width: "100vw",
+        margin: 0,
+        overflow: "hidden",
+      }}>
       <Box
         sx={{
+          margin: 0,
+          padding: 0,
           height: `100vh`,
           width: "100vw",
           backgroundColor: "black",
           color: `white`,
           fontSize: `150px`,
           textAlign: `center`,
-          padding: `20px`,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -43,7 +48,7 @@ function Notfound() {
           Go to home ←
         </Link>
       </Box>
-    </Container>
+    </div>
   );
 }
 

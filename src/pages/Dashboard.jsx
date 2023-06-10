@@ -1,8 +1,31 @@
 import { Box, Container, TextField } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import Clock from "../components/Clock";
+import Weather from "../components/Weather";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import "./Dashboard.css";
 
 function Dashboard() {
+  const [timeImage, setTimeImage] = useState();
+  useEffect(() => {
+    const time = new Date();
+    const hour = time.getHours();
+    if (hour >= 16 && hour < 19) {
+      setTimeImage(
+        "https://images.unsplash.com/photo-1501898047706-55903296cd09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      );
+    } else if (hour > 7 && hour < 16) {
+      setTimeImage(
+        "https://c.wallhere.com/photos/22/73/sky_clouds_summer-1020592.jpg!d"
+      );
+    } else {
+      setTimeImage(
+        "https://images.unsplash.com/photo-1523305846158-488dedcf8629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      );
+    }
+  }, []);
+
   const Container = styled.div`
     width: 100vw;
     height: 100vh;
@@ -23,7 +46,7 @@ function Dashboard() {
   `;
 
   const MainDiv = styled.div`
-    background-image: url("https://c.wallhere.com/photos/22/73/sky_clouds_summer-1020592.jpg!d");
+    background-image: url(${timeImage});
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -38,8 +61,21 @@ function Dashboard() {
 
   return (
     <Container>
-      <MainDiv></MainDiv>
-      <div>hi</div>
+      <MainDiv
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr 1fr",
+        }}>
+        <div className="scrollDown">
+          Scroll Down <KeyboardDoubleArrowDownIcon />
+        </div>
+        <div>
+          <Clock />
+          <Weather />
+        </div>
+        <div className="bookMark">asd</div>
+      </MainDiv>
+      <div></div>
     </Container>
   );
 }

@@ -8,6 +8,9 @@ function Clock() {
   const hour = date.getHours();
   const min = date.getMinutes();
   const sec = date.getSeconds();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
 
   const ang = 360 / 60;
   const angHour = 360 / 12;
@@ -35,36 +38,39 @@ function Clock() {
   });
   //setInterval 변수 선언후  clearInterval로 리턴하기
   return (
-    <div style={{ marginTop: "150px" }}>
-      <div style={{ color: "white" }}></div>
-      <div className="Clock">
-        <div className="point"></div>
-        <div
-          className="hourHand"
-          style={{
-            transform: `rotate(${nowHou}deg)`,
-            height: `${hrHe}px`,
-            transformOrigin: `3.5px ${hrHe}px`,
-            bottom: `${hrHe}px`,
-          }}></div>
-        <div
-          className="minHand"
-          style={{
-            transform: `rotate(${nowMin}deg)`,
-            height: `${mnHe}px`,
-            transformOrigin: `2.5px ${mnHe}px`,
-            bottom: `${mnHe}px`,
-          }}></div>
-        <div
-          className="secHand"
-          style={{
-            transform: `rotate(${nowSec}deg)`,
-            height: `${seHe}px`,
-            transformOrigin: `1.5px ${seHe}px`,
-            bottom: `${seHe}px`,
-          }}></div>
+    <>
+      <div style={{ marginTop: "150px" }}>
+        <div style={{ color: "white" }}></div>
+        <div className="Clock">
+          <div className="point"></div>
+          <div
+            className="hourHand"
+            style={{
+              transform: `rotate(${nowHou}deg)`,
+              height: `${hrHe}px`,
+              transformOrigin: `3.5px ${hrHe}px`,
+              bottom: `${hrHe}px`,
+            }}></div>
+          <div
+            className="minHand"
+            style={{
+              transform: `rotate(${nowMin}deg)`,
+              height: `${mnHe}px`,
+              transformOrigin: `2.5px ${mnHe}px`,
+              bottom: `${mnHe}px`,
+            }}></div>
+          <div
+            className="secHand"
+            style={{
+              transform: `rotate(${nowSec}deg)`,
+              height: `${seHe}px`,
+              transformOrigin: `1.5px ${seHe}px`,
+              bottom: `${seHe}px`,
+            }}></div>
+        </div>
       </div>
-    </div>
+      <div className="date">{`${day}/${month + 1}/${year}`}</div>
+    </>
   );
 }
 

@@ -58,8 +58,8 @@ function Weather() {
         <div
           style={{
             display: "flex",
+            justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "black",
           }}>
           <img
             src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
