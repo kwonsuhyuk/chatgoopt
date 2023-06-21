@@ -7,15 +7,14 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./Header.css";
 
 const pages = ["dashboard", "chat", "board"];
 const settings = ["Edit Profile", "Logout"];
@@ -40,13 +39,9 @@ function Header() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "black",
+        backgroundColor: "whitesmoke",
       }}>
-      <Container
-        maxWidth="xl"
-        sx={{
-          height: "8vh",
-        }}>
+      <Container maxWidth="xl" sx={{ padding: "10px" }}>
         <Toolbar disableGutters>
           <Typography
             variant="h3"
@@ -58,9 +53,12 @@ function Header() {
               display: { xs: "none", md: "flex" },
               fontFamily: "Bagel Fat One",
               fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              borderRadius: "100px",
+              color: "rgba(93,93,93)",
               textDecoration: "none",
+              padding: "10px 30px",
+              boxShadow:
+                " inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
             }}>
             ChatGOOPT
           </Typography>
@@ -70,30 +68,26 @@ function Header() {
               <NavLink
                 key={page}
                 to={page === "dashboard" ? "" : "/" + page}
-                style={({ isActive }) => {
-                  return {
-                    backgroundColor: isActive ? "white" : "black",
-                    color: isActive ? "black" : "white",
-                    textDecoration: "none",
-                    marginRight: "5rem",
-                    textTransform: "upperCase",
-                    height: "200px",
-                    padding: "10px",
-                    borderRadius: "10px",
-                  };
-                }}>
+                data-text={page}
+                className="navLink">
                 {page}
               </NavLink>
             ))}
           </div>
 
-          <Box sx={{ flexGrow: 0, position: "absolute", right: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 0,
+              position: "absolute",
+              right: 0,
+              borderRadius: "20px",
+              padding: "10px 20px",
+              boxShadow:
+                " inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
+            }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ color: "white" }}>
+                <Typography variant="h6" component="div" sx={{ color: "gray" }}>
                   {user?.currentUser.displayName}
                 </Typography>
                 <Avatar

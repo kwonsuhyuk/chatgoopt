@@ -1,0 +1,28 @@
+.navLink {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: gray;
+  margin-right: 5rem;
+  text-transform: upperCase;
+  padding: 15px 25px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: -4px -4px 8px white, 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.navLink.active::before {
+  content: attr(data-text); /* data-text 속성 값을 텍스트로 사용 */
+  color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 20px;
+  background: whitesmoke;
+  box-shadow: inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}

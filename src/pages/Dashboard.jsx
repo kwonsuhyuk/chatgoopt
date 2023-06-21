@@ -10,9 +10,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import SearchIcon from "@mui/icons-material/Search";
 
 const MainDiv = styled.div`
-  height: 100vh;
+  height: 90vh;
   // background-image: url(${(props) => props.timeImage});
   background-color: whitesmoke;
   background-repeat: no-repeat;
@@ -24,7 +25,7 @@ const MainDiv = styled.div`
 
 const SnapContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -36,12 +37,12 @@ const SnapContainer = styled.div`
   & > div {
     position: relative;
     scroll-snap-align: center;
-    height: 100vh;
+    height: 90vh;
   }
 `;
 
 const SubDiv = styled.div`
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   background-color: whitesmoke;
 `;
@@ -49,6 +50,7 @@ const SubDiv = styled.div`
 function Dashboard() {
   // const [timeImage, setTimeImage] = useState();
   const [open, setOpen] = useState(false);
+  const boxRef = useRef();
 
   // useEffect(() => {
   //   const time = new Date();
@@ -73,7 +75,7 @@ function Dashboard() {
   //   }
   // }, []);
 
-  const handleSubmit = useCallback(async (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const search = data.get("search");
@@ -88,9 +90,7 @@ function Dashboard() {
     <SnapContainer>
       <MainDiv>
         <div className="firstDiv">
-          <div style={{ height: "250px" }}>
-            <h2>CHAT GOOOOOPT</h2>
-          </div>
+          <div style={{ height: "150px" }}></div>
           <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
@@ -98,7 +98,7 @@ function Dashboard() {
                   backgroundColor: "whitesmoke",
                   borderRadius: "20px",
                   boxShadow:
-                    "-8px -8px 16px white, 8px 8px 16px rgba(0,0,0,0.3)",
+                    "inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1)",
                 }}
               />
             </LocalizationProvider>
@@ -112,14 +112,17 @@ function Dashboard() {
           style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-around",
+            justifyContent: "space-evenly",
+            paddingBottom: "150px",
           }}>
           <Box
             component="form"
             onSubmit={handleSubmit}
+            ref={boxRef}
             sx={{
               width: "100%",
               textAlign: "center",
+              position: "relative",
             }}
             noValidate
             autoComplete="off">
@@ -130,7 +133,17 @@ function Dashboard() {
               autoComplete="off"
               name="search"
             />
-            {/* <SearchIcon /> */}
+            <button style={{ border: "none " }}>
+              <SearchIcon
+                sx={{
+                  position: "absolute",
+                  top: "40px",
+                  color: "gray",
+                  right: "130px",
+                  fontSize: "30px",
+                }}
+              />
+            </button>
           </Box>
           <Clock />
         </div>

@@ -37,13 +37,8 @@
   font-size: 20px;
   margin-top: 30px;
   border: none;
-  transition: 0.5s ease-in;
-  box-shadow: -16px -16px 16px white, 8px 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1);
   color: gray;
-}
-
-.searchInput:focus {
-  transform: scale(1.2);
 }
 
 .todoBtn {
