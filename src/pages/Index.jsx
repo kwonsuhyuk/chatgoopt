@@ -33,7 +33,7 @@ function Index() {
           zIndex: "10",
           opacity: "0",
         }}>
-        <Header />
+        {/* <Header /> */}
       </div>
       <Routes>
         <Route path="/" element={<Dashboard />} />

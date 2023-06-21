@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { ScaleLoader } from "react-spinners";
+import { PropagateLoader, ScaleLoader } from "react-spinners";
 import "./Weather.css";
 
 const API_KEY = "fcb5e993ed95afdfb3782c2e6cae8075";
@@ -43,30 +43,28 @@ function Weather() {
   }, [getPosition]);
 
   return (
-    <div style={{ marginTop: "10px" }}>
+    <div>
       {loading ? (
         <div
           style={{
-            marginTop: "100px",
+            height: "150px",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <ScaleLoader color="white" />
+          <PropagateLoader color="gray" />
         </div>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}>
+        <div className="weather_box front">
           <img
             src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
             alt="weather"
             style={{ height: "150px", width: "150px" }}
           />
-          <h1 className="weather_name">Now is {weather}_</h1>
+          <h1 className="weather_name">
+            Now is <br />
+            {weather}_
+          </h1>
         </div>
       )}
     </div>

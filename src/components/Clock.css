@@ -1,14 +1,12 @@
 .Clock {
   position: relative;
   border-radius: 50%;
-  height: 400px;
-  width: 400px;
-  background: url(../img/clock.png);
+  height: 350px;
+  width: 350px;
+  background: url("../img/clock.png");
   background-size: cover;
-  border: 4px solid whitesmoke 0.3;
-  box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
-    inset 0 -15px 15px rgba(255, 255, 255, 0.05), 0 -5px 15px rgba(0, 0, 0, 0.3),
-    inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+  border: 3px solid whitesmoke 0.3;
+  box-shadow: -8px -8px 16px white, 8px 8px 16px rgba(0, 0, 0, 0.3);
   top: 0;
   bottom: 0;
   margin: auto;
@@ -17,8 +15,8 @@
 
 .point {
   position: absolute;
-  height: 20px;
-  width: 20px;
+  height: 10px;
+  width: 10px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255);
   z-index: 100;
@@ -31,7 +29,7 @@
 
 .hourHand {
   position: absolute;
-  background-color: rgb(255, 255, 255);
+  background-color: gray;
   width: 7px;
   border-radius: 6px;
   z-index: 1;
@@ -44,7 +42,7 @@
 
 .minHand {
   position: absolute;
-  background-color: whitesmoke;
+  background-color: gray;
   width: 5px;
   border-radius: 6px;
   z-index: 2;
@@ -57,7 +55,7 @@
 
 .secHand {
   position: absolute;
-  background-color: whitesmoke;
+  background-color: gray;
   width: 3px;
   border-radius: 6px;
   z-index: 3;
@@ -66,18 +64,4 @@
   left: 0;
   right: 0;
   margin: auto;
-}
-
-.date {
-  font-family: "Raleway Dots", cursive;
-  color: rgb(111, 105, 105);
-  font-weight: 800;
-  font-size: 30px;
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-}
-
-.holiday {
-  color: red;
 }

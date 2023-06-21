@@ -1,21 +1,72 @@
-.scrollDown {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 30px;
+.firstDiv {
   padding-left: 30px;
   font-size: 30px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  color: whitesmoke;
+}
+
+.scrollDownIn {
+  position: absolute;
+  bottom: 0;
+  color: gray;
   animation: motion 1s ease-in-out 0s infinite alternate;
-  margin-top: 0;
   -webkit-animation: motion 1s ease-in-out 0s infinite alternate;
 }
 
 @keyframes motion {
   0% {
-    margin-bottom: 0px;
+    bottom: 0;
   }
+
   100% {
-    margin-bottom: 30px;
+    bottom: 30px;
+    color: black;
   }
+}
+
+.searchInput {
+  position: relative;
+  background-color: whitesmoke;
+  outline: none;
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 20px;
+  text-align: left;
+  font-family: "monsserat";
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 30px;
+  border: none;
+  transition: 0.5s ease-in;
+  box-shadow: -16px -16px 16px white, 8px 8px 16px rgba(0, 0, 0, 0.3);
+  color: gray;
+}
+
+.searchInput:focus {
+  transform: scale(1.2);
+}
+
+.todoBtn {
+  margin-top: 30px;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  border-radius: 50%;
+  background: whitesmoke;
+  box-shadow: -8px -8px 16px white, 8px 8px 16px rgba(0, 0, 0, 0.3);
+  border: none;
+}
+
+.todoBtn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  background: whitesmoke;
+  box-shadow: inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -3,15 +3,10 @@ import "./Clock.css";
 
 function Clock() {
   const [state, setState] = useState();
-  const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const date = new Date();
   const hour = date.getHours();
   const min = date.getMinutes();
   const sec = date.getSeconds();
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  const daying = week[date.getDay()];
 
   const ang = 360 / 60;
   const angHour = 360 / 12;
@@ -20,9 +15,9 @@ function Clock() {
   const nowSec = sec * ang;
   const nowHou = hour * angHour + nowMin / 12;
 
-  const hrHe = 110;
-  const mnHe = 150;
-  const seHe = 180;
+  const hrHe = 80; //110
+  const mnHe = 100; //150
+  const seHe = 120; //180
 
   const getDate = () => {
     setState(`${hour}:${min}:${sec}`);
@@ -40,7 +35,7 @@ function Clock() {
   //setInterval 변수 선언후  clearInterval로 리턴하기
   return (
     <>
-      <div style={{ marginTop: "150px" }}>
+      <div>
         <div style={{ color: "white" }}></div>
         <div className="Clock">
           <div className="point"></div>
@@ -70,10 +65,6 @@ function Clock() {
             }}></div>
         </div>
       </div>
-
-      <div className="date">{`${
-        month + 1
-      }/${day}/${year}  ${daying.toUpperCase()}`}</div>
     </>
   );
 }
