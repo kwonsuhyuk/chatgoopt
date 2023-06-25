@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+}
+
+.postit {
+  white-space: normal;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 25px;
+}
+
+.dueDates {
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: gray;
+  font-size: 15px;
+}
+
+.tape {
+  margin: -50px auto 10px;
+  width: 50px;
+  height: 80px;
+  background: rgba(255, 255, 200, 0.4);
+  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  color: #424242;
+}

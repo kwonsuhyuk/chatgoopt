@@ -8,14 +8,47 @@ import {
   LinearProgress,
   TextField,
 } from "@mui/material";
-import React from "react";
+import "../../firebase";
+import React, { useCallback, useState } from "react";
 import { CirclePicker } from "react-color";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { child, getDatabase, push, ref, set, update } from "firebase/database";
+import { useSelector } from "react-redux";
 
 function TodoModal({ open, handleClose }) {
+  const { user } = useSelector((state) => state);
+  const [color, setColor] = useState("#f44336");
+  const [dueDate, setDueDate] = useState(new Date());
+  const [todo, setTodo] = useState("");
+
+  const handleSubmit = useCallback(async () => {
+    const database = getDatabase();
+    const key = push(
+      child(ref(database), "users/" + user.currentUser.uid + "/todos/")
+    ).key;
+    const todos = {
+      todoMessage: todo,
+      dueDates: `${
+        dueDate.getMonth() + 1
+      }/${dueDate.getDate()}/${dueDate.getFullYear()}`,
+      color: color,
+      id: key,
+    };
+
+    const updates = {};
+    updates["users/" + user.currentUser.uid + "/todos/" + key] = todos;
+
+    try {
+      await update(ref(database), updates);
+      handleClose();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [handleClose, user.currentUser.uid, color, todo, dueDate]);
+
   return (
     <Dialog
       open={open}
@@ -35,6 +68,7 @@ function TodoModal({ open, handleClose }) {
         <TextField
           autoComplete="off"
           label="todo"
+          onChange={(e) => setTodo(e.currentTarget.value)}
           type="text"
           sx={{
             width: "90%",
@@ -50,15 +84,15 @@ function TodoModal({ open, handleClose }) {
           }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
-              <DatePicker label="Due Date" />
+              <DatePicker label="Due Date" onChange={(e) => setDueDate(e.$d)} />
             </DemoContainer>
           </LocalizationProvider>
-          <CirclePicker />
+          <CirclePicker onChange={(color, event) => setColor(color.hex)} />
         </div>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>취소</Button>
-        <Button onClick={handleClose}>확인</Button>
+        <Button onClick={handleSubmit}>확인</Button>
       </DialogActions>
     </Dialog>
   );

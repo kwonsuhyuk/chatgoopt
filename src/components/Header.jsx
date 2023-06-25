@@ -51,12 +51,13 @@ function Header() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "Bagel Fat One",
+              fontFamily: "Raleway Dots",
+              letterSpacing: "1.5rem",
               fontWeight: 700,
               borderRadius: "100px",
               color: "rgba(93,93,93)",
               textDecoration: "none",
-              padding: "10px 30px",
+              padding: "10px 20px",
               boxShadow:
                 " inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
             }}>

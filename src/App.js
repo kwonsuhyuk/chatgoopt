@@ -10,16 +10,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import { CircularProgress, Stack } from "@mui/material";
 import Notfound from "./pages/Notfound";
-import Dashboard from "./pages/Dashboard";
-import Chat from "./pages/Chat";
-import Board from "./pages/Board";
 
 function App() {
   const dispatch = useDispatch();
   const { currentUser, isLoading } = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log(currentUser, isLoading);
+    // console.log(currentUser, isLoading);
     const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
       if (!!user) {
         dispatch(setUser(user));

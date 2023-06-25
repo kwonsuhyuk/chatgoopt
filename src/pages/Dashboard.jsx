@@ -11,6 +11,26 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import SearchIcon from "@mui/icons-material/Search";
+import "../firebase";
+import { Calendar } from "@mui/lab";
+import {
+  child,
+  get,
+  getDatabase,
+  onChildAdded,
+  onChildChanged,
+  onChildRemoved,
+  push,
+  ref,
+  remove,
+} from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import TodoPaper from "../components/TodoPaper";
+import { removeUserTodo, setUserTodo } from "../store/userSlice";
+import { CalendarViewDay } from "@mui/icons-material";
+import { isSameDay } from "date-fns";
+import { PickersDay } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const MainDiv = styled.div`
   height: 90vh;
@@ -42,38 +62,22 @@ const SnapContainer = styled.div`
 `;
 
 const SubDiv = styled.div`
-  height: 90vh;
-  width: 100vw;
+  overflow-y: scroll;
   background-color: whitesmoke;
+  h1 {
+    font-family: "Raleway Dots", cursive;
+    font-weight: 700;
+    font-size: 50px;
+  }
 `;
 
 function Dashboard() {
-  // const [timeImage, setTimeImage] = useState();
+  const { user } = useSelector((state) => state);
   const [open, setOpen] = useState(false);
+  const [todos, setTodos] = useState([]);
+
+  const todoBoardRef = useRef();
   const boxRef = useRef();
-
-  // useEffect(() => {
-  //   const time = new Date();
-  //   const hour = time.getHours();
-
-  //   if (hour >= 16 && hour < 19) {
-  //     setTimeImage(
-  //       "https://images.unsplash.com/photo-1501898047706-55903296cd09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-  //     );
-  //   } else if (hour > 7 && hour < 16) {
-  //     setTimeImage(
-  //       "https://c.wallhere.com/photos/22/73/sky_clouds_summer-1020592.jpg!d"
-  //     );
-  //   } else if (hour >= 19 && hour < 22) {
-  //     setTimeImage(
-  //       "https://images.unsplash.com/photo-1523305846158-488dedcf8629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-  //     );
-  //   } else {
-  //     setTimeImage(
-  //       "https://images.unsplash.com/photo-1599045151332-ff2587f03eb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
-  //     );
-  //   }
-  // }, []);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -85,6 +89,49 @@ function Dashboard() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    async function getToDos() {
+      const snapshot = await get(
+        child(ref(getDatabase()), "users/" + user.currentUser.uid + "/todos")
+      );
+      setTodos(snapshot.val() ? Object.values(snapshot.val()) : []);
+    }
+    getToDos();
+    return () => {
+      setTodos([]);
+    };
+  }, [user.currentUser.uid]);
+
+  // 새로운 todo 추가 관찰
+  useEffect(() => {
+    const todoData = ref(
+      getDatabase(),
+      "users/" + user.currentUser.uid + "/todos"
+    );
+
+    const unsubscribe = onChildAdded(todoData, (data) =>
+      setTodos((oldTodos) => [...oldTodos, data.val()])
+    );
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, [user.currentUser.uid]);
+
+  // todo 삭제 관찰
+  useEffect(() => {
+    const todoData = ref(
+      getDatabase(),
+      "users/" + user.currentUser.uid + "/todos"
+    );
+    const unsubscribe = onChildRemoved(todoData, (data) =>
+      setTodos(todos.filter((todo) => todo.id !== data.val().id))
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [user.currentUser.uid, todos]);
 
   return (
     <SnapContainer>
@@ -133,17 +180,17 @@ function Dashboard() {
               autoComplete="off"
               name="search"
             />
-            <button style={{ border: "none " }}>
+            {/* <button style={{ border: "none " }}>
               <SearchIcon
                 sx={{
                   position: "absolute",
-                  top: "40px",
+                  top: "5",
                   color: "gray",
-                  right: "130px",
+                  right: "200",
                   fontSize: "30px",
                 }}
               />
-            </button>
+            </button> */}
           </Box>
           <Clock />
         </div>
@@ -152,8 +199,8 @@ function Dashboard() {
           style={{ display: "flex", alignItems: "center" }}></div>
       </MainDiv>
       <SubDiv>
-        <Container>
-          <Typography variant="h3">TODO BOARD</Typography>
+        <div className="todoBoard_Title">
+          <h1 style={{ paddingRight: "10px" }}>TODO BOARD</h1>
           <button onClick={() => setOpen(true)} className="todoBtn">
             <AddIcon
               sx={{
@@ -166,7 +213,20 @@ function Dashboard() {
             />
           </button>
           <TodoModal open={open} handleClose={handleClose} />
-        </Container>
+        </div>
+        <div
+          className="todoBoard_Main"
+          ref={todoBoardRef}
+          style={{
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1682687980918-3c2149a8f110?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80)",
+          }}>
+          {todos.map((todo) => (
+            <div key={todo.id} style={{ position: "relative", margin: "30px" }}>
+              <TodoPaper id={todo.id} todo={todo} />
+            </div>
+          ))}
+        </div>
       </SubDiv>
     </SnapContainer>
   );
