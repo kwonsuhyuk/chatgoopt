@@ -214,15 +214,15 @@ function Dashboard() {
           </button>
           <TodoModal open={open} handleClose={handleClose} />
         </div>
-        <div
-          className="todoBoard_Main"
-          ref={todoBoardRef}
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1682687980918-3c2149a8f110?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80)",
-          }}>
+        <div className="todoBoard_Main" ref={todoBoardRef}>
           {todos.map((todo) => (
-            <div key={todo.id} style={{ position: "relative", margin: "30px" }}>
+            <div
+              key={todo.id}
+              style={{
+                position: "relative",
+                margin: "30px",
+                display: "inline-block",
+              }}>
               <TodoPaper id={todo.id} todo={todo} />
             </div>
           ))}

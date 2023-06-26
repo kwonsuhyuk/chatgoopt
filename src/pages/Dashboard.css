@@ -75,8 +75,6 @@
 }
 
 .todoBoard_Main {
-  overflow-y: scroll;
-  margin: 0 50px;
   display: flex;
-  flex-wrap: wrap;
+  overflow-y: scroll;
 }
