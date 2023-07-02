@@ -24,10 +24,11 @@ import {
   ref,
   update,
 } from "firebase/database";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentChannel } from "../store/channelSlice";
 
 function ChatMenu() {
+  const { channel } = useSelector((state) => state);
   const [channels, setChannels] = useState();
   const [channelName, setChannelName] = useState("");
   const [channelDetail, setChannelDetail] = useState("");
@@ -80,6 +81,7 @@ function ChatMenu() {
       setActiveChannelId(channel.id);
       dispatch(setCurrentChannel(channel));
     },
+
     [dispatch, activeChannelId]
   );
 
@@ -98,12 +100,11 @@ function ChatMenu() {
   }, []);
 
   useEffect(() => {
-    if (channels?.length > 0 && firstLoad) {
-      setActiveChannelId(channels[0].id);
-      dispatch(setCurrentChannel(channels[0]));
+    if (firstLoad) {
+      dispatch(setCurrentChannel(null));
       setFirstLoad(false);
     }
-  }, [dispatch, firstLoad, channels]);
+  }, [firstLoad, dispatch]);
 
   return (
     <>

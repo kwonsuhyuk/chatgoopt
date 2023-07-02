@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const channelSlice = createSlice({
+const channelSlice = createSlice({
   name: "channelSlice",
   initialState: { currentChannel: null },
   reducers: {
