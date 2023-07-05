@@ -1,10 +1,13 @@
 import {
+  Alert,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
   IconButton,
   List,
   ListItem,
@@ -25,10 +28,10 @@ import {
   update,
 } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentChannel } from "../store/channelSlice";
+import { setCurrentChannel, setIsLocked } from "../store/channelSlice";
+import LockIcon from "@mui/icons-material/Lock";
 
 function ChatMenu() {
-  const { channel } = useSelector((state) => state);
   const [channels, setChannels] = useState();
   const [channelName, setChannelName] = useState("");
   const [channelDetail, setChannelDetail] = useState("");
@@ -36,6 +39,10 @@ function ChatMenu() {
   const [activeChannelId, setActiveChannelId] = useState("");
   const [firstLoad, setFirstLoad] = useState(true);
   const [listOpen, setListOpen] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [error, setError] = useState("");
+  const [pw, setPW] = useState("");
+  const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleClose = useCallback(() => {
@@ -55,12 +62,18 @@ function ChatMenu() {
   }, []);
 
   const handleSubmit = useCallback(async () => {
+    if (checked && pw.length !== 4) {
+      setError("숫자 4자리를 입력해주세요");
+      return;
+    }
     const dataBase = getDatabase();
-    const key = push(child(ref(dataBase), "chnnels")).key;
+    const key = push(child(ref(dataBase), "channels")).key;
     const newChannel = {
       id: key,
       name: channelName,
       details: channelDetail,
+      password: pw,
+      madeBy: user.currentUser.displayName,
     };
     const updates = {};
     updates["/channels/" + key] = newChannel;
@@ -69,17 +82,27 @@ function ChatMenu() {
       await update(ref(dataBase), updates);
       setChannelName("");
       setChannelDetail("");
+      setPW("");
       handleClose();
+      setError("");
     } catch (e) {
       console.error(e);
     }
-  }, [channelDetail, channelName, handleClose]);
+  }, [
+    channelDetail,
+    channelName,
+    handleClose,
+    pw,
+    checked,
+    user.currentUser.displayName,
+  ]);
 
   const changeChannel = useCallback(
     (channel) => {
       if (channel.id === activeChannelId) return;
       setActiveChannelId(channel.id);
       dispatch(setCurrentChannel(channel));
+      dispatch(setIsLocked(channel.password));
     },
 
     [dispatch, activeChannelId]
@@ -106,6 +129,24 @@ function ChatMenu() {
     }
   }, [firstLoad, dispatch]);
 
+  const handleListOpen = (listOpen) => {
+    setListOpen((listOpen) => !listOpen);
+    dispatch(setCurrentChannel(null));
+  };
+
+  const lockChecked = useCallback((e) => {
+    setChecked(e.target.checked);
+  }, []);
+
+  const handlePWChange = useCallback((event) => {
+    const inputValue = event.target.value;
+
+    // 입력된 값이 4자리 숫자인 경우에만 상태를 업데이트합니다.
+    if (/^\d{4}$/.test(inputValue)) {
+      setPW(inputValue);
+    }
+  }, []);
+
   return (
     <>
       <List sx={{ overflow: "auto", width: 240 }}>
@@ -115,9 +156,7 @@ function ChatMenu() {
               <AddIcon />
             </IconButton>
           }>
-          <ListItemIcon
-            sx={{ color: "#9A939B" }}
-            onClick={(listOpen) => setListOpen((listOpen) => !listOpen)}>
+          <ListItemIcon sx={{ color: "#9A939B" }} onClick={handleListOpen}>
             <ArrowDropDownIcon
               sx={{
                 transform: listOpen ? "rotate(0deg)" : "rotate(-180deg)",
@@ -142,6 +181,7 @@ function ChatMenu() {
                   primary={`# ${channel.name}`}
                   sx={{ wordBreak: "break-all", color: "#918890" }}
                 />
+                {channel.password ? <LockIcon /> : null}
               </ListItem>
             ))}
         </List>
@@ -171,6 +211,36 @@ function ChatMenu() {
             onChange={handleChangeChannelDetail}
             autoComplete="off"
           />
+          <FormControlLabel
+            value="start"
+            control={
+              <>
+                <TextField
+                  disabled={!checked}
+                  margin="dense"
+                  type="text"
+                  variant="standard"
+                  autoComplete="off"
+                  placeholder="*  *  *  *"
+                  onChange={handlePWChange}
+                  inputProps={{ maxLength: 4 }}
+                  sx={{
+                    width: "100px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                />
+                <Checkbox checked={checked} onChange={lockChecked} />
+              </>
+            }
+            label="비밀번호 생성"
+            labelPlacement="start"
+          />
+          {error ? (
+            <Alert sx={{ mt: 3 }} severity="error">
+              {error}
+            </Alert>
+          ) : null}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>

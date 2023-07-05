@@ -20,17 +20,21 @@ import {
   onChildAdded,
   onChildChanged,
   onChildRemoved,
+  orderByChild,
   push,
+  query,
   ref,
   remove,
+  startAt,
 } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import TodoPaper from "../components/TodoPaper";
 import { removeUserTodo, setUserTodo } from "../store/userSlice";
-import { CalendarViewDay } from "@mui/icons-material";
+import { Book, CalendarViewDay } from "@mui/icons-material";
 import { isSameDay } from "date-fns";
 import { PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import BookMark from "../components/BookMark";
 
 const MainDiv = styled.div`
   height: 90vh;
@@ -75,6 +79,7 @@ function Dashboard() {
   const { user } = useSelector((state) => state);
   const [open, setOpen] = useState(false);
   const [todos, setTodos] = useState([]);
+  const [bookMarks, setBookMarks] = useState([]);
 
   const todoBoardRef = useRef();
   const boxRef = useRef();
@@ -89,6 +94,50 @@ function Dashboard() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    async function getBookMark() {
+      const snapshot = await get(
+        child(ref(getDatabase()), "users/" + user.currentUser.uid + "/bookmark")
+      );
+      setTodos(snapshot.val() ? Object.values(snapshot.val()) : []);
+    }
+    getBookMark();
+    return () => {
+      getBookMark([]);
+    };
+  }, [user.currentUser.uid]);
+
+  // 새로운 bookMark 관찰
+  useEffect(() => {
+    const bookmarkData = ref(
+      getDatabase(),
+      "users/" + user.currentUser.uid + "/bookmark"
+    );
+    const unsubscribe = onChildAdded(bookmarkData, (data) =>
+      setBookMarks((oldBookMark) => [...oldBookMark, data.val()])
+    );
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, [user.currentUser.uid]);
+
+  // bookMark 삭제 관찰
+  useEffect(() => {
+    const bookMarkData = ref(
+      getDatabase(),
+      "users/" + user.currentUser.uid + "/bookmark"
+    );
+    const unsubscribe = onChildRemoved(bookMarkData, (data) =>
+      setBookMarks(
+        bookMarks.filter((bookMark) => bookMark.id !== data.val().id)
+      )
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [user.currentUser.uid, bookMarks]);
 
   useEffect(() => {
     async function getToDos() {
@@ -180,23 +229,27 @@ function Dashboard() {
               autoComplete="off"
               name="search"
             />
-            {/* <button style={{ border: "none " }}>
-              <SearchIcon
-                sx={{
-                  position: "absolute",
-                  top: "5",
-                  color: "gray",
-                  right: "200",
-                  fontSize: "30px",
-                }}
-              />
-            </button> */}
           </Box>
           <Clock />
         </div>
         <div
           className="bookMark"
-          style={{ display: "flex", alignItems: "center" }}></div>
+          style={{
+            margin: "100px 50px",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "1fr 1fr 1fr",
+            gap: "30px",
+            flexWrap: "wrap",
+          }}>
+          {bookMarks.length < 6
+            ? bookMarks
+                .map((value) => <BookMark key={value.id} value={value} />)
+                .concat(<BookMark value={null} />)
+            : bookMarks.map((value) => (
+                <BookMark key={value.id} value={value} />
+              ))}
+        </div>
       </MainDiv>
       <SubDiv>
         <div className="todoBoard_Title">

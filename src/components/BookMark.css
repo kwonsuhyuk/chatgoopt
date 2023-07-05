@@ -1,0 +1,30 @@
+.bookBtn {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  border-radius: 20px;
+  background: whitesmoke;
+  box-shadow: -3px -3px 6px white, 4px 4px 8px rgba(0, 0, 0, 0.3);
+  border: none;
+}
+
+.bookBtn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 20px;
+  background: whitesmoke;
+  box-shadow: inset -2px -2px 5px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+#long-button {
+  opacity: 0;
+}
+
+#long-button:hover {
+  opacity: 1;
+}

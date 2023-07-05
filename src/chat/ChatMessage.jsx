@@ -52,7 +52,7 @@ function ChatMessage({ message, user }) {
               ) : (
                 <ListItemText
                   primary={message.content}
-                  align="left"
+                  align="right"
                   xs={{ wordBreak: "break-all" }}
                 />
               )}
@@ -74,6 +74,7 @@ function ChatMessage({ message, user }) {
             width: "40%",
             m: 3,
             boxShadow: "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            borderRadius: "20px",
           }}>
           <ListItemAvatar sx={{ alignSelf: "stretch" }}>
             <Avatar
