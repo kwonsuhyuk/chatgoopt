@@ -24,6 +24,19 @@
   }
 }
 
+.secondDiv {
+  padding-bottom: 150px;
+}
+
+.bookMark {
+  margin: 100px 50px;
+  gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  flex-wrap: wrap;
+}
+
 .searchInput {
   position: relative;
   background-color: whitesmoke;
@@ -75,6 +88,31 @@
 }
 
 .todoBoard_Main {
+  position: relative;
+  display: inline-block;
+  padding: 50px;
   display: flex;
   overflow-y: scroll;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+@media screen and (max-width: 850px) {
+  .firstDiv {
+    display: none;
+  }
+  .secondDiv .searchInput {
+    margin-bottom: 50px;
+  }
+  .bookMark {
+    display: flex;
+    margin: 30px 40px;
+    gap: 50px;
+  }
+  .secondDiv {
+    padding-bottom: 100px;
+  }
+  .todoBoard_Main {
+    gap: 30px;
+  }
 }

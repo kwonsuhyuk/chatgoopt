@@ -84,8 +84,6 @@ function ChatMain() {
     pinRef.current.focus();
   };
 
-  console.log(pin);
-
   useEffect(() => {
     // 핀 4개 입력시 비밀번호 검사
     if (pin.length === 4) {

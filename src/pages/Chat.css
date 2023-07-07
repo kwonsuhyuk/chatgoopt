@@ -1,0 +1,11 @@
+.mainChatBox {
+  background-color: black;
+  display: flex;
+  background-color: whitesmoke;
+}
+
+@media screen and (max-width: 850px) {
+  .mainChatBox {
+    flex-direction: column;
+  }
+}

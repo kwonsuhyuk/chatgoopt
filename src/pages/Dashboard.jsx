@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Clock from "../components/Clock";
@@ -10,30 +10,19 @@ import AddIcon from "@mui/icons-material/Add";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import SearchIcon from "@mui/icons-material/Search";
+
 import "../firebase";
-import { Calendar } from "@mui/lab";
+
 import {
   child,
   get,
   getDatabase,
   onChildAdded,
-  onChildChanged,
   onChildRemoved,
-  orderByChild,
-  push,
-  query,
   ref,
-  remove,
-  startAt,
 } from "firebase/database";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import TodoPaper from "../components/TodoPaper";
-import { removeUserTodo, setUserTodo } from "../store/userSlice";
-import { Book, CalendarViewDay } from "@mui/icons-material";
-import { isSameDay } from "date-fns";
-import { PickersDay } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 import BookMark from "../components/BookMark";
 
 const MainDiv = styled.div`
@@ -45,6 +34,9 @@ const MainDiv = styled.div`
   background-size: cover;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
+  @media screen and (max-width: 850px) {
+    display:flex;
+    flex-direction:column;
 `;
 
 const SnapContainer = styled.div`
@@ -205,15 +197,16 @@ function Dashboard() {
           </div>
         </div>
         <div
+          className="secondDiv"
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-evenly",
-            paddingBottom: "150px",
           }}>
           <Box
             component="form"
             onSubmit={handleSubmit}
+            className="searchBar"
             ref={boxRef}
             sx={{
               width: "100%",
@@ -226,22 +219,13 @@ function Dashboard() {
               type="text"
               placeholder="Search"
               className="searchInput"
-              autoComplete="off"
+              // autoComplete="off"
               name="search"
             />
           </Box>
-          <Clock />
+          <Clock className="clock" />
         </div>
-        <div
-          className="bookMark"
-          style={{
-            margin: "100px 50px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "1fr 1fr 1fr",
-            gap: "30px",
-            flexWrap: "wrap",
-          }}>
+        <div className="bookMark">
           {bookMarks.length < 6
             ? bookMarks
                 .map((value) => <BookMark key={value.id} value={value} />)
@@ -269,13 +253,7 @@ function Dashboard() {
         </div>
         <div className="todoBoard_Main" ref={todoBoardRef}>
           {todos.map((todo) => (
-            <div
-              key={todo.id}
-              style={{
-                position: "relative",
-                margin: "30px",
-                display: "inline-block",
-              }}>
+            <div key={todo.id}>
               <TodoPaper id={todo.id} todo={todo} />
             </div>
           ))}

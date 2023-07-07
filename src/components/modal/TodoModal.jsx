@@ -17,6 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { child, getDatabase, push, ref, set, update } from "firebase/database";
 import { useSelector } from "react-redux";
+import "./TodoModal.css";
 
 function TodoModal({ open, handleClose }) {
   const { user } = useSelector((state) => state);
@@ -75,19 +76,16 @@ function TodoModal({ open, handleClose }) {
             margin: "30px",
           }}
         />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            width: "90%",
-            margin: "30px",
-          }}>
+        <div className="dialog_sub">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker label="Due Date" onChange={(e) => setDueDate(e.$d)} />
             </DemoContainer>
           </LocalizationProvider>
-          <CirclePicker onChange={(color, event) => setColor(color.hex)} />
+          <CirclePicker
+            className="circlepicker"
+            onChange={(color, event) => setColor(color.hex)}
+          />
         </div>
       </DialogContent>
       <DialogActions>

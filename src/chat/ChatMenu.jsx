@@ -30,6 +30,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentChannel, setIsLocked } from "../store/channelSlice";
 import LockIcon from "@mui/icons-material/Lock";
+import "./ChatMenu.css";
 
 function ChatMenu() {
   const [channels, setChannels] = useState();
@@ -149,7 +150,7 @@ function ChatMenu() {
 
   return (
     <>
-      <List sx={{ overflow: "auto", width: 240 }}>
+      <List className="chatMenuTitle">
         <ListItem
           secondaryAction={
             <IconButton sx={{ color: "gray" }} onClick={handleClickOpen}>
@@ -169,7 +170,7 @@ function ChatMenu() {
             sx={{ wordBreak: "break-all", color: "gray" }}
           />
         </ListItem>
-        <List>
+        <List className="chatMenuItem">
           {listOpen &&
             channels?.map((channel) => (
               <ListItem
