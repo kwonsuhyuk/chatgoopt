@@ -229,7 +229,7 @@ function Dashboard() {
           {bookMarks.length < 6
             ? bookMarks
                 .map((value) => <BookMark key={value.id} value={value} />)
-                .concat(<BookMark value={null} />)
+                .concat(<BookMark key="123123" value={null} />)
             : bookMarks.map((value) => (
                 <BookMark key={value.id} value={value} />
               ))}

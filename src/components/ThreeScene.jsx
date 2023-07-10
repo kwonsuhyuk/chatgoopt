@@ -18,12 +18,12 @@ const ThreeScene = () => {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / window.innerHeight,
+        window.innerWidth / (window.innerHeight * 0.7),
         0.1,
         1000
       );
       renderer = new THREE.WebGLRenderer({ alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight * 0.7);
       renderer.setClearColor(0x000000, 0);
       const rendererElement = renderer.domElement;
       if (sceneRef.current) {

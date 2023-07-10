@@ -41,11 +41,23 @@ function BookMark({ value }) {
     handleMenuClose();
   }, [handleMenuClose]);
 
+  const handleBookClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      const url = value.url;
+      window.open(url, "_blank");
+    },
+    [value]
+  );
+
   return (
     <>
       {value ? (
         !imageError ? (
-          <div className="bookBtn" style={{ position: "relative" }}>
+          <div
+            className="bookBtn"
+            style={{ position: "relative" }}
+            onClick={handleBookClick}>
             <img
               src={value.favicon}
               onError={handleImageError}

@@ -33,7 +33,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import "./ChatMenu.css";
 
 function ChatMenu() {
-  const [channels, setChannels] = useState();
+  const [channels, setChannels] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [channelDetail, setChannelDetail] = useState("");
   const [open, setOpen] = useState(false);
@@ -118,8 +118,8 @@ function ChatMenu() {
     );
 
     return () => {
-      setChannels([]);
       unsubscribe?.();
+      setChannels([]);
     };
   }, []);
 

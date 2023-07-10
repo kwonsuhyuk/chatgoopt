@@ -15,12 +15,13 @@ function Weather() {
       let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}`;
       const res = await fetch(url);
       const data = await res.json();
-      setWeather(data.weather[0].main);
+      setWeather(data?.weather[0].main);
       // console.log(data.weather[0]);
       setLoading(false);
-      setIcon(data.weather[0].icon);
+      setIcon(data?.weather[0].icon);
     } catch (error) {
       setLoading(false);
+      console.error(error);
     }
   }, []);
 
