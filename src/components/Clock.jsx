@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Clock.css";
 
 function Clock() {
+  const [isDigital, setIsDigital] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const [state, setState] = useState();
   const date = new Date();
   const hour = date.getHours();
@@ -32,15 +34,42 @@ function Clock() {
       clearInterval(timer);
     };
   });
+
+  const handleClick = () => {
+    setIsDigital(!isDigital);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const formatDigits = (digit) => {
+    return digit < 10 ? "0" + digit : digit;
+  };
+
+  const hours = formatDigits(currentTime.getHours());
+  const minutes = formatDigits(currentTime.getMinutes());
+  const seconds = formatDigits(currentTime.getSeconds());
+
   //setInterval 변수 선언후  clearInterval로 리턴하기
   return (
-    <>
-      <div>
-        <div style={{ color: "white" }}></div>
-        <div className="Clock">
-          <div className="point"></div>
+    <div
+      className={`Clock  ${isDigital ? "flipped" : ""}`}
+      onClick={handleClick}>
+      {/* 앞면 요소 */}
+      <div className="clockcontainer">
+        <div
+          className="front"
+          style={{ backgroundImage: 'url("../img/clock.png")' }}>
+          <div className="clock-hand point"></div>
           <div
-            className="hourHand"
+            className="clock-hand hourHand"
             style={{
               transform: `rotate(${nowHou}deg)`,
               height: `${hrHe}px`,
@@ -48,7 +77,7 @@ function Clock() {
               bottom: `${hrHe}px`,
             }}></div>
           <div
-            className="minHand"
+            className="clock-hand minHand"
             style={{
               transform: `rotate(${nowMin}deg)`,
               height: `${mnHe}px`,
@@ -56,7 +85,7 @@ function Clock() {
               bottom: `${mnHe}px`,
             }}></div>
           <div
-            className="secHand"
+            className="clock-hand secHand"
             style={{
               transform: `rotate(${nowSec}deg)`,
               height: `${seHe}px`,
@@ -64,8 +93,14 @@ function Clock() {
               bottom: `${seHe}px`,
             }}></div>
         </div>
+        {/* 뒷면 요소 */}
+        <div className="back">
+          <div className="digitalClock">
+            {hours}:{minutes}:{seconds}
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
