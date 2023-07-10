@@ -12,11 +12,14 @@ import MenuItem from "@mui/material/MenuItem";
 import "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./Header.css";
 import ProfileModal from "./modal/ProfileModal";
 import { useCallback } from "react";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import { Backdrop, Button } from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const pages = ["dashboard", "chat", "board"];
 const settings = ["Edit Profile", "Logout"];
@@ -25,6 +28,8 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const { user } = useSelector((state) => state);
+  const [openBack, setOpenBack] = useState(false);
+  const location = useLocation();
 
   const logout = async () => {
     await signOut(getAuth());
@@ -45,6 +50,14 @@ function Header() {
 
   const handleCloseProfileModal = useCallback(() => {
     setShowProfileModal(false);
+  }, []);
+
+  const handleBackOpen = useCallback(() => {
+    setOpenBack(true);
+  }, []);
+
+  const handlebackClose = useCallback(() => {
+    setOpenBack(false);
   }, []);
 
   return (
@@ -77,8 +90,16 @@ function Header() {
               }}>
               ChatGOOPT
             </Typography>
-
-            <div style={{ marginLeft: "10rem", height: "100%" }}>
+            <Button onClick={handleBackOpen}>
+              <ContactSupportIcon
+                sx={{
+                  color: "black",
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
+            </Button>
+            <div style={{ height: "100%", paddingLeft: "50px" }}>
               {pages.map((page) => (
                 <NavLink
                   key={page}
@@ -89,7 +110,13 @@ function Header() {
                 </NavLink>
               ))}
             </div>
-
+            <NotificationsIcon
+              sx={{
+                color: "tomato",
+                width: "50px",
+                height: "50px",
+              }}
+            />
             <Box
               className="profileMenu"
               sx={{
@@ -139,6 +166,66 @@ function Header() {
                 </MenuItem>
               </Menu>
             </Box>
+
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={openBack}
+              onClick={handlebackClose}>
+              {location.pathname === "/" ? (
+                <div className="backdrop_main">
+                  <div className="backdrop_headerEX">
+                    <h1>
+                      클릭하여 개인 페이지와 채팅 페이지 게시판 페이지를 오갈수
+                      있습니다.
+                    </h1>
+                  </div>
+                  <div className="backdrop_dashboardEX">
+                    <div className="backdrop_searchBarEX">
+                      <h1>구글 엔진에 검색할 수 있는 검색바입니다.</h1>
+                    </div>
+                    <div className="backdrop_bookMarkEX">
+                      <h1>
+                        자주 가는 사이트를 등록하여 사용할 수 있는 북마크
+                        기능입니다.
+                      </h1>
+                    </div>
+                    <div className="backdrop_clockEX">
+                      <h1>
+                        클릭하여 디지털시계와 아날로그 시계를 전환할 수
+                        있습니다.
+                      </h1>
+                    </div>
+                    <div className="pageEX">
+                      <h1 className="pageEX_letter">
+                        ChatGooPT를 첫화면으로 설정하면 훨씬 편하게 이용할 수
+                        있습니당!
+                      </h1>
+                      <a
+                        href="https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=shine092&logNo=221099109110"
+                        target="_blank"
+                        rel="noreferrer">
+                        첫페이지로 chatgoopt를 설정하는 방법 알아보러가기
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ) : location.pathname === "/chat" ? (
+                <div className="backdrop_chat">
+                  <div className="backdrop_chatMenu">
+                    <h1>
+                      + 기호를 클릭하여 새로운 채팅방을 개설할 수 있습니다.
+                    </h1>
+                  </div>
+                  <div className="backdrop_chatMenuEX">
+                    <h1>
+                      채팅방 메뉴를 보고 클릭하여 채팅방에 들어갈 수 있습니다.
+                    </h1>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </Backdrop>
           </Toolbar>
         </Container>
       </AppBar>
