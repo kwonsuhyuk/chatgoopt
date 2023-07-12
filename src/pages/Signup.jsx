@@ -114,6 +114,13 @@ function Signup() {
           <Typography component="h1" variant="h5" color="black">
             Signup
           </Typography>
+          <div style={{ color: "gray", margin: "20px" }}>
+            <Typography>
+              사이트가 처음이시라면 들어가셔서 사이트 왼쪽상단
+              <br />
+              물음표 아이콘을 클릭해 설명을 읽어보세요!
+            </Typography>
+          </div>
           <Box
             component="form"
             noValidate
@@ -178,6 +185,7 @@ function Signup() {
             </Grid>
           </Box>
         </Box>
+        <Box></Box>
       </Container>
     </div>
   );

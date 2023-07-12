@@ -13,23 +13,28 @@ import "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
 import ProfileModal from "./modal/ProfileModal";
 import { useCallback } from "react";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
-import { Backdrop, Button } from "@mui/material";
+import { Backdrop, Badge, Button } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AlarmItem from "./AlarmItem";
+import { useEffect } from "react";
+import { clearUserAlarms, setUserAlarms } from "../store/alarmSlice";
 
 const pages = ["dashboard", "chat", "board"];
-const settings = ["Edit Profile", "Logout"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const { user } = useSelector((state) => state);
+  const { user, userAlarms } = useSelector((state) => state);
   const [openBack, setOpenBack] = useState(false);
   const location = useLocation();
+  const [anchorAlarmEl, setAnchorAlarmEl] = useState(null);
+  const alarmOpen = Boolean(anchorAlarmEl);
+  const dispatch = useDispatch();
 
   const logout = async () => {
     await signOut(getAuth());
@@ -59,6 +64,28 @@ function Header() {
   const handlebackClose = useCallback(() => {
     setOpenBack(false);
   }, []);
+
+  const handleAlarmClick = (event) => {
+    setAnchorAlarmEl(event.currentTarget);
+  };
+
+  const handleAlarmClose = () => {
+    setAnchorAlarmEl(null);
+  };
+
+  const notificationsLabel = (count) => {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 5) {
+      return "more than 30 notifications";
+    }
+    return `${count} notifications`;
+  };
+
+  const handleClearAlarm = useCallback(() => {
+    dispatch(clearUserAlarms());
+  }, [dispatch]);
 
   return (
     <>
@@ -110,13 +137,55 @@ function Header() {
                 </NavLink>
               ))}
             </div>
-            <NotificationsIcon
-              sx={{
-                color: "tomato",
-                width: "50px",
-                height: "50px",
+
+            {/* 알람기능 */}
+            <IconButton aria-label={notificationsLabel(100)}>
+              <Badge
+                badgeContent={
+                  userAlarms?.alarms.length > 10
+                    ? "10+"
+                    : userAlarms.alarms.length
+                }
+                color="error">
+                <NotificationsIcon
+                  sx={{
+                    color: "tomato",
+                    width: "50px",
+                    height: "50px",
+                  }}
+                  onClick={handleAlarmClick}
+                  aria-controls={alarmOpen ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={alarmOpen ? "true" : undefined}
+                />
+              </Badge>
+            </IconButton>
+            <Menu
+              open={alarmOpen}
+              anchorEl={anchorAlarmEl}
+              id="alarm-menu"
+              PaperProps={{
+                style: {
+                  height: 500,
+                  width: 300,
+                  overflow: "scroll",
+                  backgroundColor: "whitesmoke",
+                },
               }}
-            />
+              onClose={handleAlarmClose}>
+              {userAlarms?.alarms.map((alarm) => (
+                <AlarmItem key={alarm.id} value={alarm} />
+              ))}
+              <Button
+                sx={{
+                  width: "100%",
+                  display: userAlarms.alarms.length === 0 ? "none" : "block",
+                }}
+                onClick={handleClearAlarm}>
+                Clear All
+              </Button>
+            </Menu>
+
             <Box
               className="profileMenu"
               sx={{
@@ -166,7 +235,6 @@ function Header() {
                 </MenuItem>
               </Menu>
             </Box>
-
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={openBack}
@@ -179,6 +247,15 @@ function Header() {
                       있습니다.
                     </h1>
                   </div>
+                  <div className="backdrop_profileEX">
+                    <h1>클릭 시 프로필 사진 수정 및 로그아웃이 가능합니다.</h1>
+                  </div>
+                  <div className="backdrop_alarmEX">
+                    <h1>
+                      알림설정을 해놓은 채팅방이나 마감이 얼마남지 않은 TodoList
+                      알림을 받을수 있습니다.
+                    </h1>
+                  </div>
                   <div className="backdrop_dashboardEX">
                     <div className="backdrop_searchBarEX">
                       <h1>구글 엔진에 검색할 수 있는 검색바입니다.</h1>
@@ -186,13 +263,21 @@ function Header() {
                     <div className="backdrop_bookMarkEX">
                       <h1>
                         자주 가는 사이트를 등록하여 사용할 수 있는 북마크
-                        기능입니다.
+                        기능입니다. <br />
+                        북마크 버튼 오른쪽 상단에 메뉴버튼으로 삭제할 수
+                        있습니다.
                       </h1>
                     </div>
                     <div className="backdrop_clockEX">
                       <h1>
                         클릭하여 디지털시계와 아날로그 시계를 전환할 수
                         있습니다.
+                      </h1>
+                    </div>
+                    <div className="backdrop_feedbackEX">
+                      <h1>
+                        페이지 사용하면서 불편하거나 오류 등 다양한 피드백을
+                        관리자한테 보낼수 있습니다.
                       </h1>
                     </div>
                     <div className="pageEX">
@@ -220,6 +305,9 @@ function Header() {
                     <h1>
                       채팅방 메뉴를 보고 클릭하여 채팅방에 들어갈 수 있습니다.
                     </h1>
+                  </div>
+                  <div className="backdrop_chatAlarm">
+                    <h1>클릭하여 채팅방의 알람을 ON/OFF 할 수 있습니다.</h1>
                   </div>
                 </div>
               ) : (

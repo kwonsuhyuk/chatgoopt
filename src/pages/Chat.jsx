@@ -1,4 +1,4 @@
-import { Box, Drawer, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import ChatMenu from "../chat/ChatMenu";
 import ChatMain from "../chat/ChatMain";
@@ -12,6 +12,7 @@ function Chat() {
         component="main"
         sx={{
           minHeight: "80vh",
+          maxWidth: "calc(100vw - 300px)",
           margin: "20px 20px",
           flexGrow: 1,
           boxShadow:

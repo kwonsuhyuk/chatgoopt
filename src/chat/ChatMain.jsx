@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, List, Paper } from "@mui/material";
+import { Box, Divider, Grid, List, Paper, Switch } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ChatInput from "./ChatInput";
 import { useSelector } from "react-redux";
@@ -26,6 +26,7 @@ function ChatMain() {
   const [pinError, setPinError] = useState(false);
   const [pinSolve, setPinSolve] = useState(false);
   const pinRef = useRef(null);
+  const [alarmCheck, setAlarmCheck] = useState(false);
 
   // 메시지 불러오기
   useEffect(() => {
@@ -67,7 +68,7 @@ function ChatMain() {
   useEffect(() => {
     const setTimeoutId = setTimeout(() => {
       messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 2000);
+    }, 500);
 
     return () => {
       clearTimeout(setTimeoutId);
@@ -105,6 +106,8 @@ function ChatMain() {
       );
     }
   };
+
+  const label = { inputProps: { "aria-label": "Color switch demo" } };
 
   return (
     <>
@@ -157,10 +160,26 @@ function ChatMain() {
                 padding: "3px",
                 borderRadius: "20px",
               }}>
-              <span style={{ color: "orange" }}>
+              <span style={{ color: "orange", padding: "2px" }}>
                 {channel.currentChannel.madeBy}'s
               </span>{" "}
               Chat Room
+            </span>
+            <span style={{ paddingLeft: "20px" }}>
+              {alarmCheck ? (
+                <span style={{ color: "orange" }}>알림 ON</span>
+              ) : (
+                "알림 OFF"
+              )}
+            </span>
+            <span>
+              <Switch
+                {...label}
+                defaultChecked
+                checked={alarmCheck}
+                onClick={() => setAlarmCheck(!alarmCheck)}
+                color="warning"
+              />
             </span>
           </div>
           <List
@@ -200,6 +219,7 @@ function ChatMain() {
               backgroundColor: "transparent",
               color: "gray",
               padding: "20px",
+              display: "flex",
             }}>
             <span
               style={{
@@ -207,10 +227,27 @@ function ChatMain() {
                 padding: "3px",
                 borderRadius: "20px",
               }}>
-              <span style={{ color: "orange" }}>
+              <span style={{ color: "orange", padding: "2px" }}>
                 {channel.currentChannel.madeBy}'s
               </span>{" "}
               Chat Room
+            </span>
+            <span style={{ paddingLeft: "20px" }}>
+              {alarmCheck ? (
+                <span style={{ color: "orange" }}>알림 ON</span>
+              ) : (
+                "알림 OFF"
+              )}
+            </span>
+            <span>
+              {" "}
+              <Switch
+                checked={alarmCheck}
+                onClick={() => setAlarmCheck(!alarmCheck)}
+                {...label}
+                defaultChecked
+                color="warning"
+              />
             </span>
           </div>
           <List

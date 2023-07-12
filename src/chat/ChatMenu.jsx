@@ -153,7 +153,9 @@ function ChatMenu() {
       <List className="chatMenuTitle">
         <ListItem
           secondaryAction={
-            <IconButton sx={{ color: "gray" }} onClick={handleClickOpen}>
+            <IconButton
+              sx={{ color: "gray", border: "3px solid tomato", padding: "0" }}
+              onClick={handleClickOpen}>
               <AddIcon />
             </IconButton>
           }>

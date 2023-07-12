@@ -1,18 +1,17 @@
 import React from "react";
+import "./Board.css";
 
 function Board() {
   return (
     <>
       <div
         style={{
-          backgroundColor: "blue",
-          width: "100vw",
-          height: "100vh",
+          backgroundColor: "beige",
           display: "flex",
         }}>
-        <div>
-          <img src="/boardimg.jpeg" alt="qwe" />
-        </div>
+        {/* <div>
+          <img src="/boardimg.jpeg" alt="qwe" className="board_img" />
+        </div> */}
         <div style={{ color: "white", fontSize: "100px" }}>준비중입니다</div>
       </div>
     </>

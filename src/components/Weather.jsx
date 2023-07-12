@@ -18,7 +18,7 @@ function Weather() {
       setWeather(data?.weather[0].main);
       // console.log(data.weather[0]);
       setLoading(false);
-      setIcon(data?.weather[0].icon);
+      setIcon(data?.weather[0]?.icon);
     } catch (error) {
       setLoading(false);
       console.error(error);

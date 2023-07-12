@@ -14,32 +14,43 @@ function BookMark({ value }) {
   const openMenu = Boolean(anchorEl);
 
   const handleClick = (event) => {
+    event?.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((event) => {
+    event?.stopPropagation();
     setOpen(false);
   }, []);
-  const handleMenuClose = useCallback(() => {
+  const handleMenuClose = useCallback((event) => {
+    event?.stopPropagation();
     setAnchorEl(false);
   }, []);
-  const handleDelete = useCallback(async () => {
-    await remove(
-      ref(
-        getDatabase(),
-        "users/" + user.currentUser.uid + "/bookmark/" + value?.id
-      )
-    );
-    handleMenuClose();
-  }, [user.currentUser.uid, value?.id, handleMenuClose]);
+  const handleDelete = useCallback(
+    async (event) => {
+      event?.stopPropagation();
+      await remove(
+        ref(
+          getDatabase(),
+          "users/" + user.currentUser.uid + "/bookmark/" + value?.id
+        )
+      );
+      handleMenuClose();
+    },
+    [user.currentUser.uid, value?.id, handleMenuClose]
+  );
 
   const handleImageError = useCallback(() => {
     setImageError(true);
   }, []);
 
-  const handleUpdate = useCallback(() => {
-    handleMenuClose();
-  }, [handleMenuClose]);
+  const handleUpdate = useCallback(
+    (event) => {
+      event?.stopPropagation();
+      handleMenuClose();
+    },
+    [handleMenuClose]
+  );
 
   const handleBookClick = useCallback(
     (e) => {

@@ -1,0 +1,18 @@
+.board_img {
+  animation: 3s fade-in-img infinite;
+}
+
+@keyframes fade-in-img {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(5);
+  }
+}

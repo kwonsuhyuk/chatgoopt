@@ -10,6 +10,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import NavigationIcon from "@mui/icons-material/Navigation";
+import Fab from "@mui/material/Fab";
 
 import "../firebase";
 
@@ -21,24 +23,24 @@ import {
   onChildRemoved,
   ref,
 } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TodoPaper from "../components/TodoPaper";
 import BookMark from "../components/BookMark";
+import FeedBackModal from "../components/modal/FeedBackModal";
+import { setUserAlarms } from "../store/alarmSlice";
 
 const MainDiv = styled.div`
-  height: 90vh;
-  // background-image: url(${(props) => props.timeImage});
-  background-color: whitesmoke;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  @media screen and (max-width: 850px) {
-    display:flex;
-    flex-direction:column;
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+height: 90vh;
+background-color:  whitesmoke;
+display: grid;
+grid-template-columns: 1fr 2fr 1fr;
+@media screen and (max-width: 850px) {
+  display:flex;
+  flex-direction:column;
 `;
-
 const SnapContainer = styled.div`
   width: 100vw;
   height: 90vh;
@@ -72,9 +74,10 @@ function Dashboard() {
   const [open, setOpen] = useState(false);
   const [todos, setTodos] = useState([]);
   const [bookMarks, setBookMarks] = useState([]);
-
-  const todoBoardRef = useRef();
+  const [feedBackOpen, setFeedBackOpen] = useState(false);
   const boxRef = useRef();
+  const dispatch = useDispatch();
+  const targetRef = useRef(null);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -87,18 +90,18 @@ function Dashboard() {
     setOpen(false);
   };
 
-  useEffect(() => {
-    async function getBookMark() {
-      const snapshot = await get(
-        child(ref(getDatabase()), "users/" + user.currentUser.uid + "/bookmark")
-      );
-      setTodos(snapshot.val() ? Object.values(snapshot.val()) : []);
-    }
-    getBookMark();
-    return () => {
-      getBookMark([]);
-    };
-  }, [user.currentUser.uid]);
+  // useEffect(() => {
+  //   async function getBookMark() {
+  //     const snapshot = await get(
+  //       child(ref(getDatabase()), "users/" + user.currentUser.uid + "/bookmark")
+  //     );
+  //     setBookMarks(snapshot.val() ? Object.values(snapshot.val()) : []);
+  //   }
+  //   getBookMark();
+  //   return () => {
+  //     getBookMark([]);
+  //   };
+  // }, [user.currentUser.uid]);
 
   // 새로운 bookMark 관찰
   useEffect(() => {
@@ -139,10 +142,45 @@ function Dashboard() {
       setTodos(snapshot.val() ? Object.values(snapshot.val()) : []);
     }
     getToDos();
+
     return () => {
       setTodos([]);
     };
   }, [user.currentUser.uid]);
+
+  // todos 알람
+  useEffect(() => {
+    const today = new Date();
+    const tomorrowDate = new Date(today); // 내일 날짜 계산
+    tomorrowDate.setDate(today.getDate() + 1);
+
+    if (todos && todos.length > 0) {
+      todos.forEach((todo) => {
+        const todoDate = new Date(todo.dueDates);
+        if (todoDate.toDateString() === tomorrowDate.toDateString()) {
+          const todoAlarm = {
+            type: "todo_tomorrow",
+            dueDate: todoDate,
+            content: todo.todoMessage,
+            id: todo.id,
+          };
+          dispatch(setUserAlarms(todoAlarm));
+        } else if (todoDate.toDateString() === today.toDateString()) {
+          const todoAlarm = {
+            type: "todo_today",
+            dueDate: todoDate,
+            content: todo.todoMessage,
+            id: todo.id,
+          };
+          dispatch(setUserAlarms(todoAlarm));
+        }
+      });
+    }
+
+    return () => {
+      setUserAlarms([]);
+    };
+  }, [dispatch, todos]);
 
   // 새로운 todo 추가 관찰
   useEffect(() => {
@@ -173,6 +211,10 @@ function Dashboard() {
       unsubscribe();
     };
   }, [user.currentUser.uid, todos]);
+
+  const handleFeedBackClose = useCallback(() => {
+    setFeedBackOpen(false);
+  }, []);
 
   return (
     <SnapContainer>
@@ -234,8 +276,25 @@ function Dashboard() {
                 <BookMark key={value.id} value={value} />
               ))}
         </div>
+        <div
+          className="feedback"
+          style={{
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            padding: "30px",
+          }}>
+          <Fab variant="extended" onClick={() => setFeedBackOpen(true)}>
+            <NavigationIcon sx={{ mr: 1 }} />
+            FeedBack
+          </Fab>
+          <FeedBackModal
+            open={feedBackOpen}
+            handleClose={handleFeedBackClose}
+          />
+        </div>
       </MainDiv>
-      <SubDiv>
+      <SubDiv ref={targetRef}>
         <div className="todoBoard_Title">
           <h1 style={{ paddingRight: "10px" }}>TODO BOARD</h1>
           <button onClick={() => setOpen(true)} className="todoBtn">
@@ -251,7 +310,7 @@ function Dashboard() {
           </button>
           <TodoModal open={open} handleClose={handleClose} />
         </div>
-        <div className="todoBoard_Main" ref={todoBoardRef}>
+        <div className="todoBoard_Main">
           {todos.map((todo) => (
             <div key={todo.id}>
               <TodoPaper id={todo.id} todo={todo} />

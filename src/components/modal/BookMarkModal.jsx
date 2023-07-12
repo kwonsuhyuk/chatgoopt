@@ -69,7 +69,6 @@ function BookMarkModal({ open, handleClose }) {
           label="URL"
           fullWidth
           type="text"
-          autoFocus
           onChange={handleUrlFav}
           autoComplete="off"
           variant="standard"

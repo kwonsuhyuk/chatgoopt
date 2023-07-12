@@ -22,9 +22,11 @@
   box-shadow: inset -2px -2px 5px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 #long-button {
+  z-index: 5;
   opacity: 0;
 }
 
 #long-button:hover {
+  z-index: 5;
   opacity: 1;
 }
