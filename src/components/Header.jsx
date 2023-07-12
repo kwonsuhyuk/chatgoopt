@@ -155,7 +155,7 @@ function Header() {
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   // 예: 폰트 사이즈 변경, 패딩 조정 등
-                  marginLeft: "55px",
+                  marginLeft: "80px",
                 },
               }}>
               <Badge

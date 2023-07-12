@@ -61,6 +61,12 @@ function TodoModal({ open, handleClose }) {
           left: "10",
           width: "50vw",
           height: "50vh",
+          "@media (max-width: 500px)": {
+            // 휴대폰에서의 스타일 조정
+            // 예: 폰트 사이즈 변경, 패딩 조정 등
+            width: "100vw",
+            height: "70vh",
+          },
         },
       }}>
       <DialogTitle>추가할 할일을 작성하세요</DialogTitle>

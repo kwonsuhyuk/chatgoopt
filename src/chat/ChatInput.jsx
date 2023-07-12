@@ -97,7 +97,7 @@ function ChatInput() {
             ),
             endAdornment: (
               <InputAdornment position="start">
-                <IconButton disabled={loading}>
+                <IconButton disabled={loading} onClick={sendMessage}>
                   <SendIcon />
                 </IconButton>
               </InputAdornment>
