@@ -156,9 +156,6 @@
 }
 
 @media screen and (max-width: 500px) {
-  .questionMark {
-    display: none;
-  }
   .header_nav {
     display: flex;
     flex-direction: column;
@@ -169,8 +166,5 @@
   .header_nav .navLink {
     width: 100%;
     text-align: center;
-  }
-  .alarm_Btn {
-    margin-left: 55px;
   }
 }

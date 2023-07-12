@@ -120,7 +120,16 @@ function Header() {
             <Button onClick={handleBackOpen}>
               <ContactSupportIcon
                 className="questionMark"
-                sx={{ color: "black", width: "50px", height: "50px" }}
+                sx={{
+                  color: "black",
+                  width: "50px",
+                  height: "50px",
+                  "@media (max-width: 500px)": {
+                    // 휴대폰에서의 스타일 조정
+                    // 예: 폰트 사이즈 변경, 패딩 조정 등
+                    display: "none",
+                  },
+                }}
               />
             </Button>
             <div className="header_nav">
@@ -143,6 +152,11 @@ function Header() {
                 borderRadius: "30px",
                 boxShadow:
                   "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+                "@media (max-width: 500px)": {
+                  // 휴대폰에서의 스타일 조정
+                  // 예: 폰트 사이즈 변경, 패딩 조정 등
+                  marginLeft: "55px",
+                },
               }}>
               <Badge
                 badgeContent={
@@ -189,7 +203,6 @@ function Header() {
                 Clear All
               </Button>
             </Menu>
-
             <Box
               className="profileMenu"
               sx={{

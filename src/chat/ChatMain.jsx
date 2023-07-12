@@ -153,13 +153,13 @@ function ChatMain() {
               )}
             </span>
             <span>
-              <Switch
+              {/* <Switch
                 {...label}
                 defaultChecked
                 checked={alarmCheck}
                 onClick={() => setAlarmCheck(!alarmCheck)}
                 color="warning"
-              />
+              /> */}
             </span>
           </div>
           <List
@@ -221,13 +221,13 @@ function ChatMain() {
             </span>
             <span>
               {" "}
-              <Switch
+              {/* <Switch
                 checked={alarmCheck}
                 onClick={() => setAlarmCheck(!alarmCheck)}
                 {...label}
                 defaultChecked
                 color="warning"
-              />
+              /> */}
             </span>
           </div>
           <List

@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import React, { useCallback } from "react";
 import dayjs from "dayjs";
-import "./ChatMessage.css";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -19,13 +18,17 @@ function ChatMessage({ message, user }) {
     <>
       {message.user.id === user.currentUser.uid ? (
         <ListItem
-          className="my_msg"
           sx={{
             width: "40%",
             m: 3,
             boxShadow: "-3px -3px 6px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
             alignSelf: "flex-end",
             borderRadius: "20px",
+            "@media (max-width: 500px)": {
+              // 휴대폰에서의 스타일 조정
+              // 예: 폰트 사이즈 변경, 패딩 조정 등
+              width: "80%",
+            },
           }}>
           <Grid container sx={{ mr: 2 }}>
             <Grid
@@ -71,13 +74,17 @@ function ChatMessage({ message, user }) {
         </ListItem>
       ) : (
         <ListItem
-          className="other_msg"
           sx={{
             color: "black",
             width: "40%",
             m: 3,
             boxShadow: "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
             borderRadius: "20px",
+            "@media (max-width: 500px)": {
+              // 휴대폰에서의 스타일 조정
+              // 예: 폰트 사이즈 변경, 패딩 조정 등
+              width: "80%",
+            },
           }}>
           <ListItemAvatar sx={{ alignSelf: "stretch" }}>
             <Avatar
