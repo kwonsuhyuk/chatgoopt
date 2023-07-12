@@ -3,12 +3,19 @@
   width: 100%;
   height: 70px;
   justify-content: space-between;
+  border-radius: 5px;
   border-bottom: 0.5px solid rgb(215, 210, 210);
+  padding: 0 20px;
   box-shadow: -2px -2px 4px white, 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.alarm_Box:hover {
+  background-color: #8092ad;
+  color: white;
+}
+
 .alarmItem {
-  width: 80%;
+  width: 100%;
   color: black;
   font-family: "Roboto Condensed", monospace;
 }
@@ -16,7 +23,7 @@
 .alarmItem .alarm_content {
   font-size: 20px;
   font-weight: bold;
-  color: orange;
+  color: skyblue;
 }
 
 .alarmItem .alarm_message {

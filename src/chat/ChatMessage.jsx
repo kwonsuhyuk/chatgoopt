@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import React, { useCallback } from "react";
 import dayjs from "dayjs";
+import "./ChatMessage.css";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -18,6 +19,7 @@ function ChatMessage({ message, user }) {
     <>
       {message.user.id === user.currentUser.uid ? (
         <ListItem
+          className="my_msg"
           sx={{
             width: "40%",
             m: 3,
@@ -69,6 +71,7 @@ function ChatMessage({ message, user }) {
         </ListItem>
       ) : (
         <ListItem
+          className="other_msg"
           sx={{
             color: "black",
             width: "40%",

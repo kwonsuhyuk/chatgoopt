@@ -34,7 +34,7 @@ background-repeat: no-repeat;
 background-position: center;
 background-size: cover;
 height: 90vh;
-background-color:  whitesmoke;
+background-color: whitesmoke;
 display: grid;
 grid-template-columns: 1fr 2fr 1fr;
 @media screen and (max-width: 850px) {
@@ -78,6 +78,7 @@ function Dashboard() {
   const boxRef = useRef();
   const dispatch = useDispatch();
   const targetRef = useRef(null);
+  const [firstLoad, setFirstLoaded] = useState(true);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -155,6 +156,7 @@ function Dashboard() {
     tomorrowDate.setDate(today.getDate() + 1);
 
     if (todos && todos.length > 0) {
+      setFirstLoaded(false);
       todos.forEach((todo) => {
         const todoDate = new Date(todo.dueDates);
         if (todoDate.toDateString() === tomorrowDate.toDateString()) {
@@ -180,7 +182,7 @@ function Dashboard() {
     return () => {
       setUserAlarms([]);
     };
-  }, [dispatch, todos]);
+  }, [dispatch, todos, firstLoad]);
 
   // 새로운 todo 추가 관찰
   useEffect(() => {
@@ -268,13 +270,17 @@ function Dashboard() {
           <Clock className="clock" />
         </div>
         <div className="bookMark">
-          {bookMarks.length < 6
+          {/* {bookMarks.length < 6
             ? bookMarks
                 .map((value) => <BookMark key={value.id} value={value} />)
                 .concat(<BookMark key="123123" value={null} />)
             : bookMarks.map((value) => (
-                <BookMark key={value.id} value={value} />
-              ))}
+                <BookMark key={value.id} value=
+                {value} />
+              ))} */}
+          {bookMarks
+            .map((value) => <BookMark key={value.id} value={value} />)
+            .concat(<BookMark key="123123" value={null} />)}
         </div>
         <div
           className="feedback"

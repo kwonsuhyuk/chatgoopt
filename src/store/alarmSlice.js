@@ -5,14 +5,16 @@ const alarmSlice = createSlice({
   initialState: { alarms: [] },
   reducers: {
     setUserAlarms: (state, action) => {
-      const newTodo = action.payload;
-
+      const newAlarm = { ...action.payload };
       // 중복된 todos가 이미 존재하는지 확인
-      const isDuplicate = state.alarms.some((alarm) => alarm.id === newTodo.id);
+      console.log(newAlarm);
+      const isDuplicate = state.alarms.some(
+        (alarm) => alarm.id === newAlarm.id
+      );
 
       // 중복되지 않은 경우에만 추가
       if (!isDuplicate) {
-        state.alarms.push(newTodo);
+        state.alarms.push(newAlarm);
       }
     },
     deleteUserAlarms: (state, action) => {

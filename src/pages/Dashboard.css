@@ -39,6 +39,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   flex-wrap: wrap;
+  overflow-y: scroll;
 }
 
 .searchInput {
@@ -110,7 +111,7 @@
   }
   .bookMark {
     display: flex;
-    margin: 30px 40px;
+    margin: 10px 40px;
     gap: 50px;
   }
   .secondDiv {
@@ -118,5 +119,17 @@
   }
   .todoBoard_Main {
     gap: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .searchBar {
+    display: none;
+  }
+  .clock {
+    margin: 50px;
+  }
+  .bookMark {
+    display: none;
   }
 }

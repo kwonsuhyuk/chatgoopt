@@ -26,7 +26,7 @@ function ChatMain() {
   const [pinError, setPinError] = useState(false);
   const [pinSolve, setPinSolve] = useState(false);
   const pinRef = useRef(null);
-  const [alarmCheck, setAlarmCheck] = useState(false);
+  const [alarmCheck, setAlarmCheck] = useState(true);
 
   // 메시지 불러오기
   useEffect(() => {
@@ -112,33 +112,13 @@ function ChatMain() {
   return (
     <>
       {!channel.currentChannel ? (
-        <Grid
-          container
-          component={Paper}
-          variant="outlined"
-          sx={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "whitesmoke",
-            boxShadow:
-              "inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3)",
-            height: "85vh",
-          }}>
-          <h1
-            style={{
-              fontSize: "50px",
-              color: "gray",
-              letterSpacing: "15px",
-              fontFamily: "'Dancing Script', cursive",
-            }}>
-            Chat GOOOOOOÖPT
-          </h1>
+        <Grid container className="chat_basic" variant="outlined">
+          <h1>Chat GOOOOOOÖPT</h1>
         </Grid>
       ) : !channel.islocked ? (
         <Grid
           container
+          className="chat_main"
           component={Paper}
           variant="outlined"
           sx={{

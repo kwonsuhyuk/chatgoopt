@@ -113,20 +113,17 @@ function Header() {
                 textDecoration: "none",
                 padding: "10px 20px",
                 boxShadow:
-                  " inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
+                  "inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
               }}>
               ChatGOOPT
             </Typography>
             <Button onClick={handleBackOpen}>
               <ContactSupportIcon
-                sx={{
-                  color: "black",
-                  width: "50px",
-                  height: "50px",
-                }}
+                className="questionMark"
+                sx={{ color: "black", width: "50px", height: "50px" }}
               />
             </Button>
-            <div style={{ height: "100%", paddingLeft: "50px" }}>
+            <div className="header_nav">
               {pages.map((page) => (
                 <NavLink
                   key={page}
@@ -139,7 +136,14 @@ function Header() {
             </div>
 
             {/* 알람기능 */}
-            <IconButton aria-label={notificationsLabel(100)}>
+            <IconButton
+              className="alarm_Btn"
+              aria-label={notificationsLabel(100)}
+              sx={{
+                borderRadius: "30px",
+                boxShadow:
+                  "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+              }}>
               <Badge
                 badgeContent={
                   userAlarms?.alarms.length > 10

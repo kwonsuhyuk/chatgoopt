@@ -57,3 +57,27 @@
     transform: translateX(0);
   }
 }
+
+.chat_basic {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  box-shadow: inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+  height: 85vh;
+  width: 100%;
+}
+
+.chat_basic h1 {
+  font-size: 50px;
+  color: gray;
+  letter-spacing: 15px;
+  font-family: "Dancing Script", cursive;
+}
+
+@media screen and (max-width: 850px) {
+  .chat_basic h1 {
+    text-align: center;
+  }
+}

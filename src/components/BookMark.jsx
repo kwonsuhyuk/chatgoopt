@@ -103,9 +103,9 @@ function BookMark({ value }) {
                   width: "20ch",
                 },
               }}>
-              <MenuItem key="edit bookmark" onClick={handleUpdate}>
+              {/* <MenuItem key="edit bookmark" onClick={handleUpdate}>
                 Edit
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem key="delete bookmark" onClick={handleDelete}>
                 Delete
               </MenuItem>

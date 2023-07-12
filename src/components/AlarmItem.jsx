@@ -14,7 +14,7 @@ function AlarmItem({ value }) {
       : value.content;
   const alarmText =
     value.type === "todo_tomorrow"
-      ? "  마감일이 내일 입니다"
+      ? " 이 내일 마감입니다"
       : "todo_today"
       ? "  마감일이 오늘 입니다"
       : "채팅부분//";
@@ -30,7 +30,6 @@ function AlarmItem({ value }) {
         <br />
         <span className="alarm_message">{alarmText}</span>
       </MenuItem>
-      <Button onClick={handleClose}>X</Button>
     </div>
   );
 }
