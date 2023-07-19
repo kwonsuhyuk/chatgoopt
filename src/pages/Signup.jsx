@@ -45,6 +45,7 @@ function Signup() {
         await set(ref(getDatabase(), "users/" + user.uid), {
           name: user.displayName,
           avatar: user.photoURL,
+          id: user.uid,
         });
         dispatch(setUser(user));
       } catch (e) {

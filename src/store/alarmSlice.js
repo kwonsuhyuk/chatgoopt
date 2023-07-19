@@ -7,7 +7,7 @@ const alarmSlice = createSlice({
     setUserAlarms: (state, action) => {
       const newAlarm = { ...action.payload };
       // 중복된 todos가 이미 존재하는지 확인
-      console.log(newAlarm);
+
       const isDuplicate = state.alarms.some(
         (alarm) => alarm.id === newAlarm.id
       );

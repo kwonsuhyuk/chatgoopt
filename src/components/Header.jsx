@@ -18,26 +18,60 @@ import "./Header.css";
 import ProfileModal from "./modal/ProfileModal";
 import { useCallback } from "react";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
-import { Backdrop, Badge, Button } from "@mui/material";
+import { Backdrop, Badge, Button, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AlarmItem from "./AlarmItem";
+import { clearUserAlarms } from "../store/alarmSlice";
+import { useMemo } from "react";
+import GroupIcon from "@mui/icons-material/Group";
 import { useEffect } from "react";
-import { clearUserAlarms, setUserAlarms } from "../store/alarmSlice";
+import UserStatus from "./UserStatus";
+import { child, get, getDatabase, ref } from "firebase/database";
+import {
+  onValue,
+  push,
+  onDisconnect,
+  set,
+  serverTimestamp,
+} from "firebase/database";
 
 const pages = ["dashboard", "chat", "board"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const { user, userAlarms } = useSelector((state) => state);
+  const { user, userAlarms, chatAlarmNum } = useSelector((state) => state);
   const [openBack, setOpenBack] = useState(false);
   const location = useLocation();
   const [anchorAlarmEl, setAnchorAlarmEl] = useState(null);
+  const [anchorOnlineEl, setAnchorOnlineEl] = useState(null);
+  const [friends, setFriends] = useState([]);
+  const onlineOpen = Boolean(anchorOnlineEl);
   const alarmOpen = Boolean(anchorAlarmEl);
   const dispatch = useDispatch();
 
+  //모든 유저 목록 가져오기
+  useEffect(() => {
+    async function getUser() {
+      const snapshot = await get(child(ref(getDatabase()), "users/"));
+      setFriends(snapshot.val() ? Object.values(snapshot.val()) : []);
+    }
+    getUser();
+
+    return () => {
+      setFriends([]);
+    };
+  }, []);
+
   const logout = async () => {
     await signOut(getAuth());
+
+    const db = getDatabase();
+    const myConnectionsRef = ref(
+      db,
+      `users/${user.currentUser.uid}/connections`
+    );
+    onDisconnect(myConnectionsRef).set(false);
   };
 
   const handleOpenUserMenu = (event) => {
@@ -87,6 +121,71 @@ function Header() {
     dispatch(clearUserAlarms());
   }, [dispatch]);
 
+  const handleOnlineClick = useCallback((event) => {
+    setAnchorOnlineEl(event.currentTarget);
+  }, []);
+
+  const handleOnlineClose = useCallback(() => {
+    setAnchorOnlineEl(null);
+  }, []);
+
+  const chatAlarm = (obj) => {
+    const values = Object.values(obj);
+    return values.reduce((acc, cur) => acc + cur, 0);
+  };
+
+  // 온라인 오프라인 기록
+
+  useEffect(() => {
+    const db = getDatabase();
+    const myConnectionsRef = ref(
+      db,
+      `users/${user.currentUser.uid}/connections`
+    );
+    const lastOnlineRef = ref(db, `users/${user.currentUser.uid}/lastOnline`);
+
+    const connectedRef = ref(db, ".info/connected");
+    onValue(connectedRef, (snap) => {
+      if (snap.val() === true) {
+        set(myConnectionsRef, true);
+
+        // When I disconnect, remove this device
+
+        // Add this device to my connections list
+
+        // When I disconnect, update the last time I was seen online
+        onDisconnect(myConnectionsRef).set(false);
+        onDisconnect(lastOnlineRef).set(serverTimestamp());
+      }
+    });
+  }, [user.currentUser.uid]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const db = getDatabase();
+      const myConnectionsRef = ref(
+        db,
+        `users/${user.currentUser.uid}/connections`
+      );
+      const isVisible = document.visibilityState === "visible";
+
+      if (!isVisible) {
+        // When the page becomes hidden, set the connection status to false
+        set(myConnectionsRef, false);
+      } else {
+        // When the page becomes visible again, set the connection status to true
+        set(myConnectionsRef, true);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Cleanup function
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [user.currentUser.uid]);
+
   return (
     <>
       <AppBar
@@ -106,7 +205,7 @@ function Header() {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "Raleway Dots",
-                letterSpacing: "1.5rem",
+                letterSpacing: "0.5rem",
                 fontWeight: 700,
                 borderRadius: "100px",
                 color: "rgba(93,93,93)",
@@ -129,20 +228,83 @@ function Header() {
                     // 예: 폰트 사이즈 변경, 패딩 조정 등
                     display: "none",
                   },
+                  "@media (max-width: 850px)": {
+                    // 휴대폰에서의 스타일 조정
+                    // 예: 폰트 사이즈 변경, 패딩 조정 등
+                    display: "none",
+                  },
                 }}
               />
             </Button>
             <div className="header_nav">
-              {pages.map((page) => (
-                <NavLink
-                  key={page}
-                  to={page === "dashboard" ? "" : "/" + page}
-                  data-text={page}
-                  className="navLink">
-                  {page}
-                </NavLink>
-              ))}
+              {pages.map((page) =>
+                page === "chat" ? (
+                  <Badge
+                    key={page}
+                    badgeContent={chatAlarm(chatAlarmNum)}
+                    color="error"
+                    style={{ padding: 0 }}>
+                    <NavLink
+                      key={page}
+                      to={"/" + page}
+                      data-text={page}
+                      className="navLink">
+                      {page}
+                    </NavLink>
+                  </Badge>
+                ) : (
+                  <NavLink
+                    key={page}
+                    to={page === "dashboard" ? "" : "/" + page}
+                    data-text={page}
+                    className="navLink">
+                    {page}
+                  </NavLink>
+                )
+              )}
             </div>
+
+            {/* 온라인인 친구 보기 */}
+            <GroupIcon
+              onClick={handleOnlineClick}
+              sx={{
+                color: "#00A5BF",
+                width: "50px",
+                height: "50px",
+                marginRight: "2rem",
+                "@media (max-width: 500px)": {
+                  // 휴대폰에서의 스타일 조정
+                  // 예: 폰트 사이즈 변경, 패딩 조정 등
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                },
+              }}
+            />
+            <Menu
+              open={onlineOpen}
+              anchorEl={anchorOnlineEl}
+              id="online-menu"
+              PaperProps={{
+                style: {
+                  height: 500,
+                  width: 300,
+                  overflow: "scroll",
+                  backgroundColor: "whitesmoke",
+                  position: "relative",
+                },
+              }}
+              onClose={handleOnlineClose}>
+              {friends.map(
+                (friend) =>
+                  user.currentUser.uid !== friend.id && (
+                    <MenuItem key={friend.id} sx={{ padding: "20px" }}>
+                      <UserStatus user={friend} />
+                      <Divider />
+                    </MenuItem>
+                  )
+              )}
+            </Menu>
 
             {/* 알람기능 */}
             <IconButton
@@ -155,7 +317,12 @@ function Header() {
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   // 예: 폰트 사이즈 변경, 패딩 조정 등
-                  marginLeft: "80px",
+                  "@media (max-width: 500px)": {
+                    // 휴대폰에서의 스타일 조정
+                    // 예: 폰트 사이즈 변경, 패딩 조정 등
+                    marginTop: "50px",
+                    marginLeft: "100px",
+                  },
                 },
               }}>
               <Badge
@@ -167,7 +334,7 @@ function Header() {
                 color="error">
                 <NotificationsIcon
                   sx={{
-                    color: "tomato",
+                    color: "#E86B79",
                     width: "50px",
                     height: "50px",
                   }}
@@ -188,10 +355,11 @@ function Header() {
                   width: 300,
                   overflow: "scroll",
                   backgroundColor: "whitesmoke",
+                  position: "relative",
                 },
               }}
               onClose={handleAlarmClose}>
-              {userAlarms?.alarms.map((alarm) => (
+              {userAlarms.alarms.map((alarm) => (
                 <AlarmItem key={alarm.id} value={alarm} />
               ))}
               <Button

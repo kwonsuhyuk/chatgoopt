@@ -1,5 +1,12 @@
 {
   "rules": {
+    "unreadCounts": {
+      "$userId": {
+        "$channelId": {
+          ".write": "$userId === auth.uid"
+        }
+      }
+    },
     "channels": {
       ".read": "auth != null",
       "$channelId": {

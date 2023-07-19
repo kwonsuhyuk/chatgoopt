@@ -1,9 +1,6 @@
-import { Box, Button, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-import "../firebase";
-import { palette } from "@mui/system";
-import { Route, Routes, useRoutes } from "react-router";
+import { Paper } from "@mui/material";
+import { useEffect } from "react";
+import { Route, Routes } from "react-router";
 import Notfound from "./Notfound";
 import Dashboard from "./Dashboard";
 import Chat from "./Chat";
