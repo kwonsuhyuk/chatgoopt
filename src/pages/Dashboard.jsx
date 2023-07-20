@@ -26,6 +26,7 @@ import {
   push,
   ref,
   serverTimestamp,
+  update,
 } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import TodoPaper from "../components/TodoPaper";
@@ -33,6 +34,7 @@ import BookMark from "../components/BookMark";
 import FeedBackModal from "../components/modal/FeedBackModal";
 import { setUserAlarms } from "../store/alarmSlice";
 import { set } from "date-fns";
+import { setChatAlarmNum } from "../store/chatAlarmSlice";
 
 const MainDiv = styled.div`
 background-repeat: no-repeat;
@@ -84,6 +86,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const targetRef = useRef(null);
   const [firstLoad, setFirstLoaded] = useState(true);
+  const [channels, setChannels] = useState([]);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -95,6 +98,98 @@ function Dashboard() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // channels 경로의 데이터를 가져오기 위한 레퍼런스
+      const channelsRef = ref(getDatabase(), "channels/");
+
+      try {
+        // channels 경로의 데이터를 가져옴
+        const snapshot = await get(channelsRef);
+
+        if (snapshot.exists()) {
+          // snapshot의 val() 메서드를 사용하여 데이터를 배열로 변환하고 상태를 업데이트
+          const channelsData = snapshot.val();
+          const channelsArray = Object.values(channelsData);
+          setChannels(channelsArray);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // clicktimestamp 보다 timestamp 가 큰 메시지들 개수 반환하기
+  useEffect(() => {
+    if (!user.currentUser.uid || channels.length === 0) {
+      return;
+    }
+
+    // 클릭 타임스탬프를 가져오고, 없으면 초기화
+    const userRef = ref(
+      getDatabase(),
+      `users/${user.currentUser.uid}/channelclicktime`
+    );
+
+    const promises = channels.map(async (channel) => {
+      const timestampRef = ref(
+        getDatabase(),
+        `users/${user.currentUser.uid}/channelclicktime/${channel.id}`
+      );
+      const timestampSnapshot = await get(timestampRef);
+      const clickTimestamp = timestampSnapshot.val();
+
+      // 클릭 타임스탬프가 없으면 모든 메시지를 읽지 않은 것으로 간주
+      return { channelId: channel.id, clickTimestamp: clickTimestamp || 0 };
+    });
+
+    Promise.all(promises)
+      .then((results) => {
+        const updatedChannelClickTimestamps = {};
+        results.forEach((result) => {
+          updatedChannelClickTimestamps[result.channelId] =
+            result.clickTimestamp;
+        });
+
+        // 클릭 타임스탬프를 한 번에 업데이트
+        update(userRef, updatedChannelClickTimestamps);
+      })
+      .catch((error) => {
+        console.error("Error updating click timestamps:", error);
+      });
+
+    // 클릭 타임스탬프가 변경될 때마다 함수를 호출하여 채팅 알림 수 업데이트
+    onValue(userRef, (snapshot) => {
+      const clickTimestamps = snapshot.val();
+      if (clickTimestamps) {
+        channels.forEach((channel) => {
+          const clickTimestamp = clickTimestamps[channel.id];
+          if (clickTimestamp !== undefined) {
+            const messageRef = ref(getDatabase(), "messages/" + channel.id);
+            onValue(messageRef, (snapshot) => {
+              const messageData = snapshot.val();
+              if (messageData) {
+                // 메시지 timestamp가 clickTimestamp보다 큰 메시지들 필터링
+                const filteredMessages = Object.values(messageData).filter(
+                  (message) => message.timestamp > clickTimestamp
+                );
+
+                dispatch(
+                  setChatAlarmNum({
+                    channelId: channel.id,
+                    messageCount: filteredMessages.length,
+                  })
+                );
+              }
+            });
+          }
+        });
+      }
+    });
+  }, [user.currentUser.uid, channels, dispatch]);
 
   // useEffect(() => {
   //   async function getBookMark() {

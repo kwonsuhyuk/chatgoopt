@@ -142,75 +142,6 @@ function ChatMenu() {
     };
   }, []);
 
-  // clicktimestamp 보다 timestamp 가 큰 메시지들 개수 반환하기
-  useEffect(() => {
-    if (!user.currentUser.uid || channels.length === 0) {
-      return;
-    }
-
-    // 클릭 타임스탬프를 가져오고, 없으면 초기화
-    const userRef = ref(
-      getDatabase(),
-      `users/${user.currentUser.uid}/channelclicktime`
-    );
-
-    const promises = channels.map(async (channel) => {
-      const timestampRef = ref(
-        getDatabase(),
-        `users/${user.currentUser.uid}/channelclicktime/${channel.id}`
-      );
-      const timestampSnapshot = await get(timestampRef);
-      const clickTimestamp = timestampSnapshot.val();
-
-      // 클릭 타임스탬프가 없으면 모든 메시지를 읽지 않은 것으로 간주
-      return { channelId: channel.id, clickTimestamp: clickTimestamp || 0 };
-    });
-
-    Promise.all(promises)
-      .then((results) => {
-        const updatedChannelClickTimestamps = {};
-        results.forEach((result) => {
-          updatedChannelClickTimestamps[result.channelId] =
-            result.clickTimestamp;
-        });
-
-        // 클릭 타임스탬프를 한 번에 업데이트
-        update(userRef, updatedChannelClickTimestamps);
-      })
-      .catch((error) => {
-        console.error("Error updating click timestamps:", error);
-      });
-
-    // 클릭 타임스탬프가 변경될 때마다 함수를 호출하여 채팅 알림 수 업데이트
-    onValue(userRef, (snapshot) => {
-      const clickTimestamps = snapshot.val();
-      if (clickTimestamps) {
-        channels.forEach((channel) => {
-          const clickTimestamp = clickTimestamps[channel.id];
-          if (clickTimestamp !== undefined) {
-            const messageRef = ref(getDatabase(), "messages/" + channel.id);
-            onValue(messageRef, (snapshot) => {
-              const messageData = snapshot.val();
-              if (messageData) {
-                // 메시지 timestamp가 clickTimestamp보다 큰 메시지들 필터링
-                const filteredMessages = Object.values(messageData).filter(
-                  (message) => message.timestamp > clickTimestamp
-                );
-
-                dispatch(
-                  setChatAlarmNum({
-                    channelId: channel.id,
-                    messageCount: filteredMessages.length,
-                  })
-                );
-              }
-            });
-          }
-        });
-      }
-    });
-  }, [user.currentUser.uid, channels, dispatch]);
-
   useEffect(() => {
     const unsubscribe = onChildRemoved(
       ref(getDatabase(), "channels"),
@@ -284,18 +215,28 @@ function ChatMenu() {
                 button>
                 <ListItemText
                   primary={`# ${channel.name}`}
-                  secondary={` ${
-                    chatAlarmNum[channel?.id]
-                  } 개 새 메시지가 있습니다!`}
-                  secondaryTypographyProps={{
-                    style: {
-                      color: "green",
-                    },
-                  }}
+                  // secondary={` ${
+                  //   chatAlarmNum[channel?.id]
+                  // } 개 새 메시지가 있습니다!`}
+                  // secondaryTypographyProps={{
+                  //   style: {
+                  //     color: "#5e67c3",
+                  //   },
+                  // }}
                   sx={{ wordBreak: "break-all", color: "#918890" }}
                 />
-
                 {channel.password ? <LockIcon /> : null}
+                {
+                  <span
+                    style={{
+                      backgroundColor: "#E86B79",
+                      color: "whitesmoke",
+                      padding: "2px 5px",
+                      borderRadius: "10px",
+                    }}>
+                    {chatAlarmNum[channel?.id]}
+                  </span>
+                }
               </ListItem>
             ))}
         </List>
