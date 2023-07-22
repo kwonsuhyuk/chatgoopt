@@ -157,6 +157,10 @@
   .questionMark {
     display: none;
   }
+
+  .chatgoopt {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -173,4 +177,24 @@
     text-align: center;
     margin-bottom: 10px;
   }
+
+  .chatgoopt {
+    display: none;
+  }
+}
+
+@keyframes blinkingAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blinking-text {
+  animation: blinkingAnimation 1s infinite;
 }

@@ -12,7 +12,6 @@ const chatAlarmSlice = createSlice({
 
     setChatAlarmNum: (state, action) => {
       const { channelId, messageCount } = action.payload;
-      console.log(channelId, messageCount);
       state[channelId] = messageCount;
     },
   },

@@ -35,7 +35,7 @@ import {
   serverTimestamp,
 } from "firebase/database";
 
-const pages = ["dashboard", "chat", "board"];
+const pages = ["dashboard", "chat", "minigame"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -196,7 +196,17 @@ function Header() {
         }}>
         <Container maxWidth="xl" sx={{ padding: "10px" }}>
           <Toolbar disableGutters>
-            <Typography
+            <div
+              className="chatgoopt"
+              style={{
+                width: "20rem",
+                color: "black",
+                fontSize: "30px",
+                paddingLeft: "30px",
+              }}>
+              Chat_Goopt<span className="blinking-text">ㅣ</span>
+            </div>
+            {/* <Typography
               variant="h3"
               noWrap
               component={Link}
@@ -215,7 +225,7 @@ function Header() {
                   "inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
               }}>
               ChatGOOPT
-            </Typography>
+            </Typography> */}
             <Button onClick={handleBackOpen}>
               <ContactSupportIcon
                 className="questionMark"
@@ -263,7 +273,6 @@ function Header() {
                 )
               )}
             </div>
-
             {/* 온라인인 친구 보기 */}
             <GroupIcon
               onClick={handleOnlineClick}
@@ -305,7 +314,6 @@ function Header() {
                   )
               )}
             </Menu>
-
             {/* 알람기능 */}
             <IconButton
               className="alarm_Btn"

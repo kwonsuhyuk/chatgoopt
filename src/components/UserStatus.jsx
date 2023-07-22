@@ -48,8 +48,11 @@ function UserStatus({ user }) {
     const secondsSinceLastOnline = Math.floor((Date.now() - lastOnline) / 1000);
     const minutesSinceLastOnline = Math.floor(secondsSinceLastOnline / 60);
     const hoursSinceLastOnline = Math.floor(minutesSinceLastOnline / 60);
+    const daysSinceLastOnline = Math.floor(hoursSinceLastOnline / 24);
 
-    if (hoursSinceLastOnline >= 1) {
+    if (daysSinceLastOnline >= 1) {
+      return `${daysSinceLastOnline}일 전에 접속함`;
+    } else if (hoursSinceLastOnline >= 1) {
       return `${hoursSinceLastOnline}시간 전에 접속함`;
     } else if (minutesSinceLastOnline >= 1) {
       return `${minutesSinceLastOnline}분 전에 접속함`;

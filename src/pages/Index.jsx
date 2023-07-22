@@ -4,8 +4,8 @@ import { Route, Routes } from "react-router";
 import Notfound from "./Notfound";
 import Dashboard from "./Dashboard";
 import Chat from "./Chat";
-import Board from "./Board";
 import Header from "../components/Header";
+import MiniGame from "./MiniGame";
 
 function Index() {
   return (
@@ -14,7 +14,7 @@ function Index() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/minigame/*" element={<MiniGame />} />
         <Route path="/*" element={<Notfound />} />
       </Routes>
     </div>

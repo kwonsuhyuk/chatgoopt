@@ -1,0 +1,122 @@
+.dice_mainBox {
+  display: flex;
+  background-color: whitesmoke;
+  width: 85vw;
+  height: 85vh;
+  border: 3px solid #11609c;
+  border-radius: 0 20px 20px;
+  box-shadow: -5px -5px 12px white, 12px 12px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dice_mainBox .dice_gameBox {
+  border-radius: 0 0 0 20px;
+  width: 70%;
+  height: 100%;
+  background-color: whitesmoke;
+}
+
+.dice_mainBox .dice_gameBox .gameBox_title {
+  cursor: pointer;
+  display: inline-block;
+  margin: 20px;
+  padding: 10px;
+  border: 2px solid #11609c;
+  border-radius: 20px;
+}
+
+.dice_mainBox .dice_gameBox .gameBox_main {
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.dice_mainBox .dice_gameBox .gameBox_active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dice_mainBox .dice_rankBox {
+  border-radius: 0 10px 10px 0;
+  width: 30%;
+  height: 100%;
+  background-color: #11609c;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+  color: whitesmoke;
+  font-size: 30px;
+  font-family: fantasy;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main .rank1 {
+  color: white;
+  font-size: 50px;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main .rank2 {
+  color: white;
+  font-size: 35px;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main .rank3 {
+  color: white;
+  font-size: 35px;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main .rank4 {
+  color: white;
+  font-size: 20px;
+}
+
+.dice_mainBox .dice_rankBox .rankBox_main .rank5 {
+  color: white;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 850px) {
+  .dice_mainBox .dice_rankBox .rankBox_main .rank1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .dice_mainBox .dice_rankBox .rankBox_title {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dice_mainBox {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    height: 100vh;
+  }
+  .dice_mainBox .dice_gameBox {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .dice_mainBox .dice_rankBox {
+    width: 100%;
+    height: 30vh;
+    overflow-y: scroll;
+  }
+}
