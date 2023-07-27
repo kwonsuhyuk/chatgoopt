@@ -27,6 +27,16 @@
       "$uid": {
         ".write": "auth != null && auth.uid === $uid"
       }
+    },
+    "minigame": {
+      "dicegamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      },
+      "typegamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
     }
   }
 }

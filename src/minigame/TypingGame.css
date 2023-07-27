@@ -1,0 +1,197 @@
+.typing_mainBox {
+  display: flex;
+  background-color: whitesmoke;
+  width: 85vw;
+  height: 85vh;
+  border: 3px solid #e86b79;
+  border-radius: 0 20px 20px;
+  box-shadow: -5px -5px 12px white, 12px 12px 20px rgba(0, 0, 0, 0.5);
+}
+
+.typing_mainBox .typing_gameBox {
+  border-radius: 0 0 0 20px;
+  width: 70%;
+  height: 100%;
+  background-color: whitesmoke;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_title {
+  cursor: pointer;
+  display: inline-block;
+  margin: 20px;
+  padding: 10px;
+  border: 2px solid #e86b79;
+  border-radius: 20px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typetext {
+  font-size: 20px;
+  user-select: none;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .nexttext {
+  padding-top: 20px;
+  font-size: 15px;
+  color: gray;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition {
+  height: 50%;
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition .currentIndex {
+  font-size: 30px;
+  background-color: #e86b79;
+  color: white;
+  border: 2px solid #e86b79;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition .speed {
+  display: flex;
+  height: 64px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #e86b79;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typeinput {
+  width: 80%;
+  height: 20%;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typeinput .typeinput_input {
+  width: 100%;
+  height: 20%;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  border-bottom: 3px solid #e86b79;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.typing_mainBox .typing_rankBox {
+  border-radius: 0 10px 10px 0;
+  width: 30%;
+  height: 100%;
+  background-color: #e86b79;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+  color: whitesmoke;
+  font-size: 30px;
+  font-family: fantasy;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main .rank1 {
+  color: white;
+  font-size: 30px;
+  text-decoration: underline;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main .rank2 {
+  color: white;
+  font-size: 25px;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main .rank3 {
+  color: white;
+  font-size: 25px;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main .rank4 {
+  color: white;
+  font-size: 20px;
+}
+
+.typing_mainBox .typing_rankBox .rankBox_main .rank5 {
+  color: white;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 850px) {
+  .typing_mainBox .typing_rankBox .rankBox_main .rank1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .typing_mainBox .typing_rankBox .rankBox_title {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .typing_mainBox {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    height: 100vh;
+  }
+  .typing_mainBox .typing_gameBox {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .typing_mainBox .typing_rankBox {
+    width: 100%;
+    height: 30vh;
+    overflow-y: scroll;
+  }
+  .typeinput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .typeinput .typeinput_input {
+    margin: 0;
+  }
+
+  .typecondition {
+    height: 30%;
+  }
+
+  .typing_mainBox .typing_rankBox .rankBox_main {
+    text-decoration: none;
+    word-break: normal;
+  }
+  .typing_mainBox .typing_rankBox .rankBox_main .rank1 {
+    text-decoration: none;
+  }
+}

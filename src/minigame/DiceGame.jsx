@@ -5,19 +5,9 @@ import { Button, Popover, Typography } from "@mui/material";
 import Dice from "../components/Dice";
 import { useSelector } from "react-redux";
 import "../firebase";
-import {
-  child,
-  equalTo,
-  get,
-  getDatabase,
-  onValue,
-  push,
-  query,
-  ref,
-  serverTimestamp,
-  set,
-} from "firebase/database";
+import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
 import CasinoIcon from "@mui/icons-material/Casino";
+import "./TypingGame.css";
 
 function DiceGame() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -135,6 +125,17 @@ function DiceGame() {
       });
   }, []);
 
+  const handleDiceDelete = () => {
+    const database = getDatabase();
+    const diceRef = ref(database, "minigame/dicegamerank/");
+
+    remove(diceRef)
+      .then(() =>
+        console.log('Data at "minigame/dicegamerank/" has been deleted.')
+      )
+      .catch((error) => console.error("Error deleting data:", error));
+  };
+
   return (
     <div className="dice_mainBox">
       <div className="dice_gameBox">
@@ -170,7 +171,9 @@ function DiceGame() {
             </Popover>
           </div>
         </div>
-
+        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+          <Button onClick={handleDiceDelete}>데이터 삭제</Button>
+        )}
         <div className="gameBox_main">
           <Dice color="blue" num={diceNum1} />
           <Dice color="red" num={diceNum2} />
