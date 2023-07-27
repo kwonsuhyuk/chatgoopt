@@ -243,6 +243,11 @@ function Header() {
                     // 예: 폰트 사이즈 변경, 패딩 조정 등
                     display: "none",
                   },
+                  "@media (max-width: 1100px)": {
+                    // 휴대폰에서의 스타일 조정
+                    // 예: 폰트 사이즈 변경, 패딩 조정 등
+                    display: "none",
+                  },
                 }}
               />
             </Button>
@@ -395,7 +400,14 @@ function Header() {
                   <Typography
                     variant="h6"
                     component="div"
-                    sx={{ color: "gray" }}>
+                    sx={{
+                      color: "gray",
+                      "@media (max-width: 1100px)": {
+                        // 휴대폰에서의 스타일 조정
+                        // 예: 폰트 사이즈 변경, 패딩 조정 등
+                        display: "none",
+                      },
+                    }}>
                     {user?.currentUser.displayName}
                   </Typography>
                   <Avatar

@@ -149,6 +149,18 @@
   padding-left: 50px;
 }
 
+@media screen and (max-width: 1300px) {
+  .header_nav {
+    display: flex;
+  }
+  .chatgoopt {
+    padding: 0;
+  }
+  .profileMenu {
+    display: none;
+  }
+}
+
 /* 미디어쿼리 */
 @media screen and (max-width: 850px) {
   .profileMenu {

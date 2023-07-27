@@ -363,7 +363,6 @@ function Dashboard() {
               type="text"
               placeholder="Search"
               className="searchInput"
-              // autoComplete="off"
               name="search"
             />
           </Box>
