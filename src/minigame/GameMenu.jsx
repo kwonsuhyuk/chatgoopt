@@ -2,10 +2,12 @@ import { List, ListItem } from "@mui/material";
 import React from "react";
 import "./GameMenu.css";
 import { NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function GameMenu() {
+  const { theme } = useSelector((state) => state);
   const activeLinkStyle = {
-    boxShadow: "-5px -5px 12px white, 6px 6px 12px rgba(0, 0, 0, 0.3)",
+    boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
   };
 
   const location = useLocation();
@@ -31,7 +33,7 @@ function GameMenu() {
           component={NavLink}
           to="/minigame/typegame"
           sx={{
-            backgroundColor: "#E86B79",
+            backgroundColor: "#f7786b",
             color: "white",
             ...(location.pathname === "/minigame/typegame"
               ? activeLinkStyle

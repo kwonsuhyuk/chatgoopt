@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Clock.css";
+import { useSelector } from "react-redux";
 
 function Clock() {
   const [isDigital, setIsDigital] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [state, setState] = useState();
+  const { theme } = useSelector((state) => state);
   const date = new Date();
   const hour = date.getHours();
   const min = date.getMinutes();
@@ -61,6 +63,9 @@ function Clock() {
   return (
     <div
       className={`Clock  ${isDigital ? "flipped" : ""}`}
+      style={{
+        boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.2)`,
+      }}
       onClick={handleClick}>
       {/* 앞면 요소 */}
       <div className="clockcontainer">
@@ -71,6 +76,11 @@ function Clock() {
           <div
             className="clock-hand hourHand"
             style={{
+              backgroundColor:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
               transform: `rotate(${nowHou}deg)`,
               height: `${hrHe}px`,
               transformOrigin: `3.5px ${hrHe}px`,
@@ -79,6 +89,11 @@ function Clock() {
           <div
             className="clock-hand minHand"
             style={{
+              backgroundColor:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
               transform: `rotate(${nowMin}deg)`,
               height: `${mnHe}px`,
               transformOrigin: `2.5px ${mnHe}px`,
@@ -87,6 +102,11 @@ function Clock() {
           <div
             className="clock-hand secHand"
             style={{
+              backgroundColor:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
               transform: `rotate(${nowSec}deg)`,
               height: `${seHe}px`,
               transformOrigin: `1.5px ${seHe}px`,
@@ -95,7 +115,15 @@ function Clock() {
         </div>
         {/* 뒷면 요소 */}
         <div className="back">
-          <div className="digitalClock">
+          <div
+            className="digitalClock"
+            style={{
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+            }}>
             {hours}:{minutes}:{seconds}
           </div>
         </div>

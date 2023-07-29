@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import React, { useCallback } from "react";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -14,6 +15,7 @@ dayjs.extend(relativeTime);
 const isImage = (message) => message.hasOwnProperty("image");
 
 function ChatMessage({ message, user }) {
+  const { theme } = useSelector((state) => state);
   return (
     <>
       {message.user.id === user.currentUser.uid ? (
@@ -21,7 +23,12 @@ function ChatMessage({ message, user }) {
           sx={{
             width: "40%",
             m: 3,
-            boxShadow: "-3px -3px 6px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: `${theme.mainColor}`,
+            boxShadow: `-5px -5px 10px ${theme.subColor},  5px 5px 10px rgba(0, 0, 0, 0.3)`,
+            color:
+              theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
+                ? "gray"
+                : "white",
             alignSelf: "flex-end",
             borderRadius: "20px",
             "@media (max-width: 500px)": {
@@ -44,7 +51,13 @@ function ChatMessage({ message, user }) {
                   ml: 3,
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
-                secondaryTypographyProps={{ color: "gray" }}
+                secondaryTypographyProps={{
+                  color:
+                    theme.mainColor === "whitesmoke" ||
+                    theme.mainColor === "#fffacd"
+                      ? "gray"
+                      : "wheat",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -75,10 +88,14 @@ function ChatMessage({ message, user }) {
       ) : (
         <ListItem
           sx={{
-            color: "black",
+            color:
+              theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
+                ? "gray"
+                : "white",
             width: "40%",
             m: 3,
-            boxShadow: "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: `${theme.mainColor}`,
+            boxShadow: `-5px -5px 10px ${theme.subColor},  5px 5px 10px rgba(0, 0, 0, 0.3)`,
             borderRadius: "20px",
             "@media (max-width: 500px)": {
               // 휴대폰에서의 스타일 조정
@@ -97,17 +114,29 @@ function ChatMessage({ message, user }) {
           <Grid container sx={{ ml: 2 }}>
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "left" }}>
               <ListItemText
-                sx={{ display: "flex" }}
+                sx={{
+                  display: "flex",
+                }}
                 primary={message.user.name}
                 primaryTypographyProps={{
                   fontWeight: "bold",
                   color:
                     message.user.id === user.currentUser.uid
                       ? "orange"
-                      : "black",
+                      : theme.mainColor === "whitesmoke" ||
+                        theme.mainColor === "#fffacd"
+                      ? "gray"
+                      : "white",
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
-                secondaryTypographyProps={{ color: "gray", ml: 1 }}
+                secondaryTypographyProps={{
+                  color:
+                    theme.mainColor === "whitesmoke" ||
+                    theme.mainColor === "#fffacd"
+                      ? "gray"
+                      : "wheat",
+                  ml: 1,
+                }}
               />
             </Grid>
             <Grid item xs={12}>

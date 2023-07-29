@@ -35,22 +35,12 @@ import FeedBackModal from "../components/modal/FeedBackModal";
 import { setUserAlarms } from "../store/alarmSlice";
 import { set } from "date-fns";
 import { setChatAlarmNum } from "../store/chatAlarmSlice";
+import ThemePicker from "../components/ThemePicker";
+import { setTheme } from "../store/themeSlice";
 
-const MainDiv = styled.div`
-background-repeat: no-repeat;
-background-position: center;
-background-size: cover;
-height: 90vh;
-background-color: whitesmoke;
-display: grid;
-grid-template-columns: 1fr 2fr 1fr;
-@media screen and (max-width: 850px) {
-  display:flex;
-  flex-direction:column;
-`;
 const SnapContainer = styled.div`
   width: 100vw;
-  height: 90vh;
+  height: 92vh;
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -66,9 +56,22 @@ const SnapContainer = styled.div`
   }
 `;
 
+const MainDiv = styled.div`
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+height: 90vh;
+background-color: ${({ mainColor }) => mainColor};
+display: grid;
+grid-template-columns: 1fr 2fr 1fr;
+@media screen and (max-width: 850px) {
+  display:flex;
+  flex-direction:column;
+`;
+
 const SubDiv = styled.div`
   overflow-y: scroll;
-  background-color: whitesmoke;
+  background-color: ${({ mainColor }) => mainColor};
   h1 {
     font-family: "Raleway Dots", cursive;
     font-weight: 700;
@@ -77,7 +80,7 @@ const SubDiv = styled.div`
 `;
 
 function Dashboard() {
-  const { user } = useSelector((state) => state);
+  const { user, theme } = useSelector((state) => state);
   const [open, setOpen] = useState(false);
   const [todos, setTodos] = useState([]);
   const [bookMarks, setBookMarks] = useState([]);
@@ -98,6 +101,30 @@ function Dashboard() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (!user.currentUser.uid) return;
+
+    async function getUserTheme(userId) {
+      const db = getDatabase();
+      const userRef = ref(db, "users/" + userId + "/theme");
+
+      try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          // 데이터가 존재하는 경우
+          const themeData = snapshot.val();
+          dispatch(setTheme(themeData));
+        } else {
+          // 데이터가 없는 경우
+          console.log("데이터가 존재하지 않습니다.");
+        }
+      } catch (e) {
+        console.error("데이터 가져오기 실패:", e);
+      }
+    }
+    getUserTheme(user.currentUser.uid);
+  }, [user.currentUser.uid, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -320,24 +347,23 @@ function Dashboard() {
 
   return (
     <SnapContainer>
-      <MainDiv>
+      <MainDiv mainColor={theme.mainColor}>
         <div className="firstDiv">
-          <div style={{ height: "150px" }}></div>
-          <div>
+          <ThemePicker />
+          <div className="calendar_weather">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
                 sx={{
-                  backgroundColor: "whitesmoke",
+                  backgroundColor: `${theme.mainColor}`,
                   borderRadius: "20px",
-                  boxShadow:
-                    "inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1)",
+                  boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
                 }}
               />
             </LocalizationProvider>
-          </div>
-          <Weather />
-          <div className="scrollDownIn">
-            Scroll Down <KeyboardDoubleArrowDownIcon />
+            <Weather />
+            <div className="scrollDownIn">
+              Scroll Down <KeyboardDoubleArrowDownIcon />
+            </div>
           </div>
         </div>
         <div
@@ -364,6 +390,15 @@ function Dashboard() {
               placeholder="Search"
               className="searchInput"
               name="search"
+              style={{
+                boxShadow: `inset -10px -10px 15px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.2)`,
+                backgroundColor: `${theme.mainColor}`,
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
+              }}
             />
           </Box>
           <Clock className="clock" />
@@ -381,6 +416,7 @@ function Dashboard() {
             .map((value) => <BookMark key={value.id} value={value} />)
             .concat(<BookMark key="123123" value={null} />)}
         </div>
+
         <div
           className="feedback"
           style={{
@@ -399,10 +435,17 @@ function Dashboard() {
           />
         </div>
       </MainDiv>
-      <SubDiv ref={targetRef}>
+      <SubDiv ref={targetRef} mainColor={theme.mainColor}>
         <div className="todoBoard_Title">
           <h1 style={{ paddingRight: "10px" }}>TODO BOARD</h1>
-          <button onClick={() => setOpen(true)} className="todoBtn">
+          <button
+            onClick={() => setOpen(true)}
+            className="todoBtn"
+            style={{
+              boxShadow: "active"
+                ? `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`
+                : `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
+            }}>
             <AddIcon
               sx={{
                 position: "relative",

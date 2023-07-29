@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { PropagateLoader, ScaleLoader } from "react-spinners";
 import "./Weather.css";
+import { useSelector } from "react-redux";
 
 const API_KEY = "fcb5e993ed95afdfb3782c2e6cae8075";
 
@@ -9,6 +10,7 @@ function Weather() {
   const [loading, setLoading] = useState(false);
   const [weather, setWeather] = useState("");
   const [icon, setIcon] = useState();
+  const { theme } = useSelector((state) => state);
 
   const getweather = useCallback(async (lat, lng) => {
     try {
@@ -62,7 +64,15 @@ function Weather() {
             alt="weather"
             style={{ height: "150px", width: "150px" }}
           />
-          <h1 className="weather_name">
+          <h1
+            className="weather_name"
+            style={{
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+            }}>
             Now is <br />
             {weather}_
           </h1>

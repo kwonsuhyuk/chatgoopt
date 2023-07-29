@@ -16,7 +16,7 @@ function DiceGame() {
   const [isThrowing, setIsThrowing] = useState(false);
   const [rank, setRank] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const { user } = useSelector((state) => state);
+  const { user, theme } = useSelector((state) => state);
   const open = Boolean(anchorEl);
 
   const handlePopoverOpen = (event) => {
@@ -137,7 +137,11 @@ function DiceGame() {
   };
 
   return (
-    <div className="dice_mainBox">
+    <div
+      className="dice_mainBox"
+      style={{
+        boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+      }}>
       <div className="dice_gameBox">
         <div className="gameBox_title">
           <div>
@@ -205,7 +209,7 @@ function DiceGame() {
                 1st.{" "}
                 <span
                   style={{
-                    fontSize: "55px",
+                    fontSize: "45px",
                     color: "yellow",
                   }}>
                   "{rank[0]?.name}"

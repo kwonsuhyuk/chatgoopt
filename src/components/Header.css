@@ -1,8 +1,8 @@
 .navLink {
   position: relative;
+  color: black;
   display: inline-block;
   text-decoration: none;
-  color: gray;
   font-family: "Raleway Dots", cursive;
   font-weight: 700;
   margin-left: 2rem;
@@ -10,7 +10,6 @@
   padding: 15px 25px;
   border-radius: 20px;
   border: none;
-  box-shadow: -5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .navLink:last-child {
@@ -19,7 +18,7 @@
 
 .navLink.active::before {
   content: attr(data-text); /* data-text 속성 값을 텍스트로 사용 */
-  color: gray;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -34,13 +34,16 @@ import {
   set,
   serverTimestamp,
 } from "firebase/database";
+import ThemePicker from "./ThemePicker";
 
 const pages = ["dashboard", "chat", "minigame"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const { user, userAlarms, chatAlarmNum } = useSelector((state) => state);
+  const { user, userAlarms, chatAlarmNum, theme } = useSelector(
+    (state) => state
+  );
   const [openBack, setOpenBack] = useState(false);
   const location = useLocation();
   const [anchorAlarmEl, setAnchorAlarmEl] = useState(null);
@@ -191,7 +194,7 @@ function Header() {
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "whitesmoke",
+          backgroundColor: `${theme.mainColor}`,
           display: "flex",
         }}>
         <Container maxWidth="xl" sx={{ padding: "10px" }}>
@@ -206,26 +209,6 @@ function Header() {
               }}>
               Chat_Goopt<span className="blinking-text">ㅣ</span>
             </div>
-            {/* <Typography
-              variant="h3"
-              noWrap
-              component={Link}
-              to="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "Raleway Dots",
-                letterSpacing: "0.5rem",
-                fontWeight: 700,
-                borderRadius: "100px",
-                color: "rgba(93,93,93)",
-                textDecoration: "none",
-                padding: "10px 20px",
-                boxShadow:
-                  "inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
-              }}>
-              ChatGOOPT
-            </Typography> */}
             <Button onClick={handleBackOpen}>
               <ContactSupportIcon
                 className="questionMark"
@@ -263,6 +246,17 @@ function Header() {
                       key={page}
                       to={"/" + page}
                       data-text={page}
+                      style={{
+                        boxShadow: "active"
+                          ? `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`
+                          : `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
+                        background: "active" ? "none" : `${theme.subColor}`,
+                        color:
+                          theme.mainColor === "whitesmoke" ||
+                          theme.mainColor === "#fffacd"
+                            ? "gray"
+                            : "white",
+                      }}
                       className="navLink">
                       {page}
                     </NavLink>
@@ -272,6 +266,16 @@ function Header() {
                     key={page}
                     to={page === "dashboard" ? "" : "/" + page}
                     data-text={page}
+                    style={{
+                      color:
+                        theme.mainColor === "whitesmoke" ||
+                        theme.mainColor === "#fffacd"
+                          ? "gray"
+                          : "white",
+                      boxShadow: "active"
+                        ? `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`
+                        : `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
+                    }}
                     className="navLink">
                     {page}
                   </NavLink>
@@ -306,6 +310,7 @@ function Header() {
                   overflow: "scroll",
                   backgroundColor: "whitesmoke",
                   position: "relative",
+                  boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
                 },
               }}
               onClose={handleOnlineClose}>
@@ -325,8 +330,7 @@ function Header() {
               aria-label={notificationsLabel(100)}
               sx={{
                 borderRadius: "30px",
-                boxShadow:
-                  "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   // 예: 폰트 사이즈 변경, 패딩 조정 등
@@ -392,8 +396,7 @@ function Header() {
                 right: 0,
                 borderRadius: "20px",
                 padding: "10px 20px",
-                boxShadow:
-                  " inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2)",
+                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
               }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -401,7 +404,11 @@ function Header() {
                     variant="h6"
                     component="div"
                     sx={{
-                      color: "gray",
+                      color:
+                        theme.mainColor === "whitesmoke" ||
+                        theme.mainColor === "#fffacd"
+                          ? "gray"
+                          : "white",
                       "@media (max-width: 1100px)": {
                         // 휴대폰에서의 스타일 조정
                         // 예: 폰트 사이즈 변경, 패딩 조정 등

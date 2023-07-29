@@ -5,15 +5,17 @@ import GameMenu from "../minigame/GameMenu";
 import { Route, Routes } from "react-router";
 import DiceGame from "../minigame/DiceGame";
 import TypingGame from "../minigame/TypingGame";
+import { useSelector } from "react-redux";
 
 function MiniGame() {
+  const { theme } = useSelector((state) => state);
   return (
     <Box
       sx={{
         display: "flex",
         width: "100vw",
         height: "90vh",
-        backgroundColor: "whitesmoke",
+        backgroundColor: `${theme.mainColor}`,
         padding: "20px 20px 0",
       }}>
       <GameMenu />

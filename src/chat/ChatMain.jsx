@@ -34,7 +34,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { setChatAlarmNum } from "../store/chatAlarmSlice";
 
 function ChatMain() {
-  const { user, channel } = useSelector((state) => state);
+  const { user, channel, theme } = useSelector((state) => state);
   const [messages, setMessages] = useState([]);
   const messageEndRef = useRef();
   const [pin, setPin] = useState("");
@@ -138,13 +138,13 @@ function ChatMain() {
     setChannelDeleteOpen(false);
   }, []);
   const style_modal = {
-    backgroundColor: "white",
+    backgroundColor: `${theme.subColor}`,
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    border: "2px solid whitesmoke",
+    border: `2px solid ${theme.mainColor}`,
     borderRadius: "20px",
     p: 4,
   };
@@ -152,8 +152,28 @@ function ChatMain() {
   return (
     <>
       {!channel.currentChannel ? (
-        <Grid container className="chat_basic" variant="outlined">
-          <h1>Chat GOOOOOOÖPT</h1>
+        <Grid
+          container
+          className="chat_basic"
+          variant="outlined"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: `${theme.mainColor}`,
+
+            boxShadow: `-2px -2px 3px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+          }}>
+          <h1
+            style={{
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+            }}>
+            Chat GOOOOOOÖPT
+          </h1>
         </Grid>
       ) : !channel.islocked ? (
         <Grid
@@ -163,9 +183,8 @@ function ChatMain() {
           variant="outlined"
           sx={{
             position: "relative",
-            backgroundColor: "whitesmoke",
-            boxShadow:
-              "inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: `${theme.mainColor}`,
+            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
           }}>
           <div
             style={{
@@ -232,9 +251,8 @@ function ChatMain() {
           variant="outlined"
           sx={{
             position: "relative",
-            backgroundColor: "whitesmoke",
-            boxShadow:
-              "inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: `${theme.mainColor}`,
+            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
           }}>
           <div
             style={{
@@ -307,9 +325,8 @@ function ChatMain() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "whitesmoke",
-            boxShadow:
-              "inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: `${theme.mainColor}`,
+            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
             height: "85vh",
           }}>
           <LockTwoToneIcon

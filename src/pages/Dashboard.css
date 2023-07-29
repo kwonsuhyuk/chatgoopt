@@ -1,5 +1,6 @@
 .firstDiv {
-  padding-left: 30px;
+  position: relative;
+  margin-left: 70px;
   font-size: 30px;
   font-family: "Raleway Dots", cursive;
   font-weight: 700;
@@ -44,7 +45,6 @@
 
 .searchInput {
   position: relative;
-  background-color: whitesmoke;
   outline: none;
   width: 70%;
   height: 50px;
@@ -57,7 +57,6 @@
   font-size: 20px;
   margin-top: 30px;
   border: none;
-  box-shadow: inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1);
   color: gray;
 }
 
@@ -112,6 +111,10 @@
 
 @media screen and (max-width: 850px) {
   .firstDiv {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .calendar_weather {
     display: none;
   }
   .secondDiv .searchInput {

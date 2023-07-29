@@ -19,7 +19,7 @@ function TypingGame() {
   const [quote, setQuote] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const { user } = useSelector((state) => state);
+  const { user, theme } = useSelector((state) => state);
   const [typeValue, setTypeValue] = useState("");
   const [typingProgress, setTypingProgress] = useState(0);
   const [isLoading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ function TypingGame() {
           }));
 
           // diceSum을 기준으로 내림차순으로 정렬
-          rankArray.sort((a, b) => b.diceSum - a.diceSum);
+          rankArray.sort((a, b) => b.avgSpeed - a.avgSpeed);
 
           setRank(rankArray);
           setLoading(true);
@@ -282,7 +282,11 @@ function TypingGame() {
   };
 
   return (
-    <div className="typing_mainBox">
+    <div
+      className="typing_mainBox"
+      style={{
+        boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+      }}>
       <div className="typing_gameBox">
         <div className="gameBox_title">
           <div>
@@ -312,7 +316,8 @@ function TypingGame() {
               disableRestoreFocus>
               <Typography sx={{ p: 1 }}>
                 총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가 기록됩니다.
-                정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요!
+                정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요! (+
+                숨은 이스터에그 문장들이 있습니다 찾아보세요)
               </Typography>
             </Popover>
           </div>

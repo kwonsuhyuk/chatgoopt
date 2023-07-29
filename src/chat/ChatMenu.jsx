@@ -49,7 +49,7 @@ function ChatMenu() {
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState("");
   const [pw, setPW] = useState("");
-  const { user, chatAlarmNum } = useSelector((state) => state);
+  const { user, chatAlarmNum, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleClose = useCallback(() => {
@@ -187,12 +187,28 @@ function ChatMenu() {
         <ListItem
           secondaryAction={
             <IconButton
-              sx={{ color: "gray", border: "3px solid tomato", padding: "0" }}
+              sx={{
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
+                border: "3px solid tomato",
+                padding: "0",
+              }}
               onClick={handleClickOpen}>
               <AddIcon />
             </IconButton>
           }>
-          <ListItemIcon sx={{ color: "#9A939B" }} onClick={handleListOpen}>
+          <ListItemIcon
+            sx={{
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+            }}
+            onClick={handleListOpen}>
             <ArrowDropDownIcon
               sx={{
                 transform: listOpen ? "rotate(0deg)" : "rotate(-180deg)",
@@ -202,7 +218,14 @@ function ChatMenu() {
           </ListItemIcon>
           <ListItemText
             primary="채널"
-            sx={{ wordBreak: "break-all", color: "gray" }}
+            sx={{
+              wordBreak: "break-all",
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+            }}
           />
         </ListItem>
         <List className="chatMenuItem">
@@ -223,7 +246,14 @@ function ChatMenu() {
                   //     color: "#5e67c3",
                   //   },
                   // }}
-                  sx={{ wordBreak: "break-all", color: "#918890" }}
+                  sx={{
+                    wordBreak: "break-all",
+                    color:
+                      theme.mainColor === "whitesmoke" ||
+                      theme.mainColor === "#fffacd"
+                        ? "gray"
+                        : "white",
+                  }}
                 />
                 {channel.password ? <LockIcon /> : null}
                 {

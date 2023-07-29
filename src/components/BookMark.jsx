@@ -11,6 +11,7 @@ function BookMark({ value }) {
   const [open, setOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { theme } = useSelector((state) => state);
   const openMenu = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -67,7 +68,16 @@ function BookMark({ value }) {
         !imageError ? (
           <div
             className="bookBtn"
-            style={{ position: "relative" }}
+            style={{
+              position: "relative",
+              background: `${theme.mainColor}`,
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
+              boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+            }}
             onClick={handleBookClick}>
             <img
               src={value.favicon}
@@ -117,7 +127,11 @@ function BookMark({ value }) {
                 marginTop: "10px",
                 position: "relative",
                 textAlign: "center",
-                color: "gray",
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
               }}>
               {value.name}
             </h5>
@@ -132,7 +146,13 @@ function BookMark({ value }) {
                 height: "30px",
                 position: "relative",
                 textAlign: "center",
-                color: "gray",
+
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
+                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
               }}
             />
             <IconButton
@@ -172,7 +192,11 @@ function BookMark({ value }) {
                 marginTop: "10px",
                 position: "relative",
                 textAlign: "center",
-                color: "gray",
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
               }}>
               {value.name}
             </h5>
@@ -183,8 +207,7 @@ function BookMark({ value }) {
           style={{
             width: "100px",
             height: "100px",
-            boxShadow:
-              "inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1)",
+            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -193,8 +216,12 @@ function BookMark({ value }) {
           <Button
             onClick={() => setOpen(true)}
             sx={{
+              color:
+                theme.mainColor === "whitesmoke" ||
+                theme.mainColor === "#fffacd"
+                  ? "gray"
+                  : "white",
               borderRadius: "20px",
-              color: "gray",
               width: "100%",
               height: "100%",
               fontSize: "70px",

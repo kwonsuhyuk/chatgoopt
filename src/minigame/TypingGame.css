@@ -3,7 +3,7 @@
   background-color: whitesmoke;
   width: 85vw;
   height: 85vh;
-  border: 3px solid #e86b79;
+  border: 3px solid #f7786b;
   border-radius: 0 20px 20px;
   box-shadow: -5px -5px 12px white, 12px 12px 20px rgba(0, 0, 0, 0.5);
 }
@@ -20,7 +20,7 @@
   display: inline-block;
   margin: 20px;
   padding: 10px;
-  border: 2px solid #e86b79;
+  border: 2px solid #f7786b;
   border-radius: 20px;
 }
 
@@ -54,9 +54,9 @@
 
 .typing_mainBox .typing_gameBox .gameBox_main .typecondition .currentIndex {
   font-size: 30px;
-  background-color: #e86b79;
+  background-color: #f7786b;
   color: white;
-  border: 2px solid #e86b79;
+  border: 2px solid #f7786b;
   padding: 10px;
   border-radius: 20px;
 }
@@ -67,7 +67,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  color: #e86b79;
+  color: #f7786b;
 }
 
 .typing_mainBox .typing_gameBox .gameBox_main .typeinput {
@@ -81,7 +81,7 @@
   outline: none;
   border: none;
   font-size: 20px;
-  border-bottom: 3px solid #e86b79;
+  border-bottom: 3px solid #f7786b;
   background-color: whitesmoke;
   margin-bottom: 10px;
 }
@@ -96,7 +96,7 @@
   border-radius: 0 10px 10px 0;
   width: 30%;
   height: 100%;
-  background-color: #e86b79;
+  background-color: #f7786b;
 }
 
 .typing_mainBox .typing_rankBox .rankBox_title {

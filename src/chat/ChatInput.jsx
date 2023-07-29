@@ -20,7 +20,7 @@ import {
 import { useSelector } from "react-redux";
 
 function ChatInput() {
-  const { user, channel } = useSelector((state) => state);
+  const { user, channel, theme } = useSelector((state) => state);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
