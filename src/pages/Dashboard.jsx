@@ -115,9 +115,6 @@ function Dashboard() {
           // 데이터가 존재하는 경우
           const themeData = snapshot.val();
           dispatch(setTheme(themeData));
-        } else {
-          // 데이터가 없는 경우
-          console.log("데이터가 존재하지 않습니다.");
         }
       } catch (e) {
         console.error("데이터 가져오기 실패:", e);

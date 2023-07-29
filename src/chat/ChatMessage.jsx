@@ -27,7 +27,7 @@ function ChatMessage({ message, user }) {
             boxShadow: `-5px -5px 10px ${theme.subColor},  5px 5px 10px rgba(0, 0, 0, 0.3)`,
             color:
               theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-                ? "gray"
+                ? "black"
                 : "white",
             alignSelf: "flex-end",
             borderRadius: "20px",
@@ -46,7 +46,7 @@ function ChatMessage({ message, user }) {
                 sx={{ display: "flex", flexDirection: "row-reverse" }}
                 primary={message.user.name}
                 primaryTypographyProps={{
-                  color: "orange",
+                  color: "black",
                   fontWeight: "bold",
                   ml: 3,
                 }}
@@ -90,7 +90,7 @@ function ChatMessage({ message, user }) {
           sx={{
             color:
               theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-                ? "gray"
+                ? "black"
                 : "white",
             width: "40%",
             m: 3,
@@ -125,7 +125,7 @@ function ChatMessage({ message, user }) {
                       ? "orange"
                       : theme.mainColor === "whitesmoke" ||
                         theme.mainColor === "#fffacd"
-                      ? "gray"
+                      ? "black"
                       : "white",
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
