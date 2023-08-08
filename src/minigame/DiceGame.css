@@ -103,11 +103,11 @@
     display: flex;
     flex-direction: column;
     margin-right: 30px;
-    height: 100vh;
+    height: 70vh;
   }
   .dice_mainBox .dice_gameBox {
     width: 100%;
-    height: 55vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -115,7 +115,7 @@
   }
   .dice_mainBox .dice_rankBox {
     width: 100%;
-    height: 45vh;
+    height: 25vh;
     overflow-y: scroll;
   }
 }

@@ -147,7 +147,7 @@ function ChatMenu() {
       ref(getDatabase(), "channels"),
       (snapshot) => {
         setChannels(
-          channels.filter((channel) => channel.id !== channel.val().id)
+          channels.filter((channel) => channel.id !== snapshot.val().id)
         );
       }
     );
@@ -228,7 +228,9 @@ function ChatMenu() {
             }}
           />
         </ListItem>
-        <List className="chatMenuItem">
+        <List
+          className="chatMenuItem"
+          sx={{ overflowY: "scroll", height: "80vh" }}>
           {listOpen &&
             channels?.map((channel) => (
               <ListItem

@@ -40,22 +40,6 @@ const actions = [
     mainColor: "#fffacd",
     subColor: "#fffacd9b",
   },
-
-  {
-    icon: (
-      <div
-        style={{
-          backgroundColor: "#5dc19b",
-          width: 24,
-          height: 24,
-          borderRadius: "50%",
-        }}
-      />
-    ),
-    name: "green",
-    mainColor: "#5dc19b",
-    subColor: "#5dc19b9b",
-  },
   {
     icon: (
       <div
@@ -85,6 +69,21 @@ const actions = [
     name: "blue",
     mainColor: "#6495ed",
     subColor: "#6495ed9b",
+  },
+  {
+    icon: (
+      <div
+        style={{
+          backgroundColor: "#deb887",
+          width: 24,
+          height: 24,
+          borderRadius: "50%",
+        }}
+      />
+    ),
+    name: "beige",
+    mainColor: "#deb887",
+    subColor: "#deb8879b",
   },
 ];
 

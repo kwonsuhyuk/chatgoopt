@@ -159,7 +159,7 @@
     display: flex;
     flex-direction: column;
     margin-right: 30px;
-    height: 100vh;
+    height: 70vh;
   }
   .typing_mainBox .typing_gameBox {
     width: 100%;
@@ -171,7 +171,7 @@
   }
   .typing_mainBox .typing_rankBox {
     width: 100%;
-    height: 30vh;
+    height: 20vh;
     overflow-y: scroll;
   }
   .typeinput {

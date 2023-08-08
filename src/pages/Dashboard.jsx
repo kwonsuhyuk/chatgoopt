@@ -103,27 +103,6 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    if (!user.currentUser.uid) return;
-
-    async function getUserTheme(userId) {
-      const db = getDatabase();
-      const userRef = ref(db, "users/" + userId + "/theme");
-
-      try {
-        const snapshot = await get(userRef);
-        if (snapshot.exists()) {
-          // 데이터가 존재하는 경우
-          const themeData = snapshot.val();
-          dispatch(setTheme(themeData));
-        }
-      } catch (e) {
-        console.error("데이터 가져오기 실패:", e);
-      }
-    }
-    getUserTheme(user.currentUser.uid);
-  }, [user.currentUser.uid, dispatch]);
-
-  useEffect(() => {
     const fetchData = async () => {
       // channels 경로의 데이터를 가져오기 위한 레퍼런스
       const channelsRef = ref(getDatabase(), "channels/");

@@ -42,7 +42,6 @@ function ChatMain() {
   const [pinSolve, setPinSolve] = useState(false);
   const pinRef = useRef(null);
   const [channelDeleteOpen, setChannelDeleteOpen] = useState(false);
-  const [lastOnlineTimestamp, setLastOnlineTimestamp] = useState(0);
   const dispatch = useDispatch();
 
   // 메시지 불러오기
@@ -117,6 +116,10 @@ function ChatMain() {
     }
   }, [pin.length, channel.islocked, pin]);
 
+  useEffect(() => {
+    setPinSolve(false);
+  }, [channel.currentChannel]);
+
   const getErrorText = () => {
     if (pinError) {
       return (
@@ -161,7 +164,6 @@ function ChatMain() {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: `${theme.mainColor}`,
-
             boxShadow: `-2px -2px 3px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
           }}>
           <h1

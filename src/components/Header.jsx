@@ -36,7 +36,7 @@ import {
 } from "firebase/database";
 import ThemePicker from "./ThemePicker";
 
-const pages = ["dashboard", "chat", "minigame"];
+const pages = ["dashboard", "chat", "board", "minigame"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -209,7 +209,15 @@ function Header() {
               }}>
               Chat_Goopt<span className="blinking-text">ㅣ</span>
             </div>
-            <Button onClick={handleBackOpen}>
+            <Button
+              onClick={handleBackOpen}
+              sx={{
+                "@media (max-width: 500px)": {
+                  // 휴대폰에서의 스타일 조정
+                  // 예: 폰트 사이즈 변경, 패딩 조정 등
+                  display: "none",
+                },
+              }}>
               <ContactSupportIcon
                 className="questionMark"
                 sx={{
@@ -295,7 +303,7 @@ function Header() {
                   // 예: 폰트 사이즈 변경, 패딩 조정 등
                   position: "absolute",
                   top: 0,
-                  right: 0,
+                  right: 50,
                 },
               }}
             />
@@ -334,12 +342,9 @@ function Header() {
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   // 예: 폰트 사이즈 변경, 패딩 조정 등
-                  "@media (max-width: 500px)": {
-                    // 휴대폰에서의 스타일 조정
-                    // 예: 폰트 사이즈 변경, 패딩 조정 등
-                    marginTop: "50px",
-                    marginLeft: "100px",
-                  },
+                  position: "absolute",
+                  top: 70,
+                  right: 80,
                 },
               }}>
               <Badge
