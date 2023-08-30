@@ -136,3 +136,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* index.css */
+*::-webkit-scrollbar {
+  width: 0.5em;
+  display: none; /* 스크롤바 숨김 */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0); /* 스크롤바 썸네일 색상을 투명하게 설정 */
+}

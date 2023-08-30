@@ -1,7 +1,7 @@
 import { Avatar, Box, ListItemAvatar, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useHistory, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 function NewBoard() {
   const { theme, user } = useSelector((state) => state);
@@ -15,6 +15,8 @@ function NewBoard() {
   const handleWrite = () => {
     navigate("/board/writingboard");
   };
+
+  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
 
   return (
     <Box
@@ -41,7 +43,7 @@ function NewBoard() {
           opacity: "0.7",
           padding: "10px",
           border: borderStyle,
-          width: "50%",
+          width: isMobile ? "75%" : "50%",
           borderRadius: "20px",
           color:
             theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"

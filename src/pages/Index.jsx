@@ -39,7 +39,8 @@ function Index() {
     <div component={Paper} elevation={10} style={{ height: "100vh" }}>
       {/* RiIKqlGiIvggJMoP3A4faoPRzig1 */}
       {/* kJlSCkA8utdiBV0JNL2DgiAKUf32 */}
-      {user.currentUser.uid === "123123" ? (
+      {/* {X9pU0SNUHieAWtvq5XfgLddRRpV2} */}
+      {user.currentUser.uid === "123" ? (
         <div
           style={{
             display: "flex",
@@ -48,7 +49,7 @@ function Index() {
             height: "100vh",
             fontSize: "50px",
           }}>
-          부적절한 채팅방 개설로 일시 정지 입니다.
+          부적절한 행위적발로 일시 정지 입니다.
         </div>
       ) : (
         <>

@@ -6,15 +6,7 @@ import {
   DialogTitle,
   Input,
 } from "@mui/material";
-import {
-  getDatabase,
-  push,
-  ref,
-  serverTimestamp,
-  set,
-} from "firebase/database";
 import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import {
   getDownloadURL,
@@ -25,6 +17,7 @@ import {
 
 function BoardImageModal({ open, handleClose, setImage }) {
   const [file, setFile] = useState(null);
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB를 최대 파일 크기로 설정
 
   const onChangeAddFile = useCallback((e) => {
     const addedFile = e.target?.files[0];
@@ -32,6 +25,10 @@ function BoardImageModal({ open, handleClose, setImage }) {
   }, []);
 
   const uploadFile = useCallback(async () => {
+    if (file && file.size > MAX_FILE_SIZE) {
+      console.error("파일 크기가 제한을 초과하였습니다.");
+      return;
+    }
     const filePath = `board/${uuidv4()}?.${file?.name.split(".").pop()}`;
     const upload = uploadBytesResumable(
       refStorage(getStorage(), filePath),
@@ -45,7 +42,7 @@ function BoardImageModal({ open, handleClose, setImage }) {
     } catch (error) {
       console.error(error);
     }
-  }, [file, setImage]);
+  }, [file, setImage, MAX_FILE_SIZE]);
 
   const handleSendFile = useCallback(() => {
     uploadFile();
@@ -60,7 +57,7 @@ function BoardImageModal({ open, handleClose, setImage }) {
         <Input
           margin="dense"
           inputProps={{
-            accept: "image/jpeg, image/jpg, image/png, image/gif, video/*,",
+            accept: "image/jpeg, image/jpg, image/png, image/gif",
           }}
           type="file"
           fullWidth

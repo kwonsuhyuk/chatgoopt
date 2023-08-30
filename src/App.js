@@ -10,6 +10,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import { CircularProgress, Stack } from "@mui/material";
 import Notfound from "./pages/Notfound";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { setUserAlarms } from "./store/alarmSlice";
 
 function App() {
   const dispatch = useDispatch();

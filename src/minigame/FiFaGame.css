@@ -3,7 +3,7 @@
   background-color: whitesmoke;
   width: 85vw;
   height: 85vh;
-  border: 3px solid #11609c;
+  border: 3px solid #b5bf50;
   border-radius: 0 20px 20px;
 }
 
@@ -19,7 +19,7 @@
   display: inline-block;
   margin: 20px;
   padding: 10px;
-  border: 2px solid #11609c;
+  border: 2px solid #b5bf50;
   border-radius: 20px;
 }
 
@@ -29,11 +29,11 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
 }
 
 .dice_mainBox .dice_gameBox .gameBox_active {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

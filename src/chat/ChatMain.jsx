@@ -18,20 +18,16 @@ import {
   get,
   getDatabase,
   onChildAdded,
-  onValue,
   orderByChild,
   query,
   ref,
   remove,
-  serverTimestamp,
-  set,
   startAt,
 } from "firebase/database";
 import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
 import PinDigit from "../components/PinDigit";
 import "./ChatMain.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { setChatAlarmNum } from "../store/chatAlarmSlice";
 
 function ChatMain() {
   const { user, channel, theme } = useSelector((state) => state);
@@ -152,6 +148,8 @@ function ChatMain() {
     p: 4,
   };
 
+  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
+
   return (
     <>
       {!channel.currentChannel ? (
@@ -163,19 +161,35 @@ function ChatMain() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            minHeight: "90vh",
             backgroundColor: `${theme.mainColor}`,
             boxShadow: `-2px -2px 3px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
           }}>
-          <h1
-            style={{
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
-            }}>
-            Chat GOOOOOOÖPT
-          </h1>
+          {!isMobile ? (
+            <h1
+              style={{
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
+              }}>
+              Chat GOOOOOOÖPT
+            </h1>
+          ) : (
+            <h1
+              style={{
+                fontSize: "30px",
+                fontFamily: "Dancing Script",
+                color:
+                  theme.mainColor === "whitesmoke" ||
+                  theme.mainColor === "#fffacd"
+                    ? "gray"
+                    : "white",
+              }}>
+              Chat GOOOOOOÖPT
+            </h1>
+          )}
         </Grid>
       ) : !channel.islocked ? (
         <Grid
@@ -184,6 +198,7 @@ function ChatMain() {
           component={Paper}
           variant="outlined"
           sx={{
+            minHeight: "90vh",
             position: "relative",
             backgroundColor: `${theme.mainColor}`,
             boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
@@ -329,7 +344,7 @@ function ChatMain() {
             alignItems: "center",
             backgroundColor: `${theme.mainColor}`,
             boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
-            height: "85vh",
+            minHeight: "90vh",
           }}>
           <LockTwoToneIcon
             className={pinError ? "moveEmoji" : null}

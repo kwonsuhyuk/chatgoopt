@@ -24,8 +24,16 @@
     },
     "users": {
       ".read": "auth != null",
+      ".write": "auth != null",
       "$uid": {
-        ".write": "auth != null && auth.uid === $uid"
+        ".write": "auth != null && auth.uid === $uid",
+        "alarms": {
+          ".indexOn": "timestamp",
+          "$alarmId": {
+            ".read": "$uid === auth.uid",
+            ".write": "auth != null"
+          }
+        }
       }
     },
     "minigame": {
@@ -36,11 +44,24 @@
       "typegamerank": {
         ".read": "auth != null",
         ".write": "auth != null"
+      },
+      "fifagamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      },
+      "lolgamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
       }
     },
     "board": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null",
+      "$boardId": {
+        "comments": {
+          ".indexOn": ["likesCount"]
+        }
+      }
     }
   }
 }

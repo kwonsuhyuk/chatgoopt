@@ -5,6 +5,7 @@ import {
   Divider,
   FormControlLabel,
   Input,
+  Popover,
   TextField,
   Typography,
 } from "@mui/material";
@@ -25,12 +26,16 @@ import {
 } from "firebase/database";
 
 function WritingBoard() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const { theme, user } = useSelector((state) => state);
   const [checked, setChecked] = useState(false);
+  const [checkedYoutube, setcheckedYoutube] = useState(false);
   const [title, setTitle] = useState("");
   const [imageList, setImageList] = useState([]);
   const [openImageModal, setOpenImageModal] = useState(false);
   const [content, setContent] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
 
   const handleAddImage = () => {
     setOpenImageModal(true);
@@ -49,6 +54,10 @@ function WritingBoard() {
     setChecked(event.target.checked);
   };
 
+  const handleYoutubeCheckboxChange = (event) => {
+    setcheckedYoutube(event.target.checked);
+  };
+
   const navigate = useNavigate();
   const handleBackMain = () => {
     navigate("/board");
@@ -56,6 +65,7 @@ function WritingBoard() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const dbRef = ref(getDatabase(), "board");
       const newPostRef = push(dbRef);
@@ -67,6 +77,7 @@ function WritingBoard() {
         title: title,
         content: content,
         images: imageList,
+        youtubeLink: checkedYoutube ? youtubeLink : null,
         user: {
           id: user.currentUser.uid,
           name: user.currentUser.displayName,
@@ -85,7 +96,16 @@ function WritingBoard() {
       setContent("");
       setImageList([]);
       setChecked(false);
+      setcheckedYoutube(false); // 유튜브 삽입 체크박스 초기화
+      setYoutubeLink(""); // 유튜브 링크 초기화
     }
+  };
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
   };
 
   const borderStyle =
@@ -203,6 +223,21 @@ function WritingBoard() {
                     : "white",
               }}
             />
+            {imageList.length === 0 && (
+              <FormControlLabel
+                value="start"
+                control={
+                  <>
+                    <Checkbox
+                      checked={checkedYoutube}
+                      onChange={handleYoutubeCheckboxChange}
+                    />
+                  </>
+                }
+                label="유튜브 삽입"
+                labelPlacement="start"
+              />
+            )}
             {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
               <FormControlLabel
                 value="start"
@@ -218,6 +253,46 @@ function WritingBoard() {
                 labelPlacement="start"
               />
             )}
+            {checkedYoutube && (
+              <>
+                <Input
+                  placeholder="유튜브 링크를 삽입해주세요"
+                  value={youtubeLink}
+                  onChange={(e) => setYoutubeLink(e.target.value)}
+                />
+                <Typography
+                  sx={{ border: "2px solid red", borderRadius: "20px" }}
+                  aria-owns={open ? "mouse-over-popover" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={handlePopoverOpen}
+                  onMouseLeave={handlePopoverClose}>
+                  유튜브 쇼츠 넣는법
+                </Typography>
+                <Popover
+                  id="mouse-over-popover"
+                  sx={{
+                    pointerEvents: "none",
+                  }}
+                  open={open}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus>
+                  <Typography sx={{ p: 1, width: "20vw" }}>
+                    유튜브의 쇼츠링크전체를 복사 붙혀넣기 (현재 쇼츠 링크만
+                    지원함)
+                  </Typography>
+                </Popover>
+              </>
+            )}
+
             {imageList?.length > 0 &&
               imageList.map((image, index) => (
                 <div style={{ position: "relative" }}>

@@ -1,63 +1,143 @@
-import React, { useEffect, useState } from "react";
-import "../firebase";
-import {
-  child,
-  get,
-  getDatabase,
-  onChildAdded,
-  onValue,
-  orderByChild,
-  query,
-  ref,
-  startAt,
-} from "firebase/database";
+// import React, { useEffect, useState } from "react";
+// import "../firebase";
+// import BoardItem from "./BoardItem";
+// import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+// import CircularProgress from "@mui/material/CircularProgress";
+// import { useSelector } from "react-redux";
+// import { Link } from "react-router-dom";
+
+// function LiveBoard({ isLoading, boardList }) {
+//   const { theme, user } = useSelector((state) => state);
+//   const [showMyPosts, setShowMyPosts] = useState(false); // 내 게시물 보기 여부 상태 추가
+
+//   const toggleMyPosts = () => {
+//     setShowMyPosts(!showMyPosts);
+//   };
+
+//   return (
+//     <Box
+//       sx={{
+//         backgroundColor: `${theme.mainColor}`,
+//         display: "flex",
+//         flexDirection: "column",
+//         gap: "3vh",
+//       }}>
+//       <FormGroup>
+//         <FormControlLabel
+//           control={
+//             <Checkbox
+//               value={showMyPosts}
+//               onClick={toggleMyPosts}
+//               color="success"
+//             />
+//           }
+//           label="내 게시물 보기"
+//         />
+//       </FormGroup>
+//       {isLoading ? (
+//         <CircularProgress />
+//       ) : boardList?.length > 0 && !showMyPosts ? (
+//         boardList?.map(
+//           (item) =>
+//             item.id && (
+//               <BoardItem
+//                 key={item.id}
+//                 title={item.title}
+//                 content={item.content}
+//                 id={item.id}
+//                 timestamp={item.timestamp}
+//                 userinfo={item.user}
+//                 images={item.images}
+//                 notice={item.notice}
+//                 youtubeLink={item.youtubeLink}
+//               />
+//             )
+//         )
+//       ) : (
+//         boardList?.map(
+//           (item) =>
+//             item.user.id === user.currentUser.uid && (
+//               <BoardItem
+//                 key={item.id}
+//                 title={item.title}
+//                 content={item.content}
+//                 id={item.id}
+//                 timestamp={item.timestamp}
+//                 userinfo={item.user}
+//                 images={item.images}
+//                 notice={item.notice}
+//                 youtubeLink={item.youtubeLink}
+//               />
+//             )
+//         )
+//       )}
+//     </Box>
+//   );
+// }
+
+// export default LiveBoard;
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import BoardItem from "./BoardItem";
-import { Box } from "@mui/material";
+import useLazyImageLoading from "../useLazyImageLoading";
 
-function LiveBoard() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [boardList, setBoardList] = useState([]);
+function LiveBoard({ isLoading, boardList }) {
+  const { theme, user } = useSelector((state) => state);
+  const [showMyPosts, setShowMyPosts] = useState(false);
 
-  useEffect(() => {
-    async function getBoard() {
-      const snapshot = await get(child(ref(getDatabase()), "board/"));
-      const data = snapshot.val();
+  const getItemRef = useLazyImageLoading(boardList);
 
-      if (data) {
-        // 데이터가 있다면 배열 형태로 변환하여 boardList 상태에 설정
-        const dataArray = Object.values(data);
-        dataArray.reverse(); // 배열 역순으로 저장
-        setBoardList(dataArray);
-      }
-    }
-
-    getBoard();
-
-    return () => {
-      setBoardList([]);
-    };
-  }, []);
+  const toggleMyPosts = () => {
+    setShowMyPosts(!showMyPosts);
+  };
 
   return (
     <Box
       sx={{
+        backgroundColor: `${theme.mainColor}`,
         display: "flex",
         flexDirection: "column",
         gap: "3vh",
       }}>
-      {boardList.length > 0 &&
-        boardList.map((item) => (
-          <BoardItem
-            key={item.id}
-            title={item.title}
-            content={item.content}
-            id={item.id}
-            timestamp={item.timestamp}
-            userinfo={item.user}
-            images={item.images}
-            notice={item.notice}
-          />
-        ))}
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              value={showMyPosts}
+              onClick={toggleMyPosts}
+              color="success"
+            />
+          }
+          label="내 게시물 보기"
+        />
+      </FormGroup>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        boardList?.map((item) => {
+          if (!item.id) return null;
+
+          const isCurrentUserPost = item.user.id === user.currentUser.uid;
+          if (showMyPosts && !isCurrentUserPost) return null;
+
+          return (
+            <BoardItem
+              key={item.id}
+              title={item.title}
+              content={item.content}
+              id={item.id}
+              timestamp={item.timestamp}
+              userinfo={item.user}
+              images={item.images}
+              notice={item.notice}
+              youtubeLink={item.youtubeLink}
+              imageRef={getItemRef(item.id)} // 커스텀 훅을 사용하여 ref 얻기
+            />
+          );
+        })
+      )}
     </Box>
   );
 }

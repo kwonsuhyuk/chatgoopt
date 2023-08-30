@@ -6,6 +6,9 @@ import { Route, Routes } from "react-router";
 import DiceGame from "../minigame/DiceGame";
 import TypingGame from "../minigame/TypingGame";
 import { useSelector } from "react-redux";
+import FiFaGame from "../minigame/FiFaGame";
+import GameMain from "../minigame/GameMain";
+import LoLGame from "../minigame/LoLGame";
 
 function MiniGame() {
   const { theme } = useSelector((state) => state);
@@ -16,13 +19,15 @@ function MiniGame() {
         width: "100vw",
         height: "90vh",
         backgroundColor: `${theme.mainColor}`,
-        padding: "20px 20px 0",
       }}>
       <GameMenu />
       <Routes>
         {/* 주사위 굴리기 게임 페이지 */}
-        <Route path="/" element={<DiceGame />} />
+        <Route path="/" element={<GameMain />} />
+        <Route path="/dicegame" element={<DiceGame />} />
         <Route path="/typegame" element={<TypingGame />} />
+        <Route path="/fifagame" element={<FiFaGame />} />
+        <Route path="/lolgame" element={<LoLGame />} />
       </Routes>
     </Box>
   );

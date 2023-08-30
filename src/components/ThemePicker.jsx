@@ -4,10 +4,9 @@ import SpeedDial from "@mui/material/SpeedDial";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import { useDispatch, useSelector } from "react-redux";
-import ImageIcon from "@mui/icons-material/Image";
 import { setTheme } from "../store/themeSlice";
 import "../firebase";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 
 const actions = [
   {
@@ -59,7 +58,22 @@ const actions = [
     icon: (
       <div
         style={{
-          backgroundColor: "#6495ed",
+          backgroundColor: "#9f81cd",
+          width: 24,
+          height: 24,
+          borderRadius: "50%",
+        }}
+      />
+    ),
+    name: "purple",
+    mainColor: "#9f81cd",
+    subColor: "#9f81cd9b",
+  },
+  {
+    icon: (
+      <div
+        style={{
+          backgroundColor: "#c3d3d6",
           width: 24,
           height: 24,
           borderRadius: "50%",
@@ -67,23 +81,8 @@ const actions = [
       />
     ),
     name: "blue",
-    mainColor: "#6495ed",
-    subColor: "#6495ed9b",
-  },
-  {
-    icon: (
-      <div
-        style={{
-          backgroundColor: "#deb887",
-          width: 24,
-          height: 24,
-          borderRadius: "50%",
-        }}
-      />
-    ),
-    name: "beige",
-    mainColor: "#deb887",
-    subColor: "#deb8879b",
+    mainColor: "#c3d3d6",
+    subColor: "#c3d3d69b",
   },
 ];
 
