@@ -7,10 +7,7 @@ function NewBoard() {
   const { theme, user } = useSelector((state) => state);
   const navigate = useNavigate();
 
-  const borderStyle =
-    theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-      ? "2px solid gray"
-      : "2px solid white";
+  const borderStyle = "2px solid white";
 
   const handleWrite = () => {
     navigate("/board/writingboard");
@@ -45,10 +42,7 @@ function NewBoard() {
           border: borderStyle,
           width: isMobile ? "75%" : "50%",
           borderRadius: "20px",
-          color:
-            theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-              ? "gray"
-              : "white",
+          color: "white",
         }}>
         새로운 게시물을 작성해주세요
       </Typography>

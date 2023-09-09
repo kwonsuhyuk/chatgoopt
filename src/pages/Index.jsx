@@ -1,6 +1,6 @@
 import { Paper } from "@mui/material";
 import { useEffect } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import Notfound from "./Notfound";
 import Dashboard from "./Dashboard";
 import Chat from "./Chat";
@@ -10,10 +10,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { get, getDatabase, ref } from "firebase/database";
 import { setTheme } from "../store/themeSlice";
 import Board from "./Board";
+import MobileMain from "./MobileMain";
+import nightImg from "../img/bg/night.jpg";
+import dayImg from "../img/bg/day.jpeg";
+import pmImg from "../img/bg/pm2.jpeg";
+import pmImg2 from "../img/bg/pm3.jpeg";
+import { setBg } from "../store/bgSlice";
 
 function Index() {
-  const { user, theme } = useSelector((state) => state);
+  const location = useLocation();
+  const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
 
   useEffect(() => {
     if (!user.currentUser.uid) return;
@@ -35,11 +43,30 @@ function Index() {
     }
     getUserTheme(user.currentUser.uid);
   }, [user.currentUser.uid, dispatch]);
+
+  const getBackgroundImage = () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    if (currentHour >= 7 && currentHour < 16) {
+      return dayImg;
+    } else if (currentHour >= 16 && currentHour < 20) {
+      return dayImg;
+    } else {
+      return nightImg;
+    }
+  };
+
+  useEffect(() => {
+    dispatch(setBg(getBackgroundImage()));
+  }, [dispatch]);
+
   return (
     <div component={Paper} elevation={10} style={{ height: "100vh" }}>
       {/* RiIKqlGiIvggJMoP3A4faoPRzig1 */}
       {/* kJlSCkA8utdiBV0JNL2DgiAKUf32 */}
       {/* {X9pU0SNUHieAWtvq5XfgLddRRpV2} */}
+
       {user.currentUser.uid === "123" ? (
         <div
           style={{
@@ -51,11 +78,23 @@ function Index() {
           }}>
           부적절한 행위적발로 일시 정지 입니다.
         </div>
-      ) : (
+      ) : !isMobile ? (
         <>
-          <Header />
+          {/* {location.pathname !== "/" && <Header />} */}
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/minigame/*" element={<MiniGame />} />
+            <Route path="/board/*" element={<Board />} />
+            <Route path="/*" element={<Notfound />} />
+          </Routes>
+        </>
+      ) : (
+        <>
+          {location.pathname !== "/" && <Header />}
+          <Routes>
+            <Route path="/" element={<MobileMain />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/minigame/*" element={<MiniGame />} />
             <Route path="/board/*" element={<Board />} />

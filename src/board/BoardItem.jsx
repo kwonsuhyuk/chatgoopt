@@ -204,11 +204,6 @@ function BoardItem({
     });
   };
 
-  const borderStyle =
-    theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-      ? "2px solid gray"
-      : "2px solid white";
-
   useEffect(() => {
     // 게시물 정보 가져오기 및 실시간 갯수 업데이트
     const database = getDatabase();
@@ -346,49 +341,52 @@ function BoardItem({
     setAutocompleteOptions([]);
   };
 
+  const borderStyle = "1px solid white";
+
   return (
     <Box
       sx={{
-        backgroundColor: "whitesmoke",
+        overflow: "hidden",
+        width: "100%",
         display: "flex", // Flexbox 설정
         flexDirection: "column", // 세로 방향으로 배치
-        border: borderStyle,
-        borderRadius: "10px",
+        borderTop: borderStyle,
+        gap: "20px",
         position: "relative",
       }}>
       <Box
         sx={{
           display: "flex",
           gap: "1vw",
-          marginLeft: "1rem",
           marginTop: "1rem",
         }}>
         <Avatar
           variant="rounded"
-          sx={{ width: 35, height: 35 }}
+          sx={{ width: 35, height: 35, borderRadius: "50%" }}
           alt="profile image"
           src={userinfo?.avatar}
         />
         <ListItemText
           sx={{
             display: "flex",
+            justifyContent: "space-between",
           }}
           primary={userinfo?.name}
           primaryTypographyProps={{
             fontWeight: "bold",
-            color: userinfo.id === user.currentUser.uid ? "green" : "black",
+            color: userinfo.id === user.currentUser.uid ? "lime" : "white",
           }}
           secondary={dayjs(timestamp).fromNow()}
           secondaryTypographyProps={{
             ml: 1,
-            color:
-              theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-                ? "gray"
-                : "gray",
+            color: "skyblue",
           }}
         />
         {userinfo.id === user.currentUser.uid && (
-          <DeleteIcon onClick={handleDeleteBoard} sx={{ cursor: "pointer" }} />
+          <DeleteIcon
+            onClick={handleDeleteBoard}
+            sx={{ cursor: "pointer", color: "white" }}
+          />
         )}
       </Box>
       <Dialog
@@ -417,164 +415,189 @@ function BoardItem({
       </Dialog>
       <Box
         sx={{
-          margin: "1vh 0",
-        }}>
-        {!youtubeLink ? (
-          <Carousel
-            autoPlay={true}
-            infiniteLoop={true}
-            showThumbs={false}
-            interval={5000}>
-            {images?.map((media, index) => {
-              const isVideo = media.includes(".mp4"); // URL에 .mp4 포함 여부 확인
-
-              return (
-                <div key={index}>
-                  {isVideo ? (
-                    <Suspense
-                      fallback={
-                        <div>
-                          <CircularProgress />
-                        </div>
-                      }>
-                      <StyledVideo
-                        loading="lazy"
-                        controls
-                        src={media}
-                        alt={`Slide ${index + 1}`}
-                      />
-                    </Suspense>
-                  ) : (
-                    <Suspense
-                      fallback={
-                        <div>
-                          <CircularProgress />
-                        </div>
-                      }>
-                      <StyledImage
-                        src={media}
-                        ref={imageRef} // 이 부분이 이미지의 ref로 설정됩니다.
-                        data-src={media} // 실제 이미지의 URL을 data-src로 저장
-                        alt={`Slide ${index + 1}`}
-                        loading="lazy"
-                      />
-                    </Suspense>
-                  )}
-                </div>
-              );
-            })}
-          </Carousel>
-        ) : (
-          <YouTube
-            videoId={videoKey}
-            //opts(옵션들): 플레이어의 크기나 다양한 플레이어 매개 변수를 사용할 수 있음.
-            //밑에서 더 설명하겠습니다.
-            opts={{
-              width: "100%",
-              height: "500",
-              playerVars: {
-                autoplay: 0,
-                rel: 0,
-              },
-            }}
-            //이벤트 리스너
-            onEnd={(e) => {
-              e.target.stopVideo(0);
-            }}
-          />
-        )}
-      </Box>
-      <Box
-        sx={{
           display: "flex",
-          marginLeft: "1rem",
-          marginBottom: "1rem",
-          color: "#e84979",
-        }}>
-        <span onClick={handleLike}>
-          {isLiked ? (
-            <ThumbUpIcon sx={{ cursor: "pointer" }} />
-          ) : (
-            <ThumbUpOffAltIcon sx={{ cursor: "pointer" }} />
-          )}
-          {likeCount}
-        </span>
-        <span onClick={handleDislike}>
-          {isDisliked ? (
-            <ThumbDownIcon sx={{ cursor: "pointer" }} />
-          ) : (
-            <ThumbDownOffAltIcon sx={{ cursor: "pointer" }} />
-          )}
-          {dislikeCount}
-        </span>
-      </Box>
-      {/* <Box>좋아요 싫어요 누른 횟수 가져오기</Box> */}
-      <Box
-        sx={{
+          marginLeft: "15px",
           width: "100%",
-          marginLeft: "1rem",
-          marginBottom: "2rem",
-          color: "black",
+          height: "100%",
+          position: "relative",
         }}>
-        {title}
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "90%",
-          overflow: "hidden",
-          marginLeft: "1rem",
-          fontSize: "13px",
-          color: "black",
-          // 동적으로 높이 조절
-          height: showFullContent ? "auto" : "5.3vh",
-        }}>
-        {content.length > maxDisplayContentLength ? (
-          <>
-            <Typography
-              sx={{
-                whiteSpace: showFullContent ? "normal" : "nowrap",
-                overflow: "hidden",
-                textOverflow: showFullContent ? "unset" : "ellipsis",
-                display: "flex",
-                fontSize: "13px",
-                width: "100%", // 너비를 100%로 설정
-                // 동적으로 높이 조절
-                height: showFullContent ? "auto" : "5.3vh",
-              }}>
-              {showFullContent
-                ? content
-                : content.substring(0, maxDisplayContentLength)}
-            </Typography>
-            {!showFullContent && (
-              <span
-                onClick={() => setShowFullContent(true)}
-                style={{
-                  cursor: "pointer",
-                  marginLeft: "5px",
-                  fontSize: "15px",
-                  color: "gray",
-                }}>
-                더보기
-              </span>
+        <div
+          style={{
+            width: "1px",
+            height: "100%",
+            backgroundColor: "skyblue",
+          }}></div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
+          <Box
+            sx={{
+              width: "100%",
+              marginLeft: "1rem",
+              marginBottom: "2rem",
+              color: "white",
+            }}>
+            {title}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              fontFamily: "sans-serif",
+              overflow: "hidden",
+              marginLeft: "1rem",
+              fontSize: "13px",
+              color: "white",
+              // 동적으로 높이 조절
+              height: showFullContent ? "auto" : "5.3vh",
+            }}>
+            {content.length > maxDisplayContentLength ? (
+              <>
+                <Typography
+                  sx={{
+                    whiteSpace: showFullContent ? "normal" : "nowrap",
+                    overflow: "hidden",
+                    textOverflow: showFullContent ? "unset" : "ellipsis",
+                    display: "flex",
+                    fontSize: "13px",
+                    width: "100%", // 너비를 100%로 설정
+                    // 동적으로 높이 조절
+                    height: showFullContent ? "auto" : "5.3vh",
+                  }}>
+                  {showFullContent
+                    ? content
+                    : content.substring(0, maxDisplayContentLength)}
+                </Typography>
+                {!showFullContent && (
+                  <span
+                    onClick={() => setShowFullContent(true)}
+                    style={{
+                      cursor: "pointer",
+                      marginLeft: "5px",
+                      fontSize: "15px",
+                      color: "whitesmoke",
+                    }}>
+                    더보기
+                  </span>
+                )}
+              </>
+            ) : (
+              content
             )}
-          </>
-        ) : (
-          content
-        )}
-      </Box>
-      <Divider />
-      <Box
-        onClick={handleOpenComment}
-        sx={{
-          cursor: "pointer",
-          margin: "10px 30px",
-          fontSize: "15px",
-          color: "gray",
-        }}>
-        {commentList?.length}개의 댓글 모두 보기
+          </Box>
+          <Box
+            sx={{
+              margin: "1vh 0",
+            }}>
+            {!youtubeLink ? (
+              <Carousel
+                autoPlay={true}
+                infiniteLoop={true}
+                showThumbs={false}
+                interval={5000}>
+                {images?.map((media, index) => {
+                  const isVideo = media.includes(".mp4"); // URL에 .mp4 포함 여부 확인
+
+                  return (
+                    <div key={index}>
+                      {isVideo ? (
+                        <Suspense
+                          fallback={
+                            <div>
+                              <CircularProgress />
+                            </div>
+                          }>
+                          <StyledVideo
+                            loading="lazy"
+                            controls
+                            src={media}
+                            alt={`Slide ${index + 1}`}
+                          />
+                        </Suspense>
+                      ) : (
+                        <Suspense
+                          fallback={
+                            <div>
+                              <CircularProgress />
+                            </div>
+                          }>
+                          <StyledImage
+                            src={media}
+                            ref={imageRef} // 이 부분이 이미지의 ref로 설정됩니다.
+                            data-src={media} // 실제 이미지의 URL을 data-src로 저장
+                            alt={`Slide ${index + 1}`}
+                            loading="lazy"
+                          />
+                        </Suspense>
+                      )}
+                    </div>
+                  );
+                })}
+              </Carousel>
+            ) : (
+              <YouTube
+                videoId={videoKey}
+                //opts(옵션들): 플레이어의 크기나 다양한 플레이어 매개 변수를 사용할 수 있음.
+                //밑에서 더 설명하겠습니다.
+                opts={{
+                  width: "100%",
+                  height: "500",
+                  playerVars: {
+                    autoplay: 0,
+                    rel: 0,
+                  },
+                }}
+                //이벤트 리스너
+                onEnd={(e) => {
+                  e.target.stopVideo(0);
+                }}
+              />
+            )}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box
+              sx={{
+                display: "flex",
+                marginLeft: "1rem",
+                marginBottom: "1rem",
+                fontSize: "15px",
+                color: "white",
+              }}>
+              <span onClick={handleLike}>
+                {isLiked ? (
+                  <ThumbUpIcon sx={{ cursor: "pointer", fontSize: "20px" }} />
+                ) : (
+                  <ThumbUpOffAltIcon
+                    sx={{ cursor: "pointer", fontSize: "20px" }}
+                  />
+                )}
+                {likeCount}
+              </span>
+              <span onClick={handleDislike}>
+                {isDisliked ? (
+                  <ThumbDownIcon sx={{ cursor: "pointer", fontSize: "20px" }} />
+                ) : (
+                  <ThumbDownOffAltIcon
+                    sx={{ cursor: "pointer", fontSize: "20px" }}
+                  />
+                )}
+                {dislikeCount}
+              </span>
+            </Box>
+            <Box
+              onClick={handleOpenComment}
+              sx={{
+                cursor: "pointer",
+                margin: "10px 30px",
+                fontSize: "15px",
+                color: "white",
+              }}>
+              {commentList?.length}개의 댓글
+            </Box>
+          </Box>
+        </Box>
       </Box>
       {!isMobile ? (
         <Backdrop
@@ -593,10 +616,7 @@ function BoardItem({
               display: "grid",
               gridTemplateColumns: "5fr 4fr",
             }}>
-            <Box
-              sx={{
-                borderRight: "2px solid black",
-              }}>
+            <Box sx={{ borderRight: "1px solid #e9e9e9" }}>
               {!youtubeLink ? (
                 <Carousel
                   autoPlay={true}
@@ -617,7 +637,7 @@ function BoardItem({
                             <video
                               controls
                               className="backdropimg"
-                              style={{ width: "100%", height: "95vh" }}
+                              style={{ width: "100%", height: "93vh" }}
                               src={media}
                               alt={`Slide ${index + 1}`}
                             />
@@ -633,7 +653,7 @@ function BoardItem({
                               className="backdropimg"
                               src={media}
                               alt={`Slide ${index + 1}`}
-                              style={{ width: "100%", height: "95vh" }}
+                              style={{ width: "100%", height: "93vh" }}
                             />
                           </Suspense>
                         )}
@@ -659,7 +679,7 @@ function BoardItem({
                 />
               )}
             </Box>
-            <Box sx={{ position: "relative" }}>
+            <Box sx={{ position: "relative", margin: "3px", marginBottom: 0 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -686,11 +706,7 @@ function BoardItem({
                   secondary={dayjs(timestamp).fromNow()}
                   secondaryTypographyProps={{
                     ml: 1,
-                    color:
-                      theme.mainColor === "whitesmoke" ||
-                      theme.mainColor === "#fffacd"
-                        ? "gray"
-                        : "gray",
+                    color: "gray",
                   }}
                 />
               </Box>
@@ -720,21 +736,27 @@ function BoardItem({
                   display: "flex",
                   marginLeft: "1rem",
                   marginBottom: "1rem",
-                  color: "#e84979",
+                  color: "black",
                 }}>
                 <span onClick={handleLike}>
                   {isLiked ? (
-                    <ThumbUpIcon sx={{ cursor: "pointer" }} />
+                    <ThumbUpIcon sx={{ cursor: "pointer", fontSize: "20px" }} />
                   ) : (
-                    <ThumbUpOffAltIcon sx={{ cursor: "pointer" }} />
+                    <ThumbUpOffAltIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   )}
                   {likeCount}
                 </span>
                 <span onClick={handleDislike}>
                   {isDisliked ? (
-                    <ThumbDownIcon sx={{ cursor: "pointer" }} />
+                    <ThumbDownIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   ) : (
-                    <ThumbDownOffAltIcon sx={{ cursor: "pointer" }} />
+                    <ThumbDownOffAltIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   )}
                   {dislikeCount}
                 </span>
@@ -745,8 +767,7 @@ function BoardItem({
                 sx={{
                   overflowY: "scroll",
                   color: "black",
-                  height: "37vh",
-                  borderTop: "1px solid gray",
+                  height: "35vh",
                   "&::-webkit-scrollbar": {
                     width: "0.5em",
                     display: "none", // 스크롤바 숨김
@@ -781,8 +802,7 @@ function BoardItem({
                         style={{
                           color: "gray",
                           padding: "10px 10px",
-                          borderRadius: "10px",
-                          border: "1px solid orange",
+                          borderBottom: "1px solid black",
                           cursor: "pointer",
                         }}
                         key={index}
@@ -804,7 +824,7 @@ function BoardItem({
                   <Input
                     sx={{
                       width: "90%",
-                      padding: "5px 10px 0px 5px",
+
                       border: "none",
                     }}
                     placeholder="댓글달기"
@@ -820,8 +840,9 @@ function BoardItem({
                       width: "10%",
                       outline: "none",
                       backgroundColor: "transparent",
-                      border: "none",
-                      color: "green",
+                      border: "1px solid gray",
+                      borderRadius: "20px",
+                      color: "black",
                     }}>
                     Ok
                   </button>

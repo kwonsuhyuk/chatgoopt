@@ -36,7 +36,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentChannel, setIsLocked } from "../store/channelSlice";
 import LockIcon from "@mui/icons-material/Lock";
 import "./ChatMenu.css";
-import { setChatAlarmNum } from "../store/chatAlarmSlice";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 function ChatMenu() {
   const [channels, setChannels] = useState([]);
@@ -185,15 +185,11 @@ function ChatMenu() {
     <>
       <List className="chatMenuTitle">
         <ListItem
+          sx={{ borderBottom: "3px solid white" }}
           secondaryAction={
             <IconButton
               sx={{
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
-                border: "3px solid tomato",
+                color: "white",
                 padding: "0",
               }}
               onClick={handleClickOpen}>
@@ -202,11 +198,7 @@ function ChatMenu() {
           }>
           <ListItemIcon
             sx={{
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
             }}
             onClick={handleListOpen}>
             <ArrowDropDownIcon
@@ -220,11 +212,7 @@ function ChatMenu() {
             primary="채널"
             sx={{
               wordBreak: "break-all",
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
             }}
           />
         </ListItem>
@@ -234,37 +222,32 @@ function ChatMenu() {
           {listOpen &&
             channels?.map((channel) => (
               <ListItem
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderBottom: "1px solid white",
+                }}
                 key={channel.id}
                 onClick={() => changeChannel(channel)}
                 selected={channel.id === activeChannelId}
                 button>
                 <ListItemText
-                  primary={`# ${channel.name}`}
-                  // secondary={` ${
-                  //   chatAlarmNum[channel?.id]
-                  // } 개 새 메시지가 있습니다!`}
-                  // secondaryTypographyProps={{
-                  //   style: {
-                  //     color: "#5e67c3",
-                  //   },
-                  // }}
                   sx={{
+                    display: "flex",
+                    alignItems: "center",
                     wordBreak: "break-all",
-                    color:
-                      theme.mainColor === "whitesmoke" ||
-                      theme.mainColor === "#fffacd"
-                        ? "gray"
-                        : "white",
-                  }}
-                />
+                    color: "white",
+                  }}>
+                  <ChatBubbleIcon
+                    sx={{ display: "flex", alignItems: "center" }}
+                  />
+                  {channel.name}
+                </ListItemText>
                 {channel.password ? <LockIcon /> : null}
                 {
                   <span
                     style={{
-                      backgroundColor: "#E86B79",
-                      color: "whitesmoke",
-                      padding: "2px 5px",
-                      borderRadius: "10px",
+                      color: "pink",
                     }}>
                     {chatAlarmNum[channel?.id]}
                   </span>

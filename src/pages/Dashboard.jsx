@@ -1,17 +1,19 @@
-import { Box } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Clock from "../components/Clock";
 import Weather from "../components/Weather";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import "./Dashboard.css";
 import TodoModal from "../components/modal/TodoModal";
 import AddIcon from "@mui/icons-material/Add";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import Fab from "@mui/material/Fab";
 
 import "../firebase";
 
@@ -23,24 +25,45 @@ import {
   onChildRemoved,
   onDisconnect,
   onValue,
-  push,
   ref,
-  serverTimestamp,
   update,
 } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import TodoPaper from "../components/TodoPaper";
 import BookMark from "../components/BookMark";
-import FeedBackModal from "../components/modal/FeedBackModal";
 import { setUserAlarms } from "../store/alarmSlice";
-import { set } from "date-fns";
 import { setChatAlarmNum } from "../store/chatAlarmSlice";
-import ThemePicker from "../components/ThemePicker";
-import { setTheme } from "../store/themeSlice";
+import Header from "../components/Header";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { getAuth, signOut } from "firebase/auth";
+import ProfileModal from "../components/modal/ProfileModal";
+
+const MainDiv = styled.div`
+  height: 100vh;
+  // background-color: ${({ mainColor }) => mainColor};
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  @media screen and (max-width: 850px) {
+    display:flex;
+    flex-direction:column;
+  `;
+
+const SubDiv = styled.div`
+  overflow-y: scroll;
+  h1 {
+    font-family: "Raleway Dots", cursive;
+    font-weight: 700;
+    font-size: 50px;
+  }
+`;
 
 const SnapContainer = styled.div`
   width: 100vw;
-  height: 92vh;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: fixed;
+  background-size: cover;
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -52,35 +75,12 @@ const SnapContainer = styled.div`
   & > div {
     position: relative;
     scroll-snap-align: center;
-    height: 90vh;
-  }
-`;
-
-const MainDiv = styled.div`
-background-repeat: no-repeat;
-background-position: center;
-background-size: cover;
-height: 90vh;
-background-color: ${({ mainColor }) => mainColor};
-display: grid;
-grid-template-columns: 1fr 2fr 1fr;
-@media screen and (max-width: 850px) {
-  display:flex;
-  flex-direction:column;
-`;
-
-const SubDiv = styled.div`
-  overflow-y: scroll;
-  background-color: ${({ mainColor }) => mainColor};
-  h1 {
-    font-family: "Raleway Dots", cursive;
-    font-weight: 700;
-    font-size: 50px;
+    height: 100vh;
   }
 `;
 
 function Dashboard() {
-  const { user, theme } = useSelector((state) => state);
+  const { user, theme, bg } = useSelector((state) => state);
   const [open, setOpen] = useState(false);
   const [todos, setTodos] = useState([]);
   const [bookMarks, setBookMarks] = useState([]);
@@ -90,6 +90,7 @@ function Dashboard() {
   const targetRef = useRef(null);
   const [firstLoad, setFirstLoaded] = useState(true);
   const [channels, setChannels] = useState([]);
+  const [ismenubaropen, setismenubaropen] = useState(false);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -193,19 +194,6 @@ function Dashboard() {
       }
     });
   }, [user.currentUser.uid, channels, dispatch]);
-
-  // useEffect(() => {
-  //   async function getBookMark() {
-  //     const snapshot = await get(
-  //       child(ref(getDatabase()), "users/" + user.currentUser.uid + "/bookmark")
-  //     );
-  //     setBookMarks(snapshot.val() ? Object.values(snapshot.val()) : []);
-  //   }
-  //   getBookMark();
-  //   return () => {
-  //     getBookMark([]);
-  //   };
-  // }, [user.currentUser.uid]);
 
   // 새로운 bookMark 관찰
   useEffect(() => {
@@ -317,17 +305,101 @@ function Dashboard() {
     };
   }, [user.currentUser.uid, todos]);
 
-  const handleFeedBackClose = useCallback(() => {
-    setFeedBackOpen(false);
+  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    // 2초 후에 isVisible 상태를 false로 변경하여 요소를 숨깁니다.
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 2000);
+
+    // 컴포넌트가 언마운트되면 타이머를 클리어합니다.
+    return () => clearTimeout(timer);
+  }, []);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const formatDigits = (digit) => {
+    return digit < 10 ? "0" + digit : digit;
+  };
+
+  const hours = formatDigits(currentTime.getHours());
+  const minutes = formatDigits(currentTime.getMinutes());
+  const seconds = formatDigits(currentTime.getSeconds());
+
+  const handlemenubaropen = () => {
+    setismenubaropen(!ismenubaropen);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
+  const handleCloseUserMenu = useCallback(() => {
+    setAnchorElUser(null);
+  }, []);
+
+  const handleClickOpen = useCallback(() => {
+    setShowProfileModal(true);
+    handleCloseUserMenu();
+  }, [handleCloseUserMenu]);
+
+  const logout = async () => {
+    await signOut(getAuth());
+
+    const db = getDatabase();
+    const myConnectionsRef = ref(
+      db,
+      `users/${user.currentUser.uid}/connections`
+    );
+    onDisconnect(myConnectionsRef).set(false);
+  };
+
+  const handleCloseProfileModal = useCallback(() => {
+    setShowProfileModal(false);
   }, []);
 
   return (
-    <SnapContainer>
-      <MainDiv mainColor={theme.mainColor}>
-        <div className="firstDiv">
-          <ThemePicker />
-          <div className="calendar_weather">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <SnapContainer style={{ backgroundImage: `url("${bg.bgImage}")` }}>
+      <MainDiv mainColor={theme.mainColor} className="dashMain_div">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            fontFamily: `"Orbitron", sans-serif`,
+            position: "absolute",
+            top: 20,
+            left: 20,
+            color: "white",
+            fontSize: "30px",
+            paddingLeft: "0px",
+            zIndex: "20",
+          }}>
+          Chat_Goopt<span className="blinking-text">ㅣ</span>
+          {!isMobile && <Header />}
+        </div>
+        <div
+          className="dash_maindiv"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+          }}>
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
                 sx={{
                   backgroundColor: `${theme.mainColor}`,
@@ -335,27 +407,14 @@ function Dashboard() {
                   boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
                 }}
               />
-            </LocalizationProvider>
-            <Weather />
-            <div className="scrollDownIn">
-              Scroll Down <KeyboardDoubleArrowDownIcon />
-            </div>
-          </div>
-        </div>
-        <div
-          className="secondDiv"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-          }}>
+            </LocalizationProvider> */}
           <Box
             component="form"
             onSubmit={handleSubmit}
             className="searchBar"
             ref={boxRef}
             sx={{
-              width: "100%",
+              width: "70%",
               textAlign: "center",
               position: "relative",
             }}
@@ -366,34 +425,109 @@ function Dashboard() {
               placeholder="Search"
               className="searchInput"
               name="search"
-              style={{
-                boxShadow: `inset -10px -10px 15px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.2)`,
-                backgroundColor: `${theme.mainColor}`,
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
-              }}
             />
           </Box>
-          <Clock className="clock" />
-        </div>
-        <div className="bookMark">
-          {/* {bookMarks.length < 6
-            ? bookMarks
-                .map((value) => <BookMark key={value.id} value={value} />)
-                .concat(<BookMark key="123123" value={null} />)
-            : bookMarks.map((value) => (
-                <BookMark key={value.id} value=
-                {value} />
-              ))} */}
-          {bookMarks
-            .map((value) => <BookMark key={value.id} value={value} />)
-            .concat(<BookMark key="123123" value={null} />)}
-        </div>
+          <div
+            style={{
+              fontFamily: `"Orbitron", sans-serif`,
+              fontWeight: 700,
+              color: "white",
+              marginTop: isMobile && "100px",
+              fontSize: isMobile ? "50px" : "90px",
+            }}>
+            {hours}:{minutes}:{seconds}
+          </div>
+          <Weather />
 
+          <div
+            className="scrollDownIn"
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              padding: "30px",
+              color: "white",
+            }}>
+            Scroll Down <KeyboardDoubleArrowDownIcon />
+          </div>
+        </div>
+        <div>
+          {ismenubaropen && (
+            <div className="bookMark">
+              {bookMarks
+                .map((value) => <BookMark key={value.id} value={value} />)
+                .concat(<BookMark key="123123" value={null} />)}
+            </div>
+          )}
+        </div>
         <div
+          className="bookmarkopenBtn"
+          style={{
+            fontFamily: `"Orbitron", sans-serif`,
+            position: "absolute",
+            right: 0,
+            top: "50%",
+          }}>
+          {!ismenubaropen ? (
+            <KeyboardDoubleArrowLeftIcon
+              onClick={handlemenubaropen}
+              sx={{ color: "white", fontSize: "55px" }}
+            />
+          ) : (
+            <KeyboardDoubleArrowRightIcon
+              onClick={handlemenubaropen}
+              sx={{ color: "white", fontSize: "55px" }}
+            />
+          )}
+        </div>
+        <div style={{ position: "absolute", top: 10, right: 20 }}>
+          <Box className="profileMenu" sx={{ marginLeft: "30px" }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    color: "white",
+                  }}>
+                  {user?.currentUser.displayName}
+                </Typography>
+                <Avatar
+                  sx={{ marginLeft: "10px" }}
+                  alt="profileImage"
+                  src={user?.currentUser.photoURL}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}>
+              <MenuItem key="edit profile" onClick={handleClickOpen}>
+                <Typography textAlign="center">Edit Profile</Typography>
+              </MenuItem>
+              <MenuItem key="log out" onClick={logout}>
+                <Typography textAlign="center">Log out</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+          <ProfileModal
+            open={showProfileModal}
+            handleClose={handleCloseProfileModal}
+          />
+        </div>
+        {/* <div
           className="feedback"
           style={{
             position: "fixed",
@@ -409,19 +543,12 @@ function Dashboard() {
             open={feedBackOpen}
             handleClose={handleFeedBackClose}
           />
-        </div>
+        </div> */}
       </MainDiv>
       <SubDiv ref={targetRef} mainColor={theme.mainColor}>
         <div className="todoBoard_Title">
-          <h1 style={{ paddingRight: "10px" }}>TODO BOARD</h1>
-          <button
-            onClick={() => setOpen(true)}
-            className="todoBtn"
-            style={{
-              boxShadow: "active"
-                ? `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`
-                : `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
-            }}>
+          <h1 style={{ paddingRight: "10px", color: "white" }}>TODO BOARD</h1>
+          <button onClick={() => setOpen(true)} className="todoBtn">
             <AddIcon
               sx={{
                 position: "relative",

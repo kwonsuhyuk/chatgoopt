@@ -70,13 +70,8 @@ function BookMark({ value }) {
             className="bookBtn"
             style={{
               position: "relative",
-              background: `${theme.mainColor}`,
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
-              boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+              background: "transparent",
+              color: "white",
             }}
             onClick={handleBookClick}>
             <img
@@ -127,11 +122,7 @@ function BookMark({ value }) {
                 marginTop: "10px",
                 position: "relative",
                 textAlign: "center",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
+                color: "white",
               }}>
               {value.name}
             </h5>
@@ -146,13 +137,7 @@ function BookMark({ value }) {
                 height: "30px",
                 position: "relative",
                 textAlign: "center",
-
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
-                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+                color: "white",
               }}
             />
             <IconButton
@@ -192,11 +177,7 @@ function BookMark({ value }) {
                 marginTop: "10px",
                 position: "relative",
                 textAlign: "center",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
+                color: "white",
               }}>
               {value.name}
             </h5>
@@ -207,7 +188,7 @@ function BookMark({ value }) {
           style={{
             width: "100px",
             height: "100px",
-            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+            boxShadow: `inset -3px -3px 5px whitesmoke, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -216,11 +197,7 @@ function BookMark({ value }) {
           <Button
             onClick={() => setOpen(true)}
             sx={{
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
               borderRadius: "20px",
               width: "100%",
               height: "100%",

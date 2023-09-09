@@ -323,25 +323,15 @@ function BoardDetail({ posts }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "91vh",
-            backgroundColor: `${theme.mainColor}`,
+            height: "93vh",
           }}>
           <Button>
             <ArrowBackIcon
               onClick={handleBackBoard}
               sx={{
-                border: `1px solid ${
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "black"
-                    : "white"
-                }`,
+                border: "1px solid white",
                 borderRadius: "50%",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "black"
-                    : "white",
+                color: "white",
               }}
             />
           </Button>
@@ -353,11 +343,9 @@ function BoardDetail({ posts }) {
               backgroundColor: `white`,
               display: "grid",
               gridTemplateColumns: "5fr 4fr",
+              padding: "10px",
             }}>
-            <Box
-              sx={{
-                borderRight: "2px solid black",
-              }}>
+            <Box sx={{ borderRight: "1px solid #e9e9e9" }}>
               {!boardData.youtubeLink ? (
                 <Carousel
                   autoPlay={true}
@@ -378,7 +366,7 @@ function BoardDetail({ posts }) {
                             <video
                               controls
                               className="backdropimg"
-                              style={{ width: "100%", height: "80vh" }}
+                              style={{ width: "100%", height: "78vh" }}
                               src={media}
                               alt={`Slide ${index + 1}`}
                             />
@@ -394,7 +382,7 @@ function BoardDetail({ posts }) {
                               className="backdropimg"
                               src={media}
                               alt={`Slide ${index + 1}`}
-                              style={{ height: "80vh" }}
+                              style={{ height: "78vh" }}
                             />
                           </Suspense>
                         )}
@@ -424,7 +412,7 @@ function BoardDetail({ posts }) {
                 </>
               )}
             </Box>
-            <Box sx={{ position: "relative" }}>
+            <Box sx={{ position: "relative", margin: "3px", marginBottom: 0 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -451,11 +439,7 @@ function BoardDetail({ posts }) {
                   secondary={dayjs(boardData.timestamp).fromNow()}
                   secondaryTypographyProps={{
                     ml: 1,
-                    color:
-                      theme.mainColor === "whitesmoke" ||
-                      theme.mainColor === "#fffacd"
-                        ? "gray"
-                        : "gray",
+                    color: "gray",
                   }}
                 />
               </Box>
@@ -485,21 +469,27 @@ function BoardDetail({ posts }) {
                   display: "flex",
                   marginLeft: "1rem",
                   marginBottom: "1rem",
-                  color: "#e84979",
+                  color: "black",
                 }}>
                 <span onClick={handleLike}>
                   {isLiked ? (
-                    <ThumbUpIcon sx={{ cursor: "pointer" }} />
+                    <ThumbUpIcon sx={{ cursor: "pointer", fontSize: "20px" }} />
                   ) : (
-                    <ThumbUpOffAltIcon sx={{ cursor: "pointer" }} />
+                    <ThumbUpOffAltIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   )}
                   {likeCount}
                 </span>
                 <span onClick={handleDislike}>
                   {isDisliked ? (
-                    <ThumbDownIcon sx={{ cursor: "pointer" }} />
+                    <ThumbDownIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   ) : (
-                    <ThumbDownOffAltIcon sx={{ cursor: "pointer" }} />
+                    <ThumbDownOffAltIcon
+                      sx={{ cursor: "pointer", fontSize: "20px" }}
+                    />
                   )}
                   {dislikeCount}
                 </span>
@@ -511,7 +501,6 @@ function BoardDetail({ posts }) {
                   overflowY: "scroll",
                   color: "black",
                   height: "35vh",
-                  border: "1px solid gray",
                   "&::-webkit-scrollbar": {
                     width: "0.5em",
                     display: "none", // 스크롤바 숨김
@@ -546,8 +535,7 @@ function BoardDetail({ posts }) {
                         style={{
                           color: "gray",
                           padding: "10px 10px",
-                          borderRadius: "10px",
-                          border: "1px solid orange",
+                          borderBottom: "1px solid black",
                           cursor: "pointer",
                         }}
                         key={index}
@@ -569,7 +557,6 @@ function BoardDetail({ posts }) {
                   <Input
                     sx={{
                       width: "90%",
-                      padding: "5px 10px 0px 5px",
                       border: "none",
                     }}
                     placeholder="댓글달기"
@@ -585,8 +572,9 @@ function BoardDetail({ posts }) {
                       width: "10%",
                       outline: "none",
                       backgroundColor: "transparent",
-                      border: "none",
-                      color: "green",
+                      border: "1px solid gray",
+                      borderRadius: "20px",
+                      color: "black",
                     }}>
                     Ok
                   </button>

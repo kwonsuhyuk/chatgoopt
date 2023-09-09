@@ -8,10 +8,9 @@ import Index from "./pages/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
-import { CircularProgress, Stack } from "@mui/material";
 import Notfound from "./pages/Notfound";
-import { getDatabase, onValue, ref } from "firebase/database";
-import { setUserAlarms } from "./store/alarmSlice";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,9 +30,52 @@ function App() {
 
   if (isLoading) {
     return (
-      <Stack alignItems="center" justifyContent="center" height="100vh">
-        <CircularProgress color="primary" size={150} />
-      </Stack>
+      <div id="logo">
+        <div className="loading">
+          <div className="symbol">
+            <div className="symbol_letter">C</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>G</div>
+          </div>
+          <div className="symbol">
+            <div className="symbol_letter">H</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>O</div>
+          </div>
+          <div className="symbol">
+            <div className="symbol_letter">A</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>O</div>
+          </div>
+          <div className="symbol">
+            <div className="symbol_letter">T</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>P</div>
+          </div>
+          <div className="symbol">
+            <div className="symbol_letter">
+              <ChatBubbleIcon />
+            </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>T</div>
+          </div>
+        </div>
+      </div>
     );
   }
 

@@ -55,7 +55,7 @@ function Weather() {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <PropagateLoader color="gray" />
+          <PropagateLoader color="white" />
         </div>
       ) : (
         <div className="weather_box front">
@@ -67,14 +67,9 @@ function Weather() {
           <h1
             className="weather_name"
             style={{
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
             }}>
-            Now is <br />
-            {weather}_
+            Now is {weather}_
           </h1>
         </div>
       )}

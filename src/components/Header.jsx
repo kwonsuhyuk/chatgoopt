@@ -234,6 +234,149 @@ function Header() {
     };
   }, [isMenuOpen]);
 
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/chat" ||
+    location.pathname.startsWith("/board") ||
+    location.pathname.startsWith("/minigame")
+  ) {
+    return (
+      <>
+        <GroupIcon
+          onClick={handleOnlineClick}
+          sx={{
+            color: "#5bc236",
+            width: "30px",
+            height: "30px",
+          }}
+        />
+        <Menu
+          open={onlineOpen}
+          anchorEl={anchorOnlineEl}
+          id="online-menu"
+          PaperProps={{
+            style: {
+              height: 500,
+              width: 300,
+              overflow: "scroll",
+              backgroundColor: "whitesmoke",
+              position: "relative",
+            },
+          }}
+          onClose={handleOnlineClose}>
+          {friends.map(
+            (friend) =>
+              user.currentUser.uid !== friend.id && (
+                <MenuItem key={friend.id} sx={{ padding: "20px" }}>
+                  <UserStatus user={friend} />
+                  <Divider />
+                </MenuItem>
+              )
+          )}
+        </Menu>
+        <IconButton
+          className="alarm_Btn"
+          aria-label={notificationsLabel(100)}
+          sx={{
+            borderRadius: "30px",
+            padding: 0,
+            paddingLeft: "10px",
+          }}>
+          <Badge
+            badgeContent={
+              userAlarms?.alarms.length > 10 ? "10+" : userAlarms.alarms.length
+            }
+            color="error">
+            <NotificationsIcon
+              sx={{
+                color: "#E86B79",
+                width: "30px",
+                height: "30px",
+              }}
+              onClick={handleAlarmClick}
+              aria-controls={alarmOpen ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={alarmOpen ? "true" : undefined}
+            />
+          </Badge>
+        </IconButton>
+        <Menu
+          open={alarmOpen}
+          anchorEl={anchorAlarmEl}
+          id="alarm-menu"
+          PaperProps={{
+            style: {
+              height: 500,
+              width: 300,
+              overflow: "scroll",
+              backgroundColor: "whitesmoke",
+              position: "relative",
+            },
+          }}
+          onClose={handleAlarmClose}>
+          {userAlarms.alarms.map((alarm) => (
+            <AlarmItem
+              key={alarm.id}
+              value={alarm}
+              handleAlarmClose={handleAlarmClose}
+            />
+          ))}
+          <Button
+            sx={{
+              width: "100%",
+              display: userAlarms.alarms.length === 0 ? "none" : "block",
+            }}
+            onClick={handleClearAlarm}>
+            Clear All
+          </Button>
+        </Menu>
+
+        <div
+          className="dash_navlink"
+          style={{
+            marginLeft: "50px",
+            display: "flex",
+            gap: "30px",
+            fontFamily: "sans-serif",
+            fontSize: "20px",
+            textTransform: "uppercase",
+          }}>
+          {pages.map((page) =>
+            page === "chat" ? (
+              <Badge
+                key={page}
+                badgeContent={chatAlarm(chatAlarmNum)}
+                color="error"
+                style={{ padding: 0 }}>
+                <NavLink
+                  key={page}
+                  to={"/" + page}
+                  data-text={page}
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                  }}>
+                  {page}
+                </NavLink>
+              </Badge>
+            ) : (
+              <NavLink
+                key={page}
+                to={page === "dashboard" ? "/" : "/" + page}
+                data-text={page}
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                }}>
+                {page}
+              </NavLink>
+            )
+          )}
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {!isMobile ? (
@@ -252,7 +395,7 @@ function Header() {
                   width: "13vw",
                   color: "black",
                   fontSize: "30px",
-                  paddingLeft: "30px",
+                  paddingLeft: "0px",
                 }}>
                 Chat_Goopt<span className="blinking-text">ㅣ</span>
               </div>
@@ -745,7 +888,13 @@ function Header() {
               ) : (
                 <NavLink
                   key={page}
-                  to={page === "dashboard" ? "" : "/" + page}
+                  to={
+                    page === "dashboard"
+                      ? !isMobile
+                        ? ""
+                        : "/dashboard"
+                      : "/" + page
+                  }
                   style={{
                     marginLeft: "30px",
                     borderRadius: "20px",

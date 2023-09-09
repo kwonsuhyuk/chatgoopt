@@ -23,7 +23,6 @@ import "../firebase";
 import { useSelector } from "react-redux";
 import Comment from "./Comment";
 import { Carousel } from "react-responsive-carousel";
-import YouTube from "react-youtube";
 
 function NoticeBoardItem({ notice }) {
   const { user } = useSelector((state) => state);
@@ -125,7 +124,7 @@ function NoticeBoardItem({ notice }) {
           onClick={handleOpenComment}
           primary={
             <div>
-              <LightbulbIcon sx={{ color: "red" }} />
+              <LightbulbIcon sx={{ color: "pink" }} />
               <Typography
                 sx={{
                   display: "inline",
@@ -135,14 +134,14 @@ function NoticeBoardItem({ notice }) {
                   maxWidth: "80%",
                 }}
                 variant="body1"
-                color="text.primary">
+                color="white">
                 {notice.title}
               </Typography>
             </div>
           }
           secondary={
             <div>
-              <Typography sx={{ fontSize: "10px", color: "gray" }}>
+              <Typography sx={{ fontSize: "10px", color: "wheat" }}>
                 {dayjs(notice.timestamp).fromNow()}
               </Typography>
               <Typography
@@ -154,7 +153,7 @@ function NoticeBoardItem({ notice }) {
                   maxWidth: "80%",
                 }}
                 variant="body2"
-                color="text.primary">
+                color="white">
                 {notice.content}
               </Typography>
             </div>
@@ -181,7 +180,7 @@ function NoticeBoardItem({ notice }) {
               }}>
               <Box
                 sx={{
-                  borderRight: "2px solid black",
+                  borderRight: "1px solid #e9e9e9",
                 }}>
                 <Carousel
                   autoPlay={true}
@@ -195,7 +194,7 @@ function NoticeBoardItem({ notice }) {
                           className="backdropimg"
                           src={media}
                           alt={`Slide ${index + 1}`}
-                          style={{ maxWidth: "100%", maxHeight: "95vh" }}
+                          style={{ maxWidth: "100%", maxHeight: "93vh" }}
                         />
                       </div>
                     );
@@ -242,7 +241,8 @@ function NoticeBoardItem({ notice }) {
                     width: "100%",
                     marginLeft: "1rem",
                     marginBottom: "2rem",
-                    overflow: "scroll", // 넘치는 부분을 감춤
+                    whiteSpace: "normal",
+                    overflowY: "scroll", // 넘치는 부분을 감춤
                     color: "gray",
                   }}>
                   {notice.content}
@@ -252,7 +252,6 @@ function NoticeBoardItem({ notice }) {
                 {/* 댓글보여주는 곳 */}
                 <Box
                   sx={{
-                    border: "2px solid black",
                     overflowY: "scroll",
                     color: "black",
                     height: "65vh",
@@ -281,7 +280,7 @@ function NoticeBoardItem({ notice }) {
                   <form onSubmit={handleCommentSubmit}>
                     <Input
                       sx={{
-                        width: "90%",
+                        width: "95%",
                         padding: "5px 10px 0px 5px",
                         border: "none",
                       }}
@@ -295,11 +294,12 @@ function NoticeBoardItem({ notice }) {
                     <button
                       type="submit"
                       style={{
-                        width: "10%",
+                        width: "5%",
                         outline: "none",
                         backgroundColor: "transparent",
-                        border: "none",
-                        color: "green",
+                        border: "1px solid gray",
+                        borderRadius: "20px",
+                        color: "black",
                       }}>
                       Ok
                     </button>

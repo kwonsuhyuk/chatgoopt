@@ -4,15 +4,36 @@ import ChatMenu from "../chat/ChatMenu";
 import ChatMain from "../chat/ChatMain";
 import "./Chat.css";
 import { useSelector } from "react-redux";
+import Header from "../components/Header";
 
 function Chat() {
-  const { theme } = useSelector((state) => state);
+  const { bg } = useSelector((state) => state);
+  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
+
   return (
-    <Box className="mainChatBox" sx={{ backgroundColor: `${theme.mainColor}` }}>
-      <ChatMenu />
-      <Box component="main" className="chatPageMain">
-        <ChatMain />
-      </Box>
+    <Box className="mainChatBox" sx={{ backgroundImage: `url(${bg.bgImage})` }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          fontFamily: `"Orbitron", sans-serif`,
+          color: "white",
+          fontSize: "30px",
+          paddingLeft: "0px",
+          zIndex: "20",
+          paddingTop: 20,
+          marginLeft: 20,
+          marginBottom: 20,
+        }}>
+        Chat_Goopt<span className="blinking-text">ㅣ</span>
+        {!isMobile && <Header />}
+      </div>
+      <div style={{ display: "flex" }}>
+        <ChatMenu />
+        <Box component="main" className="chatPageMain">
+          <ChatMain />
+        </Box>
+      </div>
     </Box>
   );
 }

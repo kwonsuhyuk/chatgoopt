@@ -131,7 +131,7 @@ function DiceGame() {
     // 주사위 결과를 데이터베이스에 저장
     await set(diceRef, userData);
   };
-  console.log(isDouble);
+
   useEffect(() => {
     const database = getDatabase();
     const diceRef = ref(database, "minigame/dicegamerank/");
@@ -232,7 +232,9 @@ function DiceGame() {
       {!isMobile ? (
         <>
           <div className="dice_gameBox">
-            <div className="gameBox_title">
+            <div
+              className="gameBox_title"
+              style={{ border: "2px solid #11609c" }}>
               <div>
                 <Typography
                   aria-owns={open ? "mouse-over-popover" : undefined}

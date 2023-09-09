@@ -9,7 +9,7 @@ import NoticeBoard from "./NoticeBoard";
 import PopularBoard from "./PopularBoard";
 
 function BoardMain() {
-  const { theme } = useSelector((state) => state);
+  const { theme, bg } = useSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const [boardList, setBoardList] = useState([]);
   const [noticeBoardList, setNoticeBoardList] = useState([]);
@@ -99,9 +99,8 @@ function BoardMain() {
       {!isMobile ? (
         <Box
           sx={{
-            minHeight: "91vh",
-            backgroundColor: `${theme.mainColor}`,
-            padding: "5vh 20vw 0",
+            minHeight: "90vh",
+            padding: "3vh 20vw 2vh",
             display: "grid",
             gap: "3vw",
             gridTemplateColumns: "2fr 1fr",
@@ -124,7 +123,7 @@ function BoardMain() {
                 backgroundColor: "rgba(0,0,0,0)", // 스크롤바 썸네일 색상을 투명하게 설정
               },
             }}>
-            <NewBoard ref={topRef} />
+            <NewBoard />
             <LiveBoard isLoading={isLoading} boardList={boardList} />
           </Box>
           {/* 공지 게시물 부분 */}
@@ -216,7 +215,8 @@ function BoardMain() {
               maxWidth: "93vw",
               display: "flex",
               flexDirection: "column",
-              marginLeft: "2vw",
+              alignItems: "center",
+              margin: "auto",
             }}>
             {renderSelectedBoard()}
           </Box>

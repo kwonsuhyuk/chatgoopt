@@ -23,14 +23,9 @@ function ChatMessage({ message, user }) {
           sx={{
             width: "40%",
             m: 3,
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `-5px -5px 10px ${theme.subColor},  5px 5px 10px rgba(0, 0, 0, 0.3)`,
-            color:
-              theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-                ? "black"
-                : "white",
+            color: "white",
             alignSelf: "flex-end",
-            borderRadius: "20px",
+            borderBottom: "2px solid white",
             "@media (max-width: 500px)": {
               // 휴대폰에서의 스타일 조정
               // 예: 폰트 사이즈 변경, 패딩 조정 등
@@ -46,17 +41,13 @@ function ChatMessage({ message, user }) {
                 sx={{ display: "flex", flexDirection: "row-reverse" }}
                 primary={message.user.name}
                 primaryTypographyProps={{
-                  color: "black",
+                  color: "lime",
                   fontWeight: "bold",
                   ml: 3,
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
                 secondaryTypographyProps={{
-                  color:
-                    theme.mainColor === "whitesmoke" ||
-                    theme.mainColor === "#fffacd"
-                      ? "gray"
-                      : "wheat",
+                  color: "wheat",
                 }}
               />
             </Grid>
@@ -88,15 +79,10 @@ function ChatMessage({ message, user }) {
       ) : (
         <ListItem
           sx={{
-            color:
-              theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-                ? "black"
-                : "white",
+            color: "white",
             width: "40%",
             m: 3,
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `-5px -5px 10px ${theme.subColor},  5px 5px 10px rgba(0, 0, 0, 0.3)`,
-            borderRadius: "20px",
+            borderBottom: "1px solid white",
             "@media (max-width: 500px)": {
               // 휴대폰에서의 스타일 조정
               // 예: 폰트 사이즈 변경, 패딩 조정 등
@@ -120,21 +106,11 @@ function ChatMessage({ message, user }) {
                 primary={message.user.name}
                 primaryTypographyProps={{
                   fontWeight: "bold",
-                  color:
-                    message.user.id === user.currentUser.uid
-                      ? "orange"
-                      : theme.mainColor === "whitesmoke" ||
-                        theme.mainColor === "#fffacd"
-                      ? "black"
-                      : "white",
+                  color: "white",
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
                 secondaryTypographyProps={{
-                  color:
-                    theme.mainColor === "whitesmoke" ||
-                    theme.mainColor === "#fffacd"
-                      ? "gray"
-                      : "wheat",
+                  color: "wheat",
                   ml: 1,
                 }}
               />

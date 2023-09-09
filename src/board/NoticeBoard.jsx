@@ -14,9 +14,10 @@ function NoticeBoard({ isLoading, boardList }) {
               sx={{
                 width: "100%",
                 maxWidth: 280,
-                bgcolor: "whitesmoke",
+                backgroundColor: "rgba(5,5,5,0.3)",
+                boxShadow:
+                  "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
                 borderRadius: "10px",
-                border: "1px solid gray",
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   maxWidth: 370,

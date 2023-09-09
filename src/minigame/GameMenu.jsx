@@ -18,13 +18,15 @@ function GameMenu() {
         {/* NavLink 사용 */}
         <ListItem
           component={NavLink}
-          to="/minigame/"
+          to="/minigame/gamemain"
           sx={{
             backgroundColor: "#389cd7",
             color: "white",
             marginBottom: "20px",
 
-            ...(location.pathname === "/minigame/" ? activeLinkStyle : {}),
+            ...(location.pathname === "/minigame/gamemain"
+              ? activeLinkStyle
+              : {}),
           }}>
           게임메인
         </ListItem>
@@ -74,6 +76,7 @@ function GameMenu() {
           to="/minigame/lolgame"
           sx={{
             backgroundColor: "#906aa5",
+            marginBottom: "20px",
             color: "white",
             ...(location.pathname === "/minigame/lolgame"
               ? activeLinkStyle
@@ -81,6 +84,18 @@ function GameMenu() {
           }}>
           롤 게임
         </ListItem>
+        {/* <ListItem
+          component={NavLink}
+          to="/minigame/memorygame"
+          sx={{
+            backgroundColor: "#67e8c3",
+            color: "whitesmoke",
+            ...(location.pathname === "/minigame/memorygame"
+              ? activeLinkStyle
+              : {}),
+          }}>
+          메모리 게임
+        </ListItem> */}
       </List>
     </>
   );

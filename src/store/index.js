@@ -5,6 +5,7 @@ import alarmSlice from "./alarmSlice";
 import chatAlarmSlice from "./chatAlarmSlice";
 import themeSlice from "./themeSlice";
 import boardChannelSlice from "./boardChannelSlice";
+import bgSlice from "./bgSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     chatAlarmNum: chatAlarmSlice,
     theme: themeSlice,
     boardChannel: boardChannelSlice,
+    bg: bgSlice,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

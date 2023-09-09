@@ -61,10 +61,10 @@ function UserStatus({ user }) {
     }
   };
 
-  const handleMiniChat = () => {};
+  const handleMiniChat = async () => {};
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex" }} onClick={handleMiniChat}>
       <ListItemAvatar sx={{ alignSelf: "stretch" }}>
         <Avatar
           variant="rounded"

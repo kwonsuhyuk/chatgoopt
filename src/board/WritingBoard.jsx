@@ -108,25 +108,23 @@ function WritingBoard() {
     setAnchorEl(null);
   };
 
-  const borderStyle =
-    theme.mainColor === "whitesmoke" || theme.mainColor === "#fffacd"
-      ? "2px solid gray"
-      : "2px solid white";
+  const borderStyle = "2px solid whitesmoke";
 
   return (
     <Box
       sx={{
         minHeight: "91vh",
-        backgroundColor: `${theme.mainColor}`,
-        padding: "5vh 20vw 0",
-        "@media (max-width: 500px)": {
-          // 휴대폰에서의 스타일 조정
-          display: "flex",
-          padding: "2vh 30px",
-          flexDirection: "column",
-        },
+        backgroundColor: "transparent",
+        padding: "9vh 20vw 0",
       }}>
-      <Box sx={{ border: borderStyle }}>
+      <Box
+        sx={{
+          borderRadius: "20px",
+          border: borderStyle,
+          backgroundColor: "rgba(5,5,5,0.3)",
+          boxShadow:
+            "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
+        }}>
         <Box
           sx={{
             display: "flex",
@@ -136,45 +134,31 @@ function WritingBoard() {
           <ArrowBackIcon
             onClick={handleBackMain}
             sx={{
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
             }}
           />
           <Box>
             <button
               onClick={handleBackMain}
               style={{
-                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
-                border: "none",
+                border: "1px solid white",
                 borderRadius: "10px",
                 backgroundColor: "transparent",
                 margin: "10px",
                 padding: "10px",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
+                color: "white",
               }}>
               취소
             </button>
             <button
               onClick={handleSubmit}
               style={{
-                boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
                 border: "none",
                 borderRadius: "10px",
                 margin: "10px",
                 padding: "10px",
-                backgroundColor: "green",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "white"
-                    : "white",
+                backgroundColor: "white",
+                color: "black",
               }}>
               완료
             </button>
@@ -187,7 +171,11 @@ function WritingBoard() {
             padding: "2vh 5vw",
           }}>
           <TextField
-            sx={{ width: "80%" }}
+            sx={{
+              width: "80%",
+              placeholder: { color: "white" },
+              borderBottom: "2px solid white",
+            }}
             color="success"
             name="title"
             variant="standard"
@@ -196,11 +184,7 @@ function WritingBoard() {
             InputProps={{
               placeholder: "제목",
               style: {
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
+                color: "white",
                 fontSize: "20px", // 글자 크기를 16px로 지정
                 fontWeight: "bold", // 글자 두께를 굵게 지정
               },
@@ -216,19 +200,17 @@ function WritingBoard() {
                 cursor: "pointer",
                 width: "30px",
                 height: "30px",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
+                color: "white",
               }}
             />
             {imageList.length === 0 && (
               <FormControlLabel
                 value="start"
+                sx={{ color: "white" }}
                 control={
                   <>
                     <Checkbox
+                      sx={{ color: "white" }}
                       checked={checkedYoutube}
                       onChange={handleYoutubeCheckboxChange}
                     />
@@ -241,9 +223,11 @@ function WritingBoard() {
             {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
               <FormControlLabel
                 value="start"
+                sx={{ color: "white" }}
                 control={
                   <>
                     <Checkbox
+                      sx={{ color: "white" }}
                       checked={checked}
                       onChange={handleCheckboxChange}
                     />
@@ -255,18 +239,17 @@ function WritingBoard() {
             )}
             {checkedYoutube && (
               <>
-                <Input
-                  placeholder="유튜브 링크를 삽입해주세요"
-                  value={youtubeLink}
-                  onChange={(e) => setYoutubeLink(e.target.value)}
-                />
                 <Typography
-                  sx={{ border: "2px solid red", borderRadius: "20px" }}
+                  sx={{
+                    color: "white",
+                    borderRadius: "20px",
+                    margin: "0 20px",
+                  }}
                   aria-owns={open ? "mouse-over-popover" : undefined}
                   aria-haspopup="true"
                   onMouseEnter={handlePopoverOpen}
                   onMouseLeave={handlePopoverClose}>
-                  유튜브 쇼츠 넣는법
+                  (유튜브 쇼츠 넣는법)
                 </Typography>
                 <Popover
                   id="mouse-over-popover"
@@ -290,6 +273,16 @@ function WritingBoard() {
                     지원함)
                   </Typography>
                 </Popover>
+                <Input
+                  sx={{
+                    borderBottom: "1px solid white",
+                    color: "white",
+                    width: "50%",
+                  }}
+                  placeholder="유튜브 링크를 삽입해주세요"
+                  value={youtubeLink}
+                  onChange={(e) => setYoutubeLink(e.target.value)}
+                />
               </>
             )}
 
@@ -323,7 +316,7 @@ function WritingBoard() {
                 </div>
               ))}
           </Box>
-          <Divider sx={{ margin: "10px 0 10px" }} />
+          <Divider sx={{ margin: "10px 0 10px" }} color="white" />
           <textarea
             name="content"
             rows={8} // 입력 영역의 행 수를 지정
@@ -331,18 +324,14 @@ function WritingBoard() {
             onChange={(event) => setContent(event.target.value)}
             style={{
               width: "95%",
-              height: "62vh",
-              backgroundColor: `${theme.mainColor}`,
+              height: "60vh",
+              backgroundColor: "rgba(5,5,5,0.3)",
+              boxShadow:
+                "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
               outline: "none",
               fontSize: "16px",
               fontFamily: "sans-serif",
-              padding: "10px",
-              borderRadius: "4px",
-              color:
-                theme.mainColor === "whitesmoke" ||
-                theme.mainColor === "#fffacd"
-                  ? "gray"
-                  : "white",
+              color: "white",
             }}
           />
         </Box>

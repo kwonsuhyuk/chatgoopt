@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import "../firebase";
@@ -45,6 +45,17 @@ function FiFaGame() {
   const [timerSeconds, setTimerSeconds] = useState(15); // 타이머 기간(초)
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [alluser, setAllUser] = useState([]);
+  const endRef = useRef(null);
+
+  useEffect(() => {
+    const setTimeoutId = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
+  }, [answerHistory.length]);
 
   useEffect(() => {
     async function getUser() {
@@ -361,7 +372,9 @@ function FiFaGame() {
       {!isMobile ? (
         <>
           <div className="dice_gameBox">
-            <div className="gameBox_title">
+            <div
+              className="gameBox_title"
+              style={{ border: "2px solid #b5bf50" }}>
               <div>
                 <Typography
                   aria-owns={open ? "mouse-over-popover" : undefined}
@@ -529,7 +542,15 @@ function FiFaGame() {
                       확인
                     </Button>
                   </Box>
-                  <Box>
+                  <Box
+                    sx={{
+                      borderRadius: "10px",
+                      backgroundColor: "whitesmoke",
+                      boxShadow:
+                        "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+                      overflowY: "scroll",
+                      height: "50vh",
+                    }}>
                     {answerHistory.map((entry, index) => (
                       <div key={index} style={{ display: "flex", gap: "30px" }}>
                         <div style={{ fontSize: "20px", color: "#005905" }}>
@@ -554,6 +575,7 @@ function FiFaGame() {
                         </div>
                       </div>
                     ))}
+                    <div ref={endRef}></div>
                   </Box>
                 </Box>
               )}
@@ -811,6 +833,7 @@ function FiFaGame() {
                       </div>
                     </div>
                   ))}
+                  <div ref={endRef}></div>
                 </Box>
               </>
             ) : (

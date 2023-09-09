@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../firebase";
 import { useSelector } from "react-redux";
 import {
@@ -44,6 +44,17 @@ function LoLGame() {
   const [timerSeconds, setTimerSeconds] = useState(12); // 타이머 기간(초)
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [alluser, setAllUser] = useState([]);
+  const endRef = useRef(null);
+
+  useEffect(() => {
+    const setTimeoutId = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
+  }, [answerHistory.length]);
 
   useEffect(() => {
     async function getUser() {
@@ -289,6 +300,16 @@ function LoLGame() {
     setInputValues("");
   }, [currentItemIndex, data, inputValues]);
 
+  useEffect(() => {
+    const setTimeoutId = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
+  }, [answerHistory.length]);
+
   const handleNextItem = useCallback(() => {
     checkAnswer();
     if (currentItemIndex < data.length - 1) {
@@ -342,7 +363,9 @@ function LoLGame() {
       {!isMobile ? (
         <>
           <div className="dice_gameBox">
-            <div className="gameBox_title">
+            <div
+              className="gameBox_title"
+              style={{ border: "2px solid #906aa5" }}>
               <div>
                 <Typography
                   aria-owns={open ? "mouse-over-popover" : undefined}
@@ -489,7 +512,15 @@ function LoLGame() {
                       확인
                     </Button>
                   </Box>
-                  <Box>
+                  <Box
+                    sx={{
+                      borderRadius: "10px",
+                      backgroundColor: "whitesmoke",
+                      boxShadow:
+                        "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
+                      overflowY: "scroll",
+                      height: "50vh",
+                    }}>
                     {answerHistory.map((entry, index) => (
                       <div
                         key={index}
@@ -520,6 +551,7 @@ function LoLGame() {
                         </div>
                       </div>
                     ))}
+                    <div ref={endRef}></div>
                   </Box>
                 </Box>
               )}
@@ -751,6 +783,7 @@ function LoLGame() {
                       </div>
                     </div>
                   ))}
+                  <div ref={endRef}></div>
                 </Box>
               </>
             ) : (

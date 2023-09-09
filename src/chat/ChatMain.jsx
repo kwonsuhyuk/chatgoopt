@@ -158,39 +158,12 @@ function ChatMain() {
           className="chat_basic"
           variant="outlined"
           sx={{
+            borderRadius: "20px",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             minHeight: "90vh",
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `-2px -2px 3px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
-          }}>
-          {!isMobile ? (
-            <h1
-              style={{
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
-              }}>
-              Chat GOOOOOOÖPT
-            </h1>
-          ) : (
-            <h1
-              style={{
-                fontSize: "30px",
-                fontFamily: "Dancing Script",
-                color:
-                  theme.mainColor === "whitesmoke" ||
-                  theme.mainColor === "#fffacd"
-                    ? "gray"
-                    : "white",
-              }}>
-              Chat GOOOOOOÖPT
-            </h1>
-          )}
-        </Grid>
+          }}></Grid>
       ) : !channel.islocked ? (
         <Grid
           container
@@ -200,21 +173,22 @@ function ChatMain() {
           sx={{
             minHeight: "90vh",
             position: "relative",
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
+            backgroundColor: "rgba(5,5,5,0.3)",
+            boxShadow:
+              "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
           }}>
           <div
             style={{
               width: "100%",
               backgroundColor: "transparent",
-              color: "gray",
+              color: "white",
               padding: "20px",
             }}>
             <span
               style={{
-                border: "1px solid gray",
                 padding: "3px",
                 borderRadius: "20px",
+                textDecoration: "underline",
               }}>
               <span style={{ color: "orange", padding: "2px" }}>
                 {channel.currentChannel.madeBy}'s
@@ -267,21 +241,22 @@ function ChatMain() {
           component={Paper}
           variant="outlined"
           sx={{
+            backgroundColor: "rgba(5,5,5,0.3)",
+            boxShadow:
+              "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
             position: "relative",
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
           }}>
           <div
             style={{
               width: "100%",
               backgroundColor: "transparent",
-              color: "gray",
+              color: "white",
               padding: "20px",
               display: "flex",
+              textDecoration: "underline",
             }}>
             <span
               style={{
-                border: "1px solid gray",
                 padding: "3px",
                 borderRadius: "20px",
               }}>
@@ -342,9 +317,10 @@ function ChatMain() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: `${theme.mainColor}`,
-            boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.3)`,
             minHeight: "90vh",
+            backgroundColor: "rgba(5,5,5,0.3)",
+            boxShadow:
+              "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
           }}>
           <LockTwoToneIcon
             className={pinError ? "moveEmoji" : null}

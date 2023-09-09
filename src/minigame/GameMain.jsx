@@ -212,9 +212,7 @@ function GameMain() {
           style={{
             borderRadius: "0 20px 20px",
             background: `linear-gradient(135deg, #5988d5, white)`,
-            width: "85vw",
-            boxShadow:
-              "-5px -5px 12px white, 12px 12px 20px rgba(0, 0, 0, 0.5)",
+            width: "100vw",
             height: "85vh",
             display: "flex",
             justifyContent: "space-around",
@@ -245,8 +243,8 @@ function GameMain() {
                   style={{
                     backgroundColor:
                       user.currentUser?.uid === userData.id
-                        ? "green"
-                        : "#5988d5",
+                        ? "#b5bf50"
+                        : "#f29538",
                     border: "1px solid white",
                     borderRadius: "10px",
                     height: `calc(85vh * (5/9) / 5)`,
@@ -481,8 +479,7 @@ function GameMain() {
             borderRadius: "0 20px 20px",
             background: `linear-gradient(135deg, #5988d5, white)`,
             width: "100%",
-            boxShadow:
-              "-5px -5px 12px white, 12px 12px 20px rgba(0, 0, 0, 0.5)",
+
             display: "flex",
             flexDirection: "column",
             justifyContent: showRanking ? "flex-start" : "center",
@@ -708,7 +705,9 @@ function GameMain() {
                 key={userData.id}
                 style={{
                   backgroundColor:
-                    user.currentUser?.uid === userData.id ? "green" : "#5988d5",
+                    user.currentUser?.uid === userData.id
+                      ? "#b5bf50"
+                      : "#f29538",
                   border: "1px solid white",
                   borderRadius: "10px",
                   height: `calc(85vh * (5/9) / 5)`,

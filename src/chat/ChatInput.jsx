@@ -85,20 +85,29 @@ function ChatInput() {
 
   return (
     <Grid container sx={{ p: "20px" }}>
-      <Grid item xs={12} sx={{ position: "relative" }}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          position: "relative",
+        }}>
         <TextField
+          sx={{
+            input: { color: "white" },
+            label: { color: "white" },
+          }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <IconButton onClick={handleClickOpen}>
-                  <ImageIcon />
+                  <ImageIcon sx={{ color: "white" }} />
                 </IconButton>
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="start">
                 <IconButton disabled={loading} onClick={sendMessage}>
-                  <SendIcon />
+                  <SendIcon sx={{ color: "white" }} />
                 </IconButton>
               </InputAdornment>
             ),

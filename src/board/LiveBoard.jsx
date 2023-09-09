@@ -1,81 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import "../firebase";
-// import BoardItem from "./BoardItem";
-// import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-// import CircularProgress from "@mui/material/CircularProgress";
-// import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
-
-// function LiveBoard({ isLoading, boardList }) {
-//   const { theme, user } = useSelector((state) => state);
-//   const [showMyPosts, setShowMyPosts] = useState(false); // 내 게시물 보기 여부 상태 추가
-
-//   const toggleMyPosts = () => {
-//     setShowMyPosts(!showMyPosts);
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         backgroundColor: `${theme.mainColor}`,
-//         display: "flex",
-//         flexDirection: "column",
-//         gap: "3vh",
-//       }}>
-//       <FormGroup>
-//         <FormControlLabel
-//           control={
-//             <Checkbox
-//               value={showMyPosts}
-//               onClick={toggleMyPosts}
-//               color="success"
-//             />
-//           }
-//           label="내 게시물 보기"
-//         />
-//       </FormGroup>
-//       {isLoading ? (
-//         <CircularProgress />
-//       ) : boardList?.length > 0 && !showMyPosts ? (
-//         boardList?.map(
-//           (item) =>
-//             item.id && (
-//               <BoardItem
-//                 key={item.id}
-//                 title={item.title}
-//                 content={item.content}
-//                 id={item.id}
-//                 timestamp={item.timestamp}
-//                 userinfo={item.user}
-//                 images={item.images}
-//                 notice={item.notice}
-//                 youtubeLink={item.youtubeLink}
-//               />
-//             )
-//         )
-//       ) : (
-//         boardList?.map(
-//           (item) =>
-//             item.user.id === user.currentUser.uid && (
-//               <BoardItem
-//                 key={item.id}
-//                 title={item.title}
-//                 content={item.content}
-//                 id={item.id}
-//                 timestamp={item.timestamp}
-//                 userinfo={item.user}
-//                 images={item.images}
-//                 notice={item.notice}
-//                 youtubeLink={item.youtubeLink}
-//               />
-//             )
-//         )
-//       )}
-//     </Box>
-//   );
-// }
-
-// export default LiveBoard;
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
@@ -84,7 +6,7 @@ import BoardItem from "./BoardItem";
 import useLazyImageLoading from "../useLazyImageLoading";
 
 function LiveBoard({ isLoading, boardList }) {
-  const { theme, user } = useSelector((state) => state);
+  const { user } = useSelector((state) => state);
   const [showMyPosts, setShowMyPosts] = useState(false);
 
   const getItemRef = useLazyImageLoading(boardList);
@@ -96,15 +18,21 @@ function LiveBoard({ isLoading, boardList }) {
   return (
     <Box
       sx={{
-        backgroundColor: `${theme.mainColor}`,
+        backgroundColor: "rgba(5,5,5,0.3)",
+        boxShadow:
+          "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
         display: "flex",
         flexDirection: "column",
         gap: "3vh",
+        borderRadius: "10px",
+        padding: "0 2vw",
       }}>
       <FormGroup>
         <FormControlLabel
+          sx={{ color: "white", margin: "20px 0 " }}
           control={
             <Checkbox
+              sx={{ color: "white" }}
               value={showMyPosts}
               onClick={toggleMyPosts}
               color="success"
@@ -114,7 +42,7 @@ function LiveBoard({ isLoading, boardList }) {
         />
       </FormGroup>
       {isLoading ? (
-        <CircularProgress />
+        <CircularProgress sx={{ color: "white" }} />
       ) : (
         boardList?.map((item) => {
           if (!item.id) return null;
