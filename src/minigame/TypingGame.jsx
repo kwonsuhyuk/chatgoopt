@@ -1,7 +1,11 @@
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
+  List,
+  ListItem,
+  ListItemAvatar,
   Popover,
   TextField,
   Typography,
@@ -14,6 +18,9 @@ import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import hangul from "hangul-js";
 import "../firebase";
+import "./TypingGame.css";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 function TypingGame() {
   const [quote, setQuote] = useState([]);
@@ -24,6 +31,7 @@ function TypingGame() {
   const [typingProgress, setTypingProgress] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [rank, setRank] = useState([]);
+  const [showUserRank, setShowUserRank] = useState(false);
   // 현재 실시간 정확도 및 타수
   const [typeAcc, setTypeAcc] = useState(0);
   const [typeSpeed, setTypeSpeed] = useState(0);
@@ -65,6 +73,7 @@ function TypingGame() {
             avgSpeed: typeData[key].avgSpeed,
             accuracy: typeData[key].accuracy,
             name: typeData[key].name,
+            avatar: typeData[key].avatar,
           }));
 
           // diceSum을 기준으로 내림차순으로 정렬
@@ -79,6 +88,10 @@ function TypingGame() {
       .catch((error) => {
         console.error(error);
       });
+  }, []);
+
+  const handleShowRanking = useCallback(() => {
+    setShowUserRank((prev) => !prev);
   }, []);
 
   const handleInputChange = (event) => {
@@ -201,6 +214,7 @@ function TypingGame() {
       name: user.currentUser.displayName,
       accuracy: Number(totalAcc),
       avgSpeed: Number(totalSpeed),
+      avatar: user.currentUser.photoURL,
     };
     await set(typeRef, userData);
     console.log("데이터가 성공적으로 저장되었습니다.");
@@ -264,7 +278,7 @@ function TypingGame() {
   const CircularProgressWithLabel = (props) => {
     return (
       <Box sx={{ position: "relative", display: "inline-flex" }}>
-        <CircularProgress variant="determinate" {...props} color="error" />
+        <CircularProgress variant="determinate" {...props} color="primary" />
         <Box
           sx={{
             top: 0,
@@ -276,7 +290,7 @@ function TypingGame() {
             alignItems: "center",
             justifyContent: "center",
           }}>
-          <Typography variant="caption" component="div" color="error">
+          <Typography variant="caption" component="div" color="primary">
             {props.value}%
           </Typography>
         </Box>
@@ -285,12 +299,12 @@ function TypingGame() {
   };
 
   const rankCoinAdjustments = [
-    { adjustment: 150 },
-    { adjustment: 100 },
-    { adjustment: 70 },
-    { adjustment: 50 },
+    { adjustment: 120 },
+    { adjustment: 90 },
+    { adjustment: 60 },
+    { adjustment: 40 },
     { adjustment: 30 },
-    { adjustment: -10 },
+    { adjustment: 0 },
   ];
 
   const handleTypeDelete = () => {
@@ -301,7 +315,7 @@ function TypingGame() {
       const rankIndex = rank.findIndex(
         (rankUser) => rankUser.id === userItem.id
       );
-      let coinAdjustment = -30; // 기본값으로 -30 설정
+      let coinAdjustment = -20; // 기본값으로 -30 설정
 
       if (rankIndex !== -1) {
         if (rankIndex >= 5) {
@@ -344,484 +358,204 @@ function TypingGame() {
       });
   };
 
-  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
+  const handleRefreshClick = () => {
+    window.location.reload(); // 현재 페이지를 새로고침
+  };
 
   return (
-    <div
-      className="typing_mainBox"
-      style={{
-        boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
-      }}>
-      {!isMobile ? (
-        <>
-          <div className="typing_gameBox">
-            <div className="gameBox_title">
-              <div>
-                <Typography
-                  aria-owns={open ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpen}
-                  onMouseLeave={handlePopoverClose}>
-                  How To Play
-                </Typography>
-                <Popover
-                  id="mouse-over-popover"
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  open={open}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  onClose={handlePopoverClose}
-                  disableRestoreFocus>
-                  <Typography sx={{ p: 1 }}>
-                    총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가
-                    기록됩니다. 정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니
-                    주의하세요! (+ 숨은 이스터에그 문장들이 있습니다 찾아보세요)
-                  </Typography>
-                </Popover>
-              </div>
-              <div style={{ color: "#116c90" }}>
-                1등 : 150coin , 2등 : 100coin, 3등 : 70coin, 4등 : 50coin, 5등 :
-                30coin, 5등미만 : -10coin, 미참가 : -30coin
-              </div>
-            </div>
-            {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-              <Button onClick={handleTypeDelete}>데이터 삭제</Button>
-            )}
-            <div className="gameBox_main">
-              <div className="typetext">
-                {quote.length > 0 && (
-                  <h1>
-                    {quote[currentQuoteIndex].message
-                      .split("")
-                      .map((char, index) => {
-                        const isTyped = index < typeValue.length - 1;
-                        const isCorrect = char === typeValue[index];
-                        const textColor = isTyped
-                          ? isCorrect
-                            ? "black"
-                            : "#e86b79"
-                          : "black";
-                        return (
-                          <span key={index} style={{ color: textColor }}>
-                            {char}
-                          </span>
-                        );
-                      })}
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        paddingLeft: "10px",
-                        color: "black",
-                      }}>
-                      -{quote[currentQuoteIndex].author}
-                    </span>
-                  </h1>
-                )}
-              </div>
-              <div className="nexttext">
-                {currentQuoteIndex < quote.length - 1 && (
-                  <h1>NEXT - {quote[currentQuoteIndex + 1].message}</h1>
-                )}
-              </div>
-              <div className="typecondition">
-                <div className="acc">
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      color: "#e86b79",
-                      marginBottom: "5px",
-                    }}>
-                    정확도
-                  </span>
-                  <CircularProgressWithLabel value={typeAcc} />
-                </div>
-                <div className="currentIndex">
-                  {currentQuoteIndex + 1}/{quote.length}
-                </div>
-                <div className="speed">
-                  <span>타수/min</span>
-                  <span style={{ paddingBottom: "10px" }}>{typeSpeed}</span>
-                </div>
-              </div>
-              <div className="typeinput">
-                {quote.length > 0 && (
-                  <>
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      autoFocus
-                      spellCheck="false"
-                      onPaste={(e) => e.preventDefault()} // 이 부분을 추가하여 복사 붙여넣기 막음ㅁ
-                      onChange={handleInputChange}
-                      value={typeValue}
-                      placeholder="위의 문장을 따라 입력하세요."
-                      className="typeinput_input"
-                    />
-                    <LinearProgress
-                      variant="determinate"
-                      value={typingProgress}
-                      color="error"
-                      sx={{
-                        width: "100%",
-                        paddingLeft: "10px",
-                        height: "10%",
-                      }}
-                    />
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="gameBox_active"></div>
+    <div className="typing_mainBox">
+      <div className="typing_gameBox">
+        <div className="gameBox_title">
+          <div className="typinggame_title">TYPINGGAME</div>
+          <div>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                color: "white",
+                fontSize: "20px",
+                marginRight: "10px",
+              }}
+              aria-owns={open ? "mouse-over-popover" : undefined}
+              aria-haspopup="true"
+              onMouseEnter={handlePopoverOpen}
+              onMouseLeave={handlePopoverClose}>
+              How To Play
+            </Typography>
+            <Popover
+              id="mouse-over-popover"
+              sx={{
+                pointerEvents: "none",
+              }}
+              open={open}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus>
+              <Typography
+                sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
+                총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가 기록됩니다.
+                정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요!
+              </Typography>
+            </Popover>
           </div>
-          <div className="typing_rankBox">
-            <div className="rankBox_title">
-              주간 Ranking
-              <MilitaryTechIcon sx={{ fontSize: "50px", color: "yellow" }} />
-            </div>
-            <div className="rankBox_main">
-              {isLoading && (
-                <>
-                  <div className="rank1">
-                    1st.{" "}
-                    <span
-                      style={{
-                        fontSize: "50px",
-                        color: "yellow",
-                      }}>
-                      "{rank[0]?.name}"
-                    </span>
-                    {rank[0]?.avgSpeed} 타 / {rank[0]?.accuracy}%
-                  </div>
-                  <div className="rank2">
-                    2nd.{" "}
-                    <span
-                      style={{
-                        fontSize: "25px",
-                        color: "lime",
-                      }}>
-                      {rank[1]?.name}
-                    </span>
-                    {rank[1]?.avgSpeed} 타 / {rank[1]?.accuracy}%
-                  </div>
-                  <div className="rank3">
-                    3nd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[2]?.name}
-                    </span>
-                    {rank[2]?.avgSpeed} 타 / {rank[2]?.accuracy}%
-                  </div>
-                  <div className="rank4">
-                    4rd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[3]?.name}
-                    </span>
-                    {rank[3]?.avgSpeed} 타 / {rank[3]?.accuracy}%
-                  </div>
-                  <div className="rank5">
-                    5rd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[4]?.name}
-                    </span>
-                    {rank[4]?.avgSpeed} 타 / {rank[4]?.accuracy}%
-                  </div>
-                </>
+        </div>
+        <div className="typing_scoreNotice">
+          1등 : 120coin, 2등 : 90coin, 3등 : 60coin, 4등 : 40coin, 5등 : 30coin,
+          4등이하 : 0coin, 미참가 : -20coin
+        </div>
+        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+          <Button
+            onClick={handleTypeDelete}
+            sx={{ color: "red", backgroundColor: "white" }}>
+            데이터 삭제
+          </Button>
+        )}
+        <RefreshIcon
+          onClick={handleRefreshClick}
+          sx={{ color: "#35637c", marginLeft: "30px" }}
+        />
+        <div className="gameBox_main">
+          <div className="typetext">
+            {quote.length > 0 && (
+              <h1>
+                {quote[currentQuoteIndex].message
+                  .split("")
+                  .map((char, index) => {
+                    const isTyped = index < typeValue.length - 1;
+                    const isCorrect = char === typeValue[index];
+                    const textColor = isTyped
+                      ? isCorrect
+                        ? "black"
+                        : "#e86b79"
+                      : "black";
+                    return (
+                      <span key={index} style={{ color: textColor }}>
+                        {char}
+                      </span>
+                    );
+                  })}
+                <span
+                  style={{
+                    fontSize: "12px",
+                    paddingLeft: "10px",
+                  }}>
+                  -{quote[currentQuoteIndex].author}
+                </span>
+              </h1>
+            )}
+            <div className="nexttext">
+              {currentQuoteIndex < quote.length - 1 && (
+                <h1>NEXT - {quote[currentQuoteIndex + 1].message}</h1>
               )}
             </div>
           </div>
-          <Dialog open={openDialog} onClose={handleDialogClose}>
-            <DialogTitle>타이핑 결과</DialogTitle>
-            <DialogContent>
-              <Typography>정확도: {totalAcc}%</Typography>
-              <Typography>타수: {totalSpeed}타</Typography>
-            </DialogContent>
-          </Dialog>
-        </>
-      ) : !showRank ? (
-        <>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "5vh",
-              margin: "3vh 0",
-              width: "100%",
-            }}>
-            <Box
-              sx={{
-                margin: "3vh 0",
-                border: "2px solid #f7786b",
-                borderRadius: "20px",
-                padding: "10px",
-              }}>
-              <Box>
-                <Typography
-                  aria-owns={open ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpen}
-                  onMouseLeave={handlePopoverClose}>
-                  How To Play
-                </Typography>
-                <Popover
-                  id="mouse-over-popover"
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  open={open}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  onClose={handlePopoverClose}
-                  disableRestoreFocus>
-                  <Typography sx={{ p: 1 }}>
-                    총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가
-                    기록됩니다. 정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니
-                    주의하세요! (+ 숨은 이스터에그 문장들이 있습니다 찾아보세요)
-                  </Typography>
-                  <div style={{ color: "#116c90" }}>
-                    1등 : 150coin , 2등 : 100coin, 3등 : 70coin, 4등 : 50coin,
-                    5등 : 30coin, 5등미만 : -10coin, 미참가 : -30coin
-                  </div>
-                </Popover>
-              </Box>
-            </Box>
-
-            {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-              <Button onClick={handleTypeDelete}>데이터 삭제</Button>
-            )}
-            <Box sx={{ width: "90%" }}>
-              <Box sx={{ marginBottom: "2vh" }}>
-                {quote.length > 0 && (
-                  <h1>
-                    {quote[currentQuoteIndex].message
-                      .split("")
-                      .map((char, index) => {
-                        const isTyped = index < typeValue.length - 1;
-                        const isCorrect = char === typeValue[index];
-                        const textColor = isTyped
-                          ? isCorrect
-                            ? "black"
-                            : "#e86b79"
-                          : "black";
-                        return (
-                          <span key={index} style={{ color: textColor }}>
-                            {char}
-                          </span>
-                        );
-                      })}
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        paddingLeft: "10px",
-                        color: "black",
-                      }}>
-                      -{quote[currentQuoteIndex].author}
-                    </span>
-                  </h1>
-                )}
-              </Box>
-              <Box sx={{ color: "gray", fontSize: "12px" }}>
-                {currentQuoteIndex < quote.length - 1 && (
-                  <h1>NEXT - {quote[currentQuoteIndex + 1].message}</h1>
-                )}
-              </Box>
-              <Box
-                sx={{
-                  margin: "3vh 0",
+          <div className="typecondition">
+            <div className="acc">
+              <span
+                style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  alignItems: "center",
+                  color: "#35637c",
+                  marginBottom: "5px",
                 }}>
-                <Box
-                  sx={{
-                    height: "50%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                    alignItems: " center",
-                  }}>
-                  <span
-                    style={{
-                      color: "#e86b79",
-                      marginBottom: "5px",
-                    }}>
-                    정확도
-                  </span>
-                  <CircularProgressWithLabel value={typeAcc} />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: "#f7786b",
-                  }}>
-                  {currentQuoteIndex + 1}/{quote.length}
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    height: "64px",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    color: "#f7786b",
-                  }}>
-                  <span>타수/min</span>
-                  <span style={{ paddingBottom: "10px" }}>{typeSpeed}</span>
-                </Box>
-              </Box>
-              <Box sx={{ width: "100%", height: "20%" }}>
-                {quote.length > 0 && (
-                  <>
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      autoFocus
-                      spellCheck="false"
-                      onChange={handleInputChange}
-                      value={typeValue}
-                      onPaste={(e) => e.preventDefault()} // 이 부분을 추가하여 복사 붙여넣기 막음
-                      placeholder="위의 문장을 따라 입력하세요."
-                      style={{
-                        width: "100%",
-                        height: "50%",
-                        outline: "none",
-                        border: "none",
-                        fontSize: "20px",
-                        borderBottom: "3px solid #f7786b",
-                        backgroundColor: "whitesmoke",
-                      }}
-                    />
-                    <LinearProgress
-                      variant="determinate"
-                      value={typingProgress}
-                      color="error"
-                      sx={{
-                        width: "100%",
-                        paddingLeft: "10px",
-                        height: "10%",
-                      }}
-                    />
-                  </>
-                )}
-              </Box>
-            </Box>
-            <Button
-              sx={{ border: "3px solid #f7786b", color: "#f7786b" }}
-              onClick={() => setShowRank(true)}>
-              Ranking 보기
-            </Button>
-          </Box>{" "}
-          <Dialog open={openDialog} onClose={handleDialogClose}>
-            <DialogTitle>타이핑 결과</DialogTitle>
-            <DialogContent>
-              <Typography>정확도: {totalAcc}%</Typography>
-              <Typography>타수: {totalSpeed}타</Typography>
-            </DialogContent>
-          </Dialog>{" "}
-        </>
-      ) : (
-        <Box
-          sx={{
-            backgroundColor: "#f7786b",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Box sx={{ fontSize: "30px", color: "whitesmoke", margin: "3vh 0" }}>
-            주간 Ranking
-            <MilitaryTechIcon sx={{ fontSize: "50px", color: "yellow" }} />
-          </Box>
-          <Box
-            sx={{
-              color: "whitesmoke",
-              fontSize: "25px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              gap: "3vh",
-            }}>
-            {isLoading && (
+                정확도
+              </span>
+              <CircularProgressWithLabel value={typeAcc} />
+            </div>
+            <div className="currentIndex">
+              {currentQuoteIndex + 1}/{quote.length}
+            </div>
+            <div className="speed">
+              <span>타수/min</span>
+              <span>{typeSpeed}</span>
+            </div>
+          </div>
+          <div className="typeinput">
+            {quote.length > 0 && (
               <>
-                <div className="rank1">
-                  1st.{" "}
-                  <span
-                    style={{
-                      fontSize: "40px",
-                      color: "yellow",
-                    }}>
-                    "{rank[0]?.name}"
-                  </span>
-                  {rank[0]?.avgSpeed} 타 / {rank[0]?.accuracy}%
-                </div>
-                <div className="rank2">
-                  2nd.{" "}
-                  <span
-                    style={{
-                      fontSize: "25px",
-                      color: "lime",
-                    }}>
-                    {rank[1]?.name}
-                  </span>
-                  {rank[1]?.avgSpeed} 타 / {rank[1]?.accuracy}%
-                </div>
-                <div className="rank3">
-                  3nd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[2]?.name}
-                  </span>
-                  {rank[2]?.avgSpeed} 타 / {rank[2]?.accuracy}%
-                </div>
-                <div className="rank4">
-                  4rd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[3]?.name}
-                  </span>
-                  {rank[3]?.avgSpeed} 타 / {rank[3]?.accuracy}%
-                </div>
-                <div className="rank5">
-                  5rd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[4]?.name}
-                  </span>
-                  {rank[4]?.avgSpeed} 타 / {rank[4]?.accuracy}%
-                </div>
+                <input
+                  type="text"
+                  autoComplete="off"
+                  spellCheck="false"
+                  onPaste={(e) => e.preventDefault()} // 이 부분을 추가하여 복사 붙여넣기 막음
+                  onChange={handleInputChange}
+                  value={typeValue}
+                  placeholder="위의 문장을 따라 입력하세요."
+                  className="typeinput_input"
+                />
+                <LinearProgress
+                  variant="determinate"
+                  value={typingProgress}
+                  color="primary"
+                  sx={{
+                    width: "100%",
+                    paddingLeft: "10px",
+                    height: "10%",
+                  }}
+                />
               </>
             )}
-          </Box>
-          <Button
-            sx={{
-              color: "whitesmoke",
-              marginTop: "3vh",
-              border: "3px solid whitesmoke",
-            }}
-            onClick={() => setShowRank(false)}>
-            Ranking 보기
-          </Button>
-        </Box>
-      )}
+          </div>
+        </div>
+      </div>
+      <div
+        className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
+        onClick={handleShowRanking}>
+        {!showUserRank ? "Show Ranking" : "Close"}
+        {!showUserRank && <KeyboardDoubleArrowUpIcon />}
+      </div>
+      <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
+        <List className="ranking_mainboard">
+          {rank.map((userData, index) => (
+            <ListItem
+              className="ranking_item"
+              key={userData.id}
+              sx={{
+                backgroundColor:
+                  user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
+              }}>
+              <span>{index + 1}.</span>
+              <ListItemAvatar>
+                <Avatar
+                  variant="rounded"
+                  sx={{ width: 50, height: 50, borderRadius: "50%" }}
+                  alt="profile image"
+                  src={userData.avatar}
+                />
+              </ListItemAvatar>
+              <span
+                style={{
+                  fontSize: "20px",
+                }}>
+                {userData.name}
+              </span>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  position: "absolute",
+                  right: 10,
+                }}>
+                {userData.avgSpeed} 타 / {userData.accuracy}%
+              </div>
+            </ListItem>
+          ))}
+        </List>
+      </div>
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>타이핑 결과</DialogTitle>
+        <DialogContent>
+          <Typography>정확도: {totalAcc}%</Typography>
+          <Typography>타수: {totalSpeed}타</Typography>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -1,226 +1,89 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
-
-@keyframes rotate-photo {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-@keyframes show-profile {
-  0% {
-    width: 0;
-  }
-}
-@keyframes show-name {
-  0% {
-    opacity: 0;
-  }
-}
-
-.minigame_profile {
-  position: absolute;
+.minigame_main {
   width: 100%;
-  height: 100%;
-  padding-bottom: 10%;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  animation: show-profile 1s forwards ease-in-out;
-  background-color: white;
-  border-radius: 10px;
+  display: flex;
+  margin: 3vh 3vw;
+  gap: 2vw;
 }
 
-.minigame_profile .profile_header {
-  position: relative;
+.minigame_main .minigame_menu {
+  width: 25%;
+  height: 100%;
+  opacity: 0.7;
+  background-position: center;
+  background-size: cover;
   display: flex;
   justify-content: center;
-  padding-bottom: 20px;
-  border-bottom: 2px solid white;
-}
-
-.minigame_profile .profile_header .userAvatar {
-  border-radius: 100px;
-  border: 10px solid white;
-  position: absolute;
-  top: -30px;
-  left: 50px;
-  animation: rotate-photo 1s forwards ease-in-out;
-}
-
-.minigame_profile .profile_header .username {
-  margin-top: 30px;
-  font-size: 30px;
+  align-items: center;
+  font-size: 35px;
+  text-align: center;
   color: white;
-  padding-left: 200px;
-  font-family: sans-serif;
-  font-weight: 400;
-  animation: show-name 3s forwards ease-in;
+  background-color: rgba(5, 5, 5, 0.3);
+  box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.2),
+    inset 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.minigame_profile .profile_header .tierImage {
-  animation: show-name 3s forwards ease-in;
-  width: 200px;
-  height: 200px;
+.minigame_main .minigame_menu:hover {
+  animation: moveImage 1s linear 0.1s forwards;
 }
 
-.minigame_profile .profile_userinfo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5%;
-  animation: show-name 3s forwards ease-in;
+.minigame_main .minigame_menu.dice {
+  background-color: pink;
+  /* background-image: url("../img/gamepageImg/dicegamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.type {
+  background-color: skyblue;
+  /* background-image: url("../img/gamepageImg/typinggamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.fifa {
+  background-color: lightgreen;
+  /* background-image: url("../img/gamepageImg/fifagamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.lol {
+  background-color: #d8bfd8;
+  /* background-image: url("../img/gamepageImg/lolgamepage.jpeg"); */
 }
 
-.minigame_profile .profile_userinfo .info {
-  display: flex;
-  border-right: 1px solid #e9e9e9;
-  padding: 10px 20px;
+@media screen and (max-width: 500px) {
+  .minigame_main {
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+  }
+
+  .minigame_main .minigame_menu {
+    height: 25%;
+    width: 100%;
+  }
+
+  .minigame_main .minigame_menu:hover {
+    animation: moveImageInMobile 0.2s ease-in 0.1s forwards;
+  }
 }
 
-.minigame_profile .profile_userinfo .info:last-child {
-  border-right: none;
-}
-
-.minigame_profile .profile_userinfo .info .detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: "Montserrat";
-}
-
-.minigame_profile .profile_userinfo .info .detail .detail_count {
-  font-weight: 700;
-  font-size: 28px;
-}
-
-.minigame_profile .profile_userrankinfo {
-  display: flex;
-  justify-content: center;
-  animation: show-name 3s forwards ease-in;
-}
-
-.minigame_profile .profile_userrankinfo .gamerank {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  padding: 10px 20px;
-  border-right: 1px solid #e9e9e9;
-}
-.minigame_profile .profile_userrankinfo .gamerank:last-child {
-  border-right: none;
-}
-
-.minigame_profile .profile_userrankinfo .gamerank .gamename {
-  font-family: "Montserrat";
-  font-weight: 400;
-  font-size: 25px;
-  letter-spacing: 7px;
-}
-
-.minigame_profile .profile_userrankinfo .gamerank .myrank {
-  font-size: 20px;
-  font-family: sans-serif;
-}
-
-.minigame_profile .ranking_showbutton {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  bottom: 5%;
-  font-family: "Montserrat";
-  font-size: 30px;
-  cursor: pointer;
-  animation: motion 1s ease-in-out 0s infinite alternate;
-  -webkit-animation: motion 1s ease-in-out 0s infinite alternate;
-}
-
-.minigame_profile .ranking_showbutton.close {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  bottom: 5%;
-  font-family: "Montserrat";
-  font-size: 30px;
-  cursor: pointer;
-  animation: none;
-}
-
-/* ranking  */
-
-.users_ranking {
-  height: 0;
-  overflow: hidden;
-  /* transform-origin: top; /* 애니메이션 출발점 설정 */
-  /* animation: slideDown 2s ease forwards; */
-}
-
-.users_ranking.show {
-  position: relative;
-  overflow: scroll;
-  height: 100%;
-  animation: slideUp 2s ease forwards;
-  border-radius: 10px 10px 0 0;
-  transform-origin: bottom; /* 애니메이션 출발점 설정 */
-  border-bottom: 1px solid #e9e9e9;
-}
-
-.users_ranking .profile_showbutton {
-  background-color: white;
-  z-index: 10;
-  padding: 30px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Montserrat";
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.users_ranking .ranking_mainboard {
-  padding: 0;
-}
-
-.users_ranking .ranking_mainboard .ranking_item {
-  font-family: "Montserrat";
-  color: black;
-}
-
-@keyframes slideUp {
+@keyframes moveImage {
   0% {
-    transform: translateY(100%);
-    opacity: 0;
+    width: 25%;
+  }
+  50% {
+    width: 50%;
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(-62%);
+    width: 80%;
     opacity: 1;
   }
 }
 
-/* @keyframes slideDown {
+@keyframes moveImageInMobile {
   0% {
-    transform: translateY(-62%);
+    height: 25%;
+  }
+  50% {
+    height: 50%;
+    opacity: 0.8;
+  }
+  100% {
+    height: 70%;
     opacity: 1;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-} */
-
-@keyframes motion {
-  0% {
-    bottom: 5%;
-  }
-
-  100% {
-    bottom: 7%;
-    color: gray;
   }
 }

@@ -11,11 +11,15 @@ import {
   set,
 } from "firebase/database";
 import {
+  Avatar,
   Box,
   Button,
   Dialog,
   DialogContent,
   DialogTitle,
+  List,
+  ListItem,
+  ListItemAvatar,
   Popover,
   TextField,
   Typography,
@@ -25,15 +29,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckIcon from "@mui/icons-material/Check";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import "./LoLGame.css";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 function LoLGame() {
-  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
   const { theme, user } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = useState(null);
   const [rank, setRank] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const open = Boolean(anchorEl);
-  const [showRank, setShowRank] = useState(false);
   const [data, setData] = useState([]);
   const [gameOn, setGameOn] = useState(false);
   const [inputValues, setInputValues] = useState("");
@@ -45,6 +48,11 @@ function LoLGame() {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [alluser, setAllUser] = useState([]);
   const endRef = useRef(null);
+  const [showUserRank, setShowUserRank] = useState(false);
+
+  const handleShowRanking = useCallback(() => {
+    setShowUserRank((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const setTimeoutId = setTimeout(() => {
@@ -99,6 +107,7 @@ function LoLGame() {
       name: user.currentUser.displayName,
       id: user.currentUser.uid,
       correctNum: answerHistory.filter((entry) => entry.correct).length,
+      avatar: user.currentUser.photoURL,
     };
 
     await set(typeRef, userData);
@@ -112,13 +121,14 @@ function LoLGame() {
     get(diceRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          const typeData = snapshot.val();
+          const lolData = snapshot.val();
 
           //  객체를 배열로 변환하여 순회하면서 typegame 값을 가져옴
-          const rankArray = Object.keys(typeData).map((key) => ({
+          const rankArray = Object.keys(lolData).map((key) => ({
             id: key,
-            correctNum: typeData[key].correctNum,
-            name: typeData[key].name,
+            correctNum: lolData[key].correctNum,
+            name: lolData[key].name,
+            avatar: lolData[key].avatar,
           }));
 
           // diceSum을 기준으로 내림차순으로 정렬
@@ -147,6 +157,7 @@ function LoLGame() {
           id: key,
           correctNum: data[key].correctNum,
           name: data[key].name,
+          avatar: data[key].avatar,
         }));
 
         // diceSum을 기준으로 내림차순으로 정렬
@@ -170,8 +181,8 @@ function LoLGame() {
     { adjustment: 70 },
     { adjustment: 50 },
     { adjustment: 30 },
-    { adjustment: 10 },
-    { adjustment: -10 },
+    { adjustment: 20 },
+    { adjustment: 0 },
   ];
 
   const handleDeleteData = () => {
@@ -182,7 +193,7 @@ function LoLGame() {
       const rankIndex = rank.findIndex(
         (rankUser) => rankUser.id === userItem.id
       );
-      let coinAdjustment = -30; // 기본값으로 -30 설정
+      let coinAdjustment = -20; // 기본값으로 -20 설정
 
       if (rankIndex !== -1) {
         if (rankIndex >= 5) {
@@ -354,290 +365,185 @@ function LoLGame() {
   );
 
   return (
-    <div
-      className="dice_mainBox"
-      style={{
-        boxShadow: `-5px -5px 10px ${theme.subColor}, 5px 5px 10px rgba(0, 0, 0, 0.3)`,
-        border: "3px solid #906aa5",
-      }}>
-      {!isMobile ? (
-        <>
-          <div className="dice_gameBox">
-            <div
-              className="gameBox_title"
-              style={{ border: "2px solid #906aa5" }}>
-              <div>
-                <Typography
-                  aria-owns={open ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpen}
-                  onMouseLeave={handlePopoverClose}>
-                  How To Play
-                </Typography>
-                <Popover
-                  id="mouse-over-popover"
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  open={open}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  onClose={handlePopoverClose}
-                  disableRestoreFocus>
-                  <Typography sx={{ p: 1 }}>
-                    사진을 보고 스킨이름을 맞추세요!
-                  </Typography>
-                  <div style={{ color: "#116c90" }}>
-                    1등 : 100coin , 2등 : 70coin, 3등 : 50coin, 4등 : 30coin,
-                    5등 : 10coin, 5등미만 : -10coin, 미참가 : -30coin
-                  </div>
-                </Popover>
-              </div>
-            </div>
-
-            {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-              <Button onClick={handleDeleteData}>데이터 삭제</Button>
-            )}
-
-            <div className="gameBox_main">
-              {!gameOn ? (
-                <Button
-                  style={{ backgroundColor: "#906aa5", color: "white" }}
-                  onClick={handleGameStart}>
-                  시작하기
-                </Button>
-              ) : (
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: "2fr 1fr",
-                    width: "90%",
-                    position: "relative",
-                  }}>
-                  {isTimerActive && (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#906aa5",
-                        borderRadius: "30px",
-                        width: "100px",
-                        height: "100px",
-                        fontSize: "50px",
-                        color: timerSeconds > 5 ? "white" : "red", // 조건 판별을 중괄호 없이 사용
-                        position: "absolute",
-                        top: 0,
-                        bottom: 0,
-                        left: 100,
-                        right: 0,
-                        margin: "auto",
-                      }}>
-                      {timerSeconds}
-                    </div>
-                  )}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "30px",
-                    }}>
-                    <div oncontextmenu="return false">
-                      <img
-                        src={data[currentItemIndex]?.img}
-                        alt="playerImg"
-                        style={{
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          OUserSelect: "none",
-                          userSelect: "none",
-                          WebkitUserDrag: "none",
-                          KhtmlUserDrag: "none",
-                          MozUserDrag: "none",
-                          OUserDrag: "none",
-                          userDrag: "none",
-                          width: "250px",
-                          height: "250px",
-                          borderRadius: "20px",
-                          border: "1px solid #906aa5",
-                        }}
-                      />
-                    </div>
-                    <TextField
-                      autoComplete="off"
-                      value={inputValues}
-                      onKeyPress={keyEnter}
-                      onChange={(e) => setInputValues(e.target.value)}
-                    />
-                    <div style={{ width: "100%" }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-end",
-                          justifyContent: "center",
-                        }}>
-                        {data[currentItemIndex]?.skin.name
-                          .split("")
-                          .map((char, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                borderBottom: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
-                                  ? "2px solid black"
-                                  : "none",
-                                width: "25px",
-                                marginRight: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
-                                  ? "8px"
-                                  : "0",
-                              }}>
-                              {char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/) ? "" : char}
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                    <Button
-                      style={{ backgroundColor: "#906aa5", color: "white" }}
-                      onClick={() => {
-                        handleNextItem();
-                      }}>
-                      확인
-                    </Button>
-                  </Box>
-                  <Box
-                    sx={{
-                      borderRadius: "10px",
-                      backgroundColor: "whitesmoke",
-                      boxShadow:
-                        "-5px -5px 10px white, 5px 5px 10px rgba(0, 0, 0, 0.3)",
-                      overflowY: "scroll",
-                      height: "50vh",
-                    }}>
-                    {answerHistory.map((entry, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          display: "flex",
-                          gap: "30px",
-                          overflowY: "scroll",
-                        }}>
-                        <div style={{ fontSize: "20px", color: "#005905" }}>
-                          {index + 1}.
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "flex-end",
-                            alignItems: "flex-end",
-                          }}>
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}>
-                            {entry.myanswer} <ArrowForwardIcon /> {entry.answer}
-                          </div>
-                          {entry.correct ? (
-                            <CheckIcon sx={{ color: "#b5bf50" }} />
-                          ) : (
-                            <ClearIcon sx={{ color: "red" }} />
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                    <div ref={endRef}></div>
-                  </Box>
-                </Box>
-              )}
-            </div>
-            <div className="gameBox_active"></div>
+    <div className="lol_mainBox">
+      <div className="lol_gameBox">
+        <div className="gameBox_title">
+          <div className="lolgame_title">LOLGAME</div>
+          <div>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                color: "white",
+                fontSize: "20px",
+                marginRight: "10px",
+              }}
+              aria-owns={open ? "mouse-over-popover" : undefined}
+              aria-haspopup="true"
+              onMouseEnter={handlePopoverOpen}
+              onMouseLeave={handlePopoverClose}>
+              How To Play
+            </Typography>
+            <Popover
+              id="mouse-over-popover"
+              sx={{
+                pointerEvents: "none",
+              }}
+              open={open}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus>
+              <Typography
+                sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
+                사진을 보고 스킨이름을 맞추세요!
+              </Typography>
+            </Popover>
           </div>
-          <div className="dice_rankBox">
-            <div className="rankBox_title">
-              오늘의 Ranking
-              <MilitaryTechIcon sx={{ fontSize: "50px", color: "yellow" }} />
-            </div>
-            <div className="rankBox_main">
-              {/* 첫 번째, 두 번째, 세 번째 데이터 가져오기 */}
-              {isLoading && (
-                <>
-                  <div className="rank1">
-                    1st.{" "}
-                    <span
-                      style={{
-                        fontSize: "45px",
-                        color: "yellow",
-                      }}>
-                      "{rank[0]?.name}"
-                    </span>
-                    <CheckIcon />
-                    {rank[0]?.correctNum}
-                  </div>
-                  <div className="rank2">
-                    2nd.{" "}
-                    <span
-                      style={{
-                        fontSize: "25px",
-                        color: "lime",
-                      }}>
-                      {rank[1]?.name}
-                    </span>
-                    <CheckIcon />
-                    {rank[1]?.correctNum}
-                  </div>
-                  <div className="rank3">
-                    3nd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[2]?.name}
-                    </span>
-                    <CheckIcon />
-                    {rank[2]?.correctNum}
-                  </div>
-                  <div className="rank4">
-                    4rd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[3]?.name}
-                    </span>
-                    <CheckIcon />
-                    {rank[3]?.correctNum}
-                  </div>
-                  <div className="rank5">
-                    5rd.
-                    <span style={{ fontSize: "25px", color: "lime" }}>
-                      {" "}
-                      {rank[4]?.name}
-                    </span>
-                    <CheckIcon />
-                    {rank[4]?.correctNum}
-                  </div>
-                </>
-              )}
-            </div>
-            <Dialog open={openDialog} onClose={handleDialogClose}>
-              <DialogTitle>선수퀴즈 결과</DialogTitle>
-              <DialogContent>
+        </div>
+        <div className="lol_scoreNotice">
+          % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin, 5등 :
+          20coin, 6등이하 : 0, 미참여 : -20coin %
+        </div>
+        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+          <Button
+            onClick={handleDeleteData}
+            sx={{ color: "red", backgroundColor: "white" }}>
+            데이터 삭제
+          </Button>
+        )}
+        <div className="gameBox_main">
+          {!gameOn ? (
+            <Button
+              disabled={showUserRank}
+              style={{
+                backgroundColor: "#906aa5",
+                color: "white",
+              }}
+              onClick={handleGameStart}>
+              시작하기
+            </Button>
+          ) : (
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "space-around",
+                width: "90%",
+                position: "relative",
+              }}>
+              {isTimerActive && (
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    fontSize: "30px",
-                    border: "2px solid #b5bf50",
-                    borderRadius: "20px",
-                    margin: "20px",
+                    alignItems: "center",
+                    fontFamily: "Montserrat",
+                    borderRadius: "30px",
+                    width: "100px",
+                    height: "100px",
+                    fontSize: "50px",
+                    color: timerSeconds > 5 ? "white" : "red", // 조건 판별을 중괄호 없이 사용
+                    position: "absolute",
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    margin: "auto",
                   }}>
-                  {answerHistory.filter((entry) => entry.correct).length} /
-                  {answerHistory.length}
+                  {timerSeconds}
                 </div>
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "30px",
+                  width: "50%",
+                }}>
+                <div oncontextmenu="return false">
+                  <img
+                    src={data[currentItemIndex]?.img}
+                    alt="playerImg"
+                    style={{
+                      WebkitUserSelect: "none",
+                      KhtmlUserSelect: "none",
+                      MozUserSelect: "none",
+                      OUserSelect: "none",
+                      userSelect: "none",
+                      WebkitUserDrag: "none",
+                      KhtmlUserDrag: "none",
+                      MozUserDrag: "none",
+                      OUserDrag: "none",
+                      userDrag: "none",
+                      width: "250px",
+                      height: "250px",
+                      marginRight: "20px",
+                    }}
+                  />
+                </div>
+                <TextField
+                  autoComplete="off"
+                  value={inputValues}
+                  onKeyPress={keyEnter}
+                  onChange={(e) => setInputValues(e.target.value)}
+                />
+                <div style={{ width: "100%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-end",
+                      justifyContent: "center",
+                      whiteSpace: "normal",
+                    }}>
+                    {data[currentItemIndex]?.skin.name
+                      .split("")
+                      .map((char, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            borderBottom: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
+                              ? "2px solid black"
+                              : "none",
+                            width: "25px",
+                            marginRight: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
+                              ? "8px"
+                              : "0",
+                          }}>
+                          {char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/) ? "" : char}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+                <Button
+                  style={{ backgroundColor: "#906aa5", color: "white" }}
+                  onClick={() => {
+                    handleNextItem();
+                  }}>
+                  확인
+                </Button>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  overflowY: "scroll",
+                  height: "80%",
+                  borderLeft: "1px solid rgb(52, 91, 125);",
+                }}>
                 {answerHistory.map((entry, index) => (
-                  <div key={index} style={{ display: "flex", gap: "30px" }}>
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      gap: "30px",
+                      overflowY: "scroll",
+                    }}>
                     <div style={{ fontSize: "20px", color: "#005905" }}>
                       {index + 1}.
                     </div>
@@ -659,282 +565,96 @@ function LoLGame() {
                     </div>
                   </div>
                 ))}
-              </DialogContent>
-            </Dialog>
-          </div>
-        </>
-      ) : !showRank ? (
-        <Box
-          sx={{
-            margin: "3vh 0",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <div style={{ color: "red" }}>
-            띄어쓰기와 영어 특수기호등 풀네임을 정확히 입력하셔야 정답처리
-            됩니다!
-          </div>
-          <div style={{ marginBottom: "100px" }}>
-            {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-              <Button onClick={handleDeleteData}>데이터 삭제</Button>
-            )}
-          </div>
-
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              gap: "20px",
-            }}>
-            {gameOn ? (
-              <>
-                {" "}
-                {isTimerActive && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#906aa5",
-                      borderRadius: "30px",
-                      width: "100px",
-                      fontSize: "50px",
-                      color: timerSeconds > 5 ? "white" : "red", // 조건 판별을 중괄호 없이 사용
-                    }}>
-                    {timerSeconds}
-                  </div>
-                )}
-                <div>
-                  <img
-                    src={data[currentItemIndex]?.img}
-                    alt="playerImg"
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      borderRadius: "20px",
-                      border: "1px solid #906aa5",
-                    }}
-                  />
-                </div>
-                <TextField
-                  autoComplete="off"
-                  value={inputValues}
-                  onChange={(e) => setInputValues(e.target.value)}
-                />
-                <div style={{ width: "100%" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      justifyContent: "center",
-                      overflow: "scroll",
-                    }}>
-                    {data[currentItemIndex]?.skin.name
-                      .split("")
-                      .map((char, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            borderBottom: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
-                              ? "2px solid black"
-                              : "none",
-                            width: "15px",
-                            marginRight: char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/)
-                              ? "5px"
-                              : "0",
-                          }}>
-                          {char.match(/[ㄱ-ㅎㅏ-ㅣ가-힣]/) ? "" : char}
-                        </div>
-                      ))}
-                  </div>
-                </div>
-                <Button
-                  style={{ backgroundColor: "#906aa5", color: "white" }}
-                  onClick={() => {
-                    handleNextItem();
-                  }}>
-                  확인
-                </Button>
-                <Box sx={{ overflowY: "scroll", height: "10vh" }}>
-                  {answerHistory.map((entry, index) => (
-                    <div key={index} style={{ display: "flex", gap: "30px" }}>
-                      <div style={{ fontSize: "20px", color: "#005905" }}>
-                        {index + 1}.
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "flex-end",
-                          alignItems: "flex-end",
-                        }}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          {entry.myanswer} <ArrowForwardIcon /> {entry.answer}
-                        </div>
-                        {entry.correct ? (
-                          <CheckIcon sx={{ color: "#906aa5" }} />
-                        ) : (
-                          <ClearIcon sx={{ color: "red" }} />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                  <div ref={endRef}></div>
-                </Box>
-              </>
-            ) : (
-              <Button
-                style={{ backgroundColor: "#906aa5", color: "white" }}
-                onClick={handleGameStart}>
-                시작하기
-              </Button>
-            )}
-          </Box>
-          {!gameOn && (
-            <Button
-              sx={{ border: "3px solid #906aa5", color: "#906aa5" }}
-              onClick={() => setShowRank(true)}>
-              Ranking 보기
-            </Button>
+                <div ref={endRef}></div>
+              </Box>
+            </Box>
           )}
-          <Dialog open={openDialog} onClose={handleDialogClose}>
-            <DialogTitle>선수퀴즈 결과</DialogTitle>
-            <DialogContent>
+        </div>
+      </div>
+      <div
+        className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
+        onClick={handleShowRanking}>
+        {!showUserRank ? "Show Ranking" : "Close"}
+        {!showUserRank && <KeyboardDoubleArrowUpIcon />}
+      </div>
+      <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
+        <List className="ranking_mainboard">
+          {rank.map((userData, index) => (
+            <ListItem
+              className="ranking_item"
+              key={userData.id}
+              sx={{
+                backgroundColor:
+                  user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
+              }}>
+              <span>{index + 1}.</span>
+              <ListItemAvatar>
+                <Avatar
+                  variant="rounded"
+                  sx={{ width: 50, height: 50, borderRadius: "50%" }}
+                  alt="profile image"
+                  src={userData.avatar}
+                />
+              </ListItemAvatar>
+              <span
+                style={{
+                  fontSize: "20px",
+                }}>
+                {userData.name}
+              </span>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
-                  fontSize: "30px",
-                  border: "2px solid #b5bf50",
-                  borderRadius: "20px",
-                  margin: "20px",
+                  alignItems: "center",
+                  position: "absolute",
+                  right: 10,
                 }}>
-                {answerHistory.filter((entry) => entry.correct).length} /
-                {answerHistory.length}
+                {userData.correctNum}개
               </div>
-              {answerHistory.map((entry, index) => (
-                <div key={index} style={{ display: "flex", gap: "30px" }}>
-                  <div style={{ fontSize: "20px", color: "#005905" }}>
-                    {index + 1}.
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "flex-end",
-                      alignItems: "flex-end",
-                    }}>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      {entry.myanswer} <ArrowForwardIcon /> {entry.answer}
-                    </div>
-                    {entry.correct ? (
-                      <CheckIcon sx={{ color: "#b5bf50" }} />
-                    ) : (
-                      <ClearIcon sx={{ color: "red" }} />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </DialogContent>
-          </Dialog>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            backgroundColor: "#906aa5",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Box sx={{ fontSize: "30px", color: "whitesmoke", margin: "3vh 0" }}>
-            오늘의 Ranking
-            <MilitaryTechIcon sx={{ fontSize: "50px", color: "yellow" }} />
-          </Box>
-          <Box
-            sx={{
-              color: "whitesmoke",
-              fontSize: "25px",
+            </ListItem>
+          ))}
+        </List>
+      </div>
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>선수퀴즈 결과</DialogTitle>
+        <DialogContent>
+          <div
+            style={{
               display: "flex",
-              flexDirection: "column",
-              gap: "3vh",
+              justifyContent: "center",
+              fontSize: "30px",
+              border: "2px solid #b5bf50",
+              borderRadius: "20px",
+              margin: "20px",
             }}>
-            {/* 첫 번째, 두 번째, 세 번째 데이터 가져오기 */}
-            {isLoading && (
-              <>
-                <div className="rank1">
-                  1st.{" "}
-                  <span
-                    style={{
-                      fontSize: "45px",
-                      color: "yellow",
-                    }}>
-                    "{rank[0]?.name}"
-                  </span>
-                  <CheckIcon />
-                  {rank[0]?.correctNum}
-                </div>
-                <div className="rank2">
-                  2nd.{" "}
-                  <span
-                    style={{
-                      fontSize: "25px",
-                      color: "lime",
-                    }}>
-                    {rank[1]?.name}
-                  </span>
-                  <CheckIcon />
-                  {rank[1]?.correctNum}
-                </div>
-                <div className="rank3">
-                  3nd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[2]?.name}
-                  </span>
-                  <CheckIcon />
-                  {rank[2]?.correctNum}
-                </div>
-                <div className="rank4">
-                  4rd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[3]?.name}
-                  </span>
-                  <CheckIcon />
-                  {rank[3]?.correctNum}
-                </div>
-                <div className="rank5">
-                  5rd.
-                  <span style={{ fontSize: "25px", color: "lime" }}>
-                    {" "}
-                    {rank[4]?.name}
-                  </span>
-                  <CheckIcon />
-                  {rank[4]?.correctNum}
-                </div>
-              </>
-            )}
-          </Box>
-          <Button
-            sx={{
-              color: "whitesmoke",
-              marginTop: "3vh",
-              border: "3px solid whitesmoke",
-            }}
-            onClick={() => setShowRank(false)}>
-            게임메인 으로 가기
-          </Button>
-          <div style={{ color: "yellow" }}>
-            1등 : 100coin , 2등 : 70coin, 3등 : 50coin, 4등 : 30coin, 5등 :
-            10coin, 5등미만 : -10coin, 미참가 : -30coin
+            {answerHistory.filter((entry) => entry.correct).length} /
+            {answerHistory.length}
           </div>
-        </Box>
-      )}
+          {answerHistory.map((entry, index) => (
+            <div key={index} style={{ display: "flex", gap: "30px" }}>
+              <div style={{ fontSize: "20px", color: "#005905" }}>
+                {index + 1}.
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {entry.myanswer} <ArrowForwardIcon /> {entry.answer}
+                </div>
+                {entry.correct ? (
+                  <CheckIcon sx={{ color: "#b5bf50" }} />
+                ) : (
+                  <ClearIcon sx={{ color: "red" }} />
+                )}
+              </div>
+            </div>
+          ))}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

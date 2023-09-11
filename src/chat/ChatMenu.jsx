@@ -21,11 +21,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import "../firebase";
 import {
   child,
-  get,
   getDatabase,
   onChildAdded,
   onChildRemoved,
-  onValue,
   push,
   ref,
   serverTimestamp,
@@ -226,6 +224,8 @@ function ChatMenu() {
                   display: "flex",
                   alignItems: "center",
                   borderBottom: "1px solid white",
+                  fontFamily: "Montserrat",
+                  fontWeight: 400,
                 }}
                 key={channel.id}
                 onClick={() => changeChannel(channel)}
@@ -241,7 +241,9 @@ function ChatMenu() {
                   <ChatBubbleIcon
                     sx={{ display: "flex", alignItems: "center" }}
                   />
-                  {channel.name}
+                  <span style={{ fontFamily: "Montserrat", fontWeight: 400 }}>
+                    {channel.name}
+                  </span>
                 </ListItemText>
                 {channel.password ? <LockIcon /> : null}
                 {

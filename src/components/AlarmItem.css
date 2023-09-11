@@ -7,6 +7,7 @@
   border-radius: 5px;
   border-bottom: 0.5px solid rgb(215, 210, 210);
   box-shadow: -2px -2px 4px white, 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: "Montserrat";
 }
 
 .alarm_Box:hover {
@@ -22,13 +23,11 @@
 .alarmItem {
   width: 100%;
   color: black;
-  font-family: "Roboto Condensed", monospace;
+  font-family: "Montserrat";
 }
 
 .alarmItem .alarm_content {
-  font-size: 20px;
-  font-weight: bold;
-  color: skyblue;
+  color: #809ead;
 }
 
 .alarmItem .alarm_message {

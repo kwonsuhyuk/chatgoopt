@@ -40,7 +40,7 @@ function PopularBoard({ isloading, boardList }) {
                   padding: "15px 0 ",
                   color: "whitesmoke",
                   fontFamily: "Montserrat",
-                  fontWeight: 700,
+                  fontWeight: 500,
                 }}>
                 인기게시물
               </Typography>

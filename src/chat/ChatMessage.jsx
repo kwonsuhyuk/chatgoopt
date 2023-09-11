@@ -15,7 +15,6 @@ dayjs.extend(relativeTime);
 const isImage = (message) => message.hasOwnProperty("image");
 
 function ChatMessage({ message, user }) {
-  const { theme } = useSelector((state) => state);
   return (
     <>
       {message.user.id === user.currentUser.uid ? (
@@ -42,12 +41,14 @@ function ChatMessage({ message, user }) {
                 primary={message.user.name}
                 primaryTypographyProps={{
                   color: "lime",
-                  fontWeight: "bold",
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
                   ml: 3,
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
                 secondaryTypographyProps={{
                   color: "wheat",
+                  fontFamily: "Montserrat",
                 }}
               />
             </Grid>
@@ -62,7 +63,10 @@ function ChatMessage({ message, user }) {
                 <ListItemText
                   primary={message.content}
                   align="right"
-                  xs={{ wordBreak: "break-all" }}
+                  sx={{ wordBreak: "break-all" }}
+                  primaryTypographyProps={{
+                    fontFamily: "Montserrat",
+                  }}
                 />
               )}
             </Grid>
@@ -105,12 +109,14 @@ function ChatMessage({ message, user }) {
                 }}
                 primary={message.user.name}
                 primaryTypographyProps={{
-                  fontWeight: "bold",
+                  fontWeight: 700,
+                  fontFamily: "Montserrat",
                   color: "white",
                 }}
                 secondary={dayjs(message.timestamp).fromNow()}
                 secondaryTypographyProps={{
                   color: "wheat",
+                  fontFamily: "Montserrat",
                   ml: 1,
                 }}
               />
@@ -126,7 +132,10 @@ function ChatMessage({ message, user }) {
                 <ListItemText
                   primary={message.content}
                   align="left"
-                  xs={{ wordBreak: "break-all" }}
+                  primaryTypographyProps={{
+                    wordBreak: "break-all",
+                    fontFamily: "Montserrat",
+                  }}
                 />
               )}
             </Grid>

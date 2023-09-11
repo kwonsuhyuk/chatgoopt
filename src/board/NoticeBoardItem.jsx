@@ -132,6 +132,7 @@ function NoticeBoardItem({ notice }) {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   maxWidth: "80%",
+                  fontFamily: "Montserrat",
                 }}
                 variant="body1"
                 color="white">
@@ -141,7 +142,12 @@ function NoticeBoardItem({ notice }) {
           }
           secondary={
             <div>
-              <Typography sx={{ fontSize: "10px", color: "wheat" }}>
+              <Typography
+                sx={{
+                  fontSize: "10px",
+                  color: "wheat",
+                  fontFamily: "Montserrat",
+                }}>
                 {dayjs(notice.timestamp).fromNow()}
               </Typography>
               <Typography
@@ -151,6 +157,7 @@ function NoticeBoardItem({ notice }) {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   maxWidth: "80%",
+                  fontFamily: "Montserrat",
                 }}
                 variant="body2"
                 color="white">

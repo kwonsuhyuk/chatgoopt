@@ -74,9 +74,14 @@ function UserStatus({ user }) {
         />
       </ListItemAvatar>
       <div>
-        <span>{user.name}</span>
+        <span style={{ fontFamily: "Montserrat" }}>{user.name}</span>
         {!online && (
-          <div style={{ fontSize: "15px", color: "gray" }}>
+          <div
+            style={{
+              fontSize: "15px",
+              color: "gray",
+              fontFamily: "Montserrat",
+            }}>
             {formatLastOnline()}
           </div>
         )}

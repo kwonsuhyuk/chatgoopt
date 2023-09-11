@@ -399,15 +399,6 @@ function Dashboard() {
             alignItems: "center",
             position: "relative",
           }}>
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar
-                sx={{
-                  backgroundColor: `${theme.mainColor}`,
-                  borderRadius: "20px",
-                  boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.1)`,
-                }}
-              />
-            </LocalizationProvider> */}
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -488,6 +479,8 @@ function Dashboard() {
                   variant="h6"
                   component="div"
                   sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
                     color: "white",
                   }}>
                   {user?.currentUser.displayName}

@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import Notfound from "./Notfound";
 import Dashboard from "./Dashboard";
@@ -44,7 +44,7 @@ function Index() {
     getUserTheme(user.currentUser.uid);
   }, [user.currentUser.uid, dispatch]);
 
-  const getBackgroundImage = () => {
+  const getBackgroundImage = useCallback(() => {
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
 
@@ -55,11 +55,11 @@ function Index() {
     } else {
       return nightImg;
     }
-  };
+  }, []);
 
   useEffect(() => {
     dispatch(setBg(getBackgroundImage()));
-  }, [dispatch]);
+  }, [dispatch, getBackgroundImage]);
 
   return (
     <div component={Paper} elevation={10} style={{ height: "100vh" }}>

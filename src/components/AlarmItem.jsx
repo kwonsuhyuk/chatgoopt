@@ -20,9 +20,9 @@ function AlarmItem({ value, handleAlarmClose }) {
 
   const alarmText =
     value.type === "todo_tomorrow"
-      ? " 이 내일 마감입니다"
+      ? " 이 내일 마감입니다."
       : value.type === "todo_today" // 오류 수정: value.type === "todo_today"로 수정
-      ? "  마감일이 오늘 입니다"
+      ? "  마감일이 오늘 입니다."
       : `${value.title}`;
 
   const handleClose = () => {
@@ -53,7 +53,10 @@ function AlarmItem({ value, handleAlarmClose }) {
     <>
       {value.type === "todo_tomorrow" || value.type === "todo_today" ? (
         <div className="alarm_Box">
-          <MenuItem className="alarmItem" onClick={handleClose}>
+          <MenuItem
+            className="alarmItem"
+            style={{ fontFamily: "Montserrat", fontSize: "15px" }}
+            onClick={handleClose}>
             <span className="alarm_content">{truncatedText} </span>
             <br />
             <span className="alarm_message">{alarmText}</span>
@@ -68,10 +71,11 @@ function AlarmItem({ value, handleAlarmClose }) {
               display: "block",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontFamily: "Montserrat",
             }}
             onClick={handleCommentClose}>
             <div>
-              <span style={{ color: "#f7786b", fontSize: "18px" }}>
+              <span style={{ color: "#f7786b", fontSize: "15px" }}>
                 {alarmText}
               </span>
               게시물에
@@ -98,10 +102,11 @@ function AlarmItem({ value, handleAlarmClose }) {
               display: "block",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontFamily: "Montserrat",
             }}
             onClick={handleCommentClose}>
             <div>
-              <span style={{ color: "#f7786b", fontSize: "18px" }}>
+              <span style={{ color: "#f7786b", fontSize: "15px" }}>
                 {alarmText}
               </span>
               게시물에
@@ -124,6 +129,7 @@ function AlarmItem({ value, handleAlarmClose }) {
           <MenuItem
             className="alarmItem"
             sx={{
+              fontFamily: "Montserrat",
               fontSize: "12px",
               display: "block",
               overflow: "hidden",
@@ -131,7 +137,7 @@ function AlarmItem({ value, handleAlarmClose }) {
             }}
             onClick={handleCommentClose}>
             <div>
-              <span style={{ color: "#f7786b", fontSize: "18px" }}>
+              <span style={{ color: "#f7786b", fontSize: "15px" }}>
                 {alarmText}
               </span>
               게시물에
@@ -158,6 +164,7 @@ function AlarmItem({ value, handleAlarmClose }) {
               display: "block",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontFamily: "Montserrat",
             }}
             onClick={handleCommentClose}>
             <div>

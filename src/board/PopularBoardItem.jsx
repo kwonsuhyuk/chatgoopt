@@ -328,7 +328,6 @@ function PopularBoardItem({
                     whiteSpace: "nowrap",
                     maxWidth: "100%",
                     fontFamily: "Montserrat",
-                    fontWeight: 700,
                   }}
                   variant="body1"
                   color="white">
@@ -343,6 +342,7 @@ function PopularBoardItem({
                     whiteSpace: "nowrap",
                     maxWidth: "100%",
                     fontFamily: "Montserrat",
+                    fontWeight: 400,
                   }}
                   variant="body2"
                   color="whitesmoke">

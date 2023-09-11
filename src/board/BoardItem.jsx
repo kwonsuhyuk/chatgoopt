@@ -379,6 +379,7 @@ function BoardItem({
           secondary={dayjs(timestamp).fromNow()}
           secondaryTypographyProps={{
             ml: 1,
+            fontFamily: "Montserrat",
             color: "skyblue",
           }}
         />
@@ -438,6 +439,8 @@ function BoardItem({
               marginLeft: "1rem",
               marginBottom: "2rem",
               color: "white",
+              fontFamily: "Montserrat",
+              fontWeight: 500,
             }}>
             {title}
           </Box>
@@ -593,6 +596,7 @@ function BoardItem({
                 margin: "10px 30px",
                 fontSize: "15px",
                 color: "white",
+                fontFamily: "Montserrat",
               }}>
               {commentList?.length}개의 댓글
             </Box>

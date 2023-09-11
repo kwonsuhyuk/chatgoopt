@@ -323,6 +323,7 @@ function Header() {
           ))}
           <Button
             sx={{
+              color: "red",
               width: "100%",
               display: userAlarms.alarms.length === 0 ? "none" : "block",
             }}
@@ -337,7 +338,7 @@ function Header() {
             marginLeft: "50px",
             display: "flex",
             gap: "30px",
-            fontFamily: "sans-serif",
+            fontFamily: "Montserrat",
             fontSize: "20px",
             textTransform: "uppercase",
           }}>

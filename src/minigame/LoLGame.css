@@ -1,100 +1,111 @@
-.dice_mainBox {
+.lol_mainBox {
+  animation: show-profile 1s forwards ease-in-out;
+  position: absolute;
+  width: 100%;
+  height: 95%;
+  top: 0;
+  left: 50%;
   display: flex;
-  background-color: whitesmoke;
-  width: 85vw;
-  height: 85vh;
-
-  border-radius: 0 20px 20px;
+  transform: translate(-50%, 0);
+  flex-direction: column;
+  gap: 7vh;
+  margin-left: 20px;
+  background-color: #d8bfd8;
+  border-radius: 10px;
 }
-
-.dice_mainBox .dice_gameBox {
-  border-radius: 0 0 0 20px;
-  width: 70%;
-  height: 100%;
-  background-color: whitesmoke;
-}
-
-.dice_mainBox .dice_gameBox .gameBox_title {
-  cursor: pointer;
-  display: inline-block;
-  margin: 20px;
-  padding: 10px;
-  border: 2px solid #906aa5;
-  border-radius: 20px;
-}
-
-.dice_mainBox .dice_gameBox .gameBox_main {
-  height: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+.lol_mainBox .lol_gameBox {
+  height: 85%;
+  width: 100%;
   position: relative;
 }
 
-.dice_mainBox .dice_gameBox .gameBox_active {
+.lol_mainBox .lol_gameBox .gameBox_title {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.lol_scoreNotice {
+  display: inline;
+  background-color: rgba(63, 179, 14, 0.5);
+  margin-left: 20px;
+  color: rgb(52, 91, 125);
+  font-family: "Montserrat";
+}
+
+.lol_mainBox .lol_gameBox .gameBox_title .lolgame_title {
+  border-radius: 100px;
+  background-color: #d8bfd8;
+  border: 10px solid #d8bfd8;
+  position: absolute;
+  color: white;
+  font-size: 30px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  top: -30px;
+  left: 50px;
+  animation: rotate-photo 1s forwards ease-in-out;
+}
+
+.lol_mainBox .lol_gameBox .gameBox_main {
+  margin-top: 80px;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.dice_mainBox .dice_rankBox {
-  border-radius: 0 10px 10px 0;
-  width: 30%;
+.lol_mainBox .ranking_showbutton {
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+  font-family: "Montserrat";
+  color: white;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  animation: lolmotion 1s ease-in-out 0s infinite alternate;
+  -webkit-animation: lolmotion 1s ease-in-out 0s infinite alternate;
+}
+
+.game_user_ranking {
+  height: 0;
+  overflow: hidden;
+}
+
+.game_user_ranking.show {
+  position: relative;
+  overflow: scroll;
   height: 100%;
-  background: linear-gradient(135deg, rgb(225, 134, 225), #906aa5);
+  animation: lolrankslideup 2s ease forwards;
+  border-radius: 10px 10px 0 0;
+  transform-origin: bottom; /* 애니메이션 출발점 설정 */
+  border-bottom: 1px solid #e9e9e9;
 }
 
-.dice_mainBox .dice_rankBox .rankBox_title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-  color: whitesmoke;
-  font-size: 30px;
-  font-family: fantasy;
+.game_user_ranking.show .ranking_mainboard .ranking_item {
+  font-family: "Montserrat";
 }
 
-.dice_mainBox .dice_rankBox .rankBox_main {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 50px;
-}
-
-.dice_mainBox .dice_rankBox .rankBox_main .rank1 {
-  color: white;
-  font-size: 30px;
-}
-
-.dice_mainBox .dice_rankBox .rankBox_main .rank2 {
-  color: white;
-  font-size: 25px;
-}
-
-.dice_mainBox .dice_rankBox .rankBox_main .rank3 {
-  color: white;
-  font-size: 25px;
-}
-
-.dice_mainBox .dice_rankBox .rankBox_main .rank4 {
-  color: white;
-  font-size: 20px;
-}
-
-.dice_mainBox .dice_rankBox .rankBox_main .rank5 {
-  color: white;
-  font-size: 20px;
-}
-
-@media screen and (max-width: 850px) {
-  .dice_mainBox .dice_rankBox .rankBox_main .rank1 {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+@keyframes lolrankslideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  .dice_mainBox .dice_rankBox .rankBox_title {
-    padding: 0 30px;
+  100% {
+    transform: translateY(-20%);
+    opacity: 1;
+  }
+}
+
+@keyframes lolmotion {
+  0% {
+    bottom: 2%;
+  }
+
+  100% {
+    bottom: 3%;
+    color: rgb(135, 20, 116);
   }
 }
