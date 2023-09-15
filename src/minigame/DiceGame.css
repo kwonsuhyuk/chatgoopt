@@ -9,7 +9,6 @@
   transform: translate(-50%, 0);
   flex-direction: column;
   gap: 7vh;
-  margin-left: 20px;
   background-color: pink;
   border-radius: 10px;
 }
@@ -70,7 +69,6 @@
 
 .dice_scoreNotice {
   display: inline;
-  background-color: rgba(146, 215, 42, 0.5);
   margin-left: 20px;
   color: rgb(52, 91, 125);
   font-family: "Montserrat";
@@ -118,5 +116,11 @@
   100% {
     bottom: 3%;
     color: rgb(215, 119, 119);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dice_mainBox .dice_gameBox .gameBox_title .dicegame_title {
+    border: 3px solid rgba(255, 192, 203, 0.8);
   }
 }

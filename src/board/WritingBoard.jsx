@@ -116,6 +116,10 @@ function WritingBoard() {
         minHeight: "91vh",
         backgroundColor: "transparent",
         padding: "9vh 20vw 0",
+        "@media (max-width: 1350px)": {
+          padding: "0 3vw",
+          height: "93vh",
+        },
       }}>
       <Box
         sx={{

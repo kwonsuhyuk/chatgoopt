@@ -26,9 +26,9 @@ function Chat() {
           marginBottom: 20,
         }}>
         Chat_Goopt<span className="blinking-text">ㅣ</span>
-        {!isMobile && <Header />}
+        <Header />
       </div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex" }} className="chat_content">
         <ChatMenu />
         <Box component="main" className="chatPageMain">
           <ChatMain />

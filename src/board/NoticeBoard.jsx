@@ -13,7 +13,6 @@ function NoticeBoard({ isLoading, boardList }) {
             <List
               sx={{
                 width: "100%",
-                maxWidth: 280,
                 backgroundColor: "rgba(5,5,5,0.3)",
                 boxShadow:
                   "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
@@ -25,7 +24,7 @@ function NoticeBoard({ isLoading, boardList }) {
               }}>
               {boardList?.map((notice) => (
                 <>
-                  <NoticeBoardItem notice={notice} key={notice.timestamp} />
+                  <NoticeBoardItem notice={notice} key={notice.content} />
                   <Divider />
                 </>
               ))}

@@ -9,6 +9,7 @@ import {
   ref,
   remove,
   set,
+  update,
 } from "firebase/database";
 import {
   Avatar,
@@ -17,6 +18,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -30,6 +32,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import "./LoLGame.css";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import loveArrow from "../img/loveArrow.png";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
 
 function LoLGame() {
   const { theme, user } = useSelector((state) => state);
@@ -364,6 +370,61 @@ function LoLGame() {
     [handleNextItem]
   );
 
+  const handleRefreshClick = () => {
+    window.location.reload(); // 현재 페이지를 새로고침
+  };
+  const [openSnackBard, setOpenSnackBard] = useState(false);
+
+  const handlesnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackBard(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handlesnackbarClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const handleArrowLove = (userId) => {
+    const database = getDatabase();
+    const userRef = ref(database, "users/" + userId);
+
+    // Use get to retrieve the current value of 'likesNum' asynchronously
+    get(userRef)
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        const likesNum = userData?.likesNum || 0;
+
+        // Update the 'likesNum' field by incrementing it by 1
+
+        update(userRef, {
+          likesNum: likesNum + 1,
+        })
+          .then(() => {
+            setOpenSnackBard(true);
+          })
+          .catch((error) => {
+            console.error(
+              `Error incrementing likesNum for user ${userId}:`,
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error(`Error retrieving user data for user ${userId}:`, error);
+      });
+  };
+
   return (
     <div className="lol_mainBox">
       <div className="lol_gameBox">
@@ -396,21 +457,23 @@ function LoLGame() {
               }}
               transformOrigin={{
                 vertical: "top",
-                horizontal: "left",
+                horizontal: "right",
               }}
               onClose={handlePopoverClose}
               disableRestoreFocus>
               <Typography
                 sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
                 사진을 보고 스킨이름을 맞추세요!
+                <br />
+                <div className="lol_scoreNotice">
+                  % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin,
+                  5등 : 20coin, 6등이하 : 0, 미참여 : -20coin %
+                </div>
               </Typography>
             </Popover>
           </div>
         </div>
-        <div className="lol_scoreNotice">
-          % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin, 5등 :
-          20coin, 6등이하 : 0, 미참여 : -20coin %
-        </div>
+
         {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
           <Button
             onClick={handleDeleteData}
@@ -418,6 +481,10 @@ function LoLGame() {
             데이터 삭제
           </Button>
         )}
+        <RefreshIcon
+          onClick={handleRefreshClick}
+          sx={{ color: "#35637c", marginLeft: "30px" }}
+        />
         <div className="gameBox_main">
           {!gameOn ? (
             <Button
@@ -440,6 +507,7 @@ function LoLGame() {
               }}>
               {isTimerActive && (
                 <div
+                  className="lol_timer"
                   style={{
                     display: "flex",
                     justifyContent: "center",
@@ -469,6 +537,7 @@ function LoLGame() {
                 }}>
                 <div oncontextmenu="return false">
                   <img
+                    className="playerImg_lol"
                     src={data[currentItemIndex]?.img}
                     alt="playerImg"
                     style={{
@@ -482,9 +551,6 @@ function LoLGame() {
                       MozUserDrag: "none",
                       OUserDrag: "none",
                       userDrag: "none",
-                      width: "250px",
-                      height: "250px",
-                      marginRight: "20px",
                     }}
                   />
                 </div>
@@ -535,6 +601,10 @@ function LoLGame() {
                   overflowY: "scroll",
                   height: "80%",
                   borderLeft: "1px solid rgb(52, 91, 125);",
+                  "@media (max-width: 500px)": {
+                    // 휴대폰에서의 스타일 조정
+                    borderLeft: "none",
+                  },
                 }}>
                 {answerHistory.map((entry, index) => (
                   <div
@@ -543,8 +613,15 @@ function LoLGame() {
                       display: "flex",
                       gap: "30px",
                       overflowY: "scroll",
+                      justifyContent: "flex-start",
+                      paddingLeft: "10px",
                     }}>
-                    <div style={{ fontSize: "20px", color: "#005905" }}>
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        color: "purple",
+                        fontFamily: "Montserrat",
+                      }}>
                       {index + 1}.
                     </div>
                     <div
@@ -571,50 +648,76 @@ function LoLGame() {
           )}
         </div>
       </div>
-      <div
-        className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
-        onClick={handleShowRanking}>
-        {!showUserRank ? "Show Ranking" : "Close"}
-        {!showUserRank && <KeyboardDoubleArrowUpIcon />}
-      </div>
-      <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
-        <List className="ranking_mainboard">
-          {rank.map((userData, index) => (
-            <ListItem
-              className="ranking_item"
-              key={userData.id}
-              sx={{
-                backgroundColor:
-                  user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
-              }}>
-              <span>{index + 1}.</span>
-              <ListItemAvatar>
-                <Avatar
-                  variant="rounded"
-                  sx={{ width: 50, height: 50, borderRadius: "50%" }}
-                  alt="profile image"
-                  src={userData.avatar}
-                />
-              </ListItemAvatar>
-              <span
-                style={{
-                  fontSize: "20px",
-                }}>
-                {userData.name}
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  position: "absolute",
-                  right: 10,
-                }}>
-                {userData.correctNum}개
-              </div>
-            </ListItem>
-          ))}
-        </List>
-      </div>
+      {!gameOn && (
+        <>
+          <div
+            className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
+            onClick={handleShowRanking}>
+            {!showUserRank ? "Show Ranking" : "Close"}
+            {!showUserRank && <KeyboardDoubleArrowUpIcon />}
+          </div>
+          <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
+            <List className="ranking_mainboard">
+              {rank.map((userData, index) => (
+                <ListItem
+                  className="ranking_item"
+                  key={userData.id}
+                  sx={{
+                    backgroundColor:
+                      user.currentUser?.uid === userData.id
+                        ? "#b5bf50"
+                        : "white",
+                  }}>
+                  <span>{index + 1}.</span>
+                  <ListItemAvatar>
+                    <Avatar
+                      variant="rounded"
+                      sx={{ width: 50, height: 50, borderRadius: "50%" }}
+                      alt="profile image"
+                      src={userData.avatar}
+                    />
+                  </ListItemAvatar>
+                  <span
+                    style={{
+                      fontSize: "20px",
+                    }}>
+                    {userData.name}
+                  </span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      position: "absolute",
+                      right: 10,
+                    }}>
+                    {userData.id !== user.currentUser.uid && (
+                      <img
+                        src={loveArrow}
+                        alt="lovearrow"
+                        onClick={() => handleArrowLove(userData.id)}
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          borderRadius: "50%",
+                          cursor: "pointer",
+                        }}
+                      />
+                    )}
+                    {userData.correctNum}개
+                  </div>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </>
+      )}
+      <Snackbar
+        open={openSnackBard}
+        autoHideDuration={2000}
+        onClose={handlesnackbarClose}
+        message="좋아요를 보냈습니다."
+        action={action}
+      />
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>선수퀴즈 결과</DialogTitle>
         <DialogContent>

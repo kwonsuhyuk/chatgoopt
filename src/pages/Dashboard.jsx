@@ -84,7 +84,8 @@ function Dashboard() {
   const [open, setOpen] = useState(false);
   const [todos, setTodos] = useState([]);
   const [bookMarks, setBookMarks] = useState([]);
-  const [feedBackOpen, setFeedBackOpen] = useState(false);
+  // const [feedBackOpen, setFeedBackOpen] = useState(false);
+
   const boxRef = useRef();
   const dispatch = useDispatch();
   const targetRef = useRef(null);
@@ -388,7 +389,7 @@ function Dashboard() {
             zIndex: "20",
           }}>
           Chat_Goopt<span className="blinking-text">ㅣ</span>
-          {!isMobile && <Header />}
+          <Header />
         </div>
         <div
           className="dash_maindiv"

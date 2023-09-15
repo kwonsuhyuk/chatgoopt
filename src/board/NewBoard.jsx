@@ -37,14 +37,15 @@ function NewBoard() {
       </ListItemAvatar>
       <Typography
         sx={{
-          opacity: "0.7",
+          opacity: "0.9",
           padding: "10px",
           border: borderStyle,
           width: isMobile ? "75%" : "50%",
           borderRadius: "20px",
           color: "white",
+          fontFamily: "Montserrat",
         }}>
-        새로운 게시물을 작성해주세요
+        새로운 게시물을 작성해주세요.
       </Typography>
     </Box>
   );

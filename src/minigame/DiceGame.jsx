@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Button,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -21,10 +22,14 @@ import {
   ref,
   remove,
   set,
+  update,
 } from "firebase/database";
 import "./DiceGame.css";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import CasinoIcon from "@mui/icons-material/Casino";
+import loveArrow from "../img/loveArrow.png";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
 
 function DiceGame() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -178,8 +183,6 @@ function DiceGame() {
       });
   }, []);
 
-  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
-
   const rankCoinAdjustments = [
     { adjustment: 100 },
     { adjustment: 70 },
@@ -239,6 +242,58 @@ function DiceGame() {
       });
   };
 
+  const [openSnackBard, setOpenSnackBard] = useState(false);
+
+  const handlesnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackBard(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handlesnackbarClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const handleArrowLove = (userId) => {
+    const database = getDatabase();
+    const userRef = ref(database, "users/" + userId);
+
+    // Use get to retrieve the current value of 'likesNum' asynchronously
+    get(userRef)
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        const likesNum = userData?.likesNum || 0;
+
+        // Update the 'likesNum' field by incrementing it by 1
+
+        update(userRef, {
+          likesNum: likesNum + 1,
+        })
+          .then(() => {
+            setOpenSnackBard(true);
+          })
+          .catch((error) => {
+            console.error(
+              `Error incrementing likesNum for user ${userId}:`,
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error(`Error retrieving user data for user ${userId}:`, error);
+      });
+  };
+
   return (
     <div className="dice_mainBox">
       <div className="dice_gameBox">
@@ -271,20 +326,21 @@ function DiceGame() {
               }}
               transformOrigin={{
                 vertical: "top",
-                horizontal: "left",
+                horizontal: "right",
               }}
               onClose={handlePopoverClose}
               disableRestoreFocus>
               <Typography
                 sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
                 하루에 한번 주사위를 던져 오늘 행운을 시험하세요!
+                <br />
+                <div className="dice_scoreNotice">
+                  % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin,
+                  5등 : 20coin, 6등이하 : 0, 미참여 : -20coin %
+                </div>
               </Typography>
             </Popover>
           </div>
-        </div>
-        <div className="dice_scoreNotice">
-          % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin, 5등 :
-          20coin, 6등이하 : 0, 미참여 : -20coin %
         </div>
 
         {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
@@ -362,6 +418,19 @@ function DiceGame() {
                   position: "absolute",
                   right: 10,
                 }}>
+                {userData.id !== user.currentUser.uid && (
+                  <img
+                    src={loveArrow}
+                    alt="lovearrow"
+                    onClick={() => handleArrowLove(userData.id)}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                    }}
+                  />
+                )}
                 {userData.diceSum}
                 <CasinoIcon />
               </div>
@@ -369,6 +438,13 @@ function DiceGame() {
           ))}
         </List>
       </div>
+      <Snackbar
+        open={openSnackBard}
+        autoHideDuration={2000}
+        onClose={handlesnackbarClose}
+        message="좋아요를 보냈습니다."
+        action={action}
+      />
     </div>
   );
 }

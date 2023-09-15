@@ -3,15 +3,25 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   Popover,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
-import { child, get, getDatabase, ref, remove, set } from "firebase/database";
+import {
+  child,
+  get,
+  getDatabase,
+  ref,
+  remove,
+  set,
+  update,
+} from "firebase/database";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
@@ -21,6 +31,8 @@ import "../firebase";
 import "./TypingGame.css";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import loveArrow from "../img/loveArrow.png";
+import CloseIcon from "@mui/icons-material/Close";
 
 function TypingGame() {
   const [quote, setQuote] = useState([]);
@@ -43,6 +55,7 @@ function TypingGame() {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [showRank, setShowRank] = useState(false);
+  const [openSnackBard, setOpenSnackBard] = useState(false);
 
   const [alluser, setAllUser] = useState([]);
 
@@ -362,6 +375,55 @@ function TypingGame() {
     window.location.reload(); // 현재 페이지를 새로고침
   };
 
+  const handlesnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackBard(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handlesnackbarClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const handleArrowLove = (userId) => {
+    const database = getDatabase();
+    const userRef = ref(database, "users/" + userId);
+
+    // Use get to retrieve the current value of 'likesNum' asynchronously
+    get(userRef)
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        const likesNum = userData?.likesNum || 0;
+
+        // Update the 'likesNum' field by incrementing it by 1
+
+        update(userRef, {
+          likesNum: likesNum + 1,
+        })
+          .then(() => {
+            setOpenSnackBard(true);
+          })
+          .catch((error) => {
+            console.error(
+              `Error incrementing likesNum for user ${userId}:`,
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error(`Error retrieving user data for user ${userId}:`, error);
+      });
+  };
   return (
     <div className="typing_mainBox">
       <div className="typing_gameBox">
@@ -394,7 +456,7 @@ function TypingGame() {
               }}
               transformOrigin={{
                 vertical: "top",
-                horizontal: "left",
+                horizontal: "right",
               }}
               onClose={handlePopoverClose}
               disableRestoreFocus>
@@ -402,14 +464,16 @@ function TypingGame() {
                 sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
                 총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가 기록됩니다.
                 정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요!
+                <br />
+                <div className="typing_scoreNotice">
+                  1등 : 120coin, 2등 : 90coin, 3등 : 60coin, 4등 : 40coin, 5등 :
+                  30coin, 4등이하 : 0coin, 미참가 : -20coin
+                </div>
               </Typography>
             </Popover>
           </div>
         </div>
-        <div className="typing_scoreNotice">
-          1등 : 120coin, 2등 : 90coin, 3등 : 60coin, 4등 : 40coin, 5등 : 30coin,
-          4등이하 : 0coin, 미참가 : -20coin
-        </div>
+
         {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
           <Button
             onClick={handleTypeDelete}
@@ -543,12 +607,32 @@ function TypingGame() {
                   position: "absolute",
                   right: 10,
                 }}>
+                {userData.id !== user.currentUser.uid && (
+                  <img
+                    src={loveArrow}
+                    alt="lovearrow"
+                    onClick={() => handleArrowLove(userData.id)}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                    }}
+                  />
+                )}
                 {userData.avgSpeed} 타 / {userData.accuracy}%
               </div>
             </ListItem>
           ))}
         </List>
       </div>
+      <Snackbar
+        open={openSnackBard}
+        autoHideDuration={2000}
+        onClose={handlesnackbarClose}
+        message="좋아요를 보냈습니다."
+        action={action}
+      />
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>타이핑 결과</DialogTitle>
         <DialogContent>

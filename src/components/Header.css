@@ -148,6 +148,49 @@
   padding-left: 50px;
 }
 
+.header_menuIcon {
+  display: none;
+}
+
+.mobile_navlink {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat";
+  position: absolute;
+  animation: movenavbars 1s ease-in forwards;
+  text-transform: uppercase;
+  gap: 20px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.dash_navlink {
+  margin-left: 50px;
+  display: flex;
+  gap: 30px;
+  font-family: "Montserrat";
+  transform: translateX(30%);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+@keyframes movenavbars {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  70% {
+    transform: translateX(-90%);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
+}
+
 @media screen and (max-width: 1300px) {
   .header_nav {
     display: flex;
@@ -165,9 +208,6 @@
   .profileMenu {
     display: none;
   }
-  .questionMark {
-    display: none;
-  }
 
   .chatgoopt {
     display: none;
@@ -182,14 +222,6 @@
     width: 25vw;
     padding: 0px;
   }
-  .navLink.active::before {
-    /* display: none; */
-  }
-
-  .questionMark {
-    width: 0;
-    height: 0;
-  }
 
   .header_nav .navLink {
     width: 100%;
@@ -197,8 +229,22 @@
     margin-bottom: 10px;
   }
 
+  .dash_navlink {
+    display: none;
+  }
+
   .chatgoopt {
     display: none;
+  }
+
+  .header_menuIcon {
+    position: relative;
+    display: block;
+    z-index: 99;
+    padding-left: 10px;
+  }
+  .mobile_navlink {
+    align-items: flex-end;
   }
 }
 

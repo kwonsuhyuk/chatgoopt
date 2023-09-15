@@ -1,6 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Avatar, Box, List, ListItem, ListItemAvatar } from "@mui/material";
-import Header from "../components/Header";
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+} from "@mui/material";
+
 import bronze from "../img/tier/bronze.png";
 import silver from "../img/tier/silver.png";
 import gold from "../img/tier/gold.png";
@@ -197,14 +204,7 @@ function MiniGameMain() {
   }, []);
 
   return (
-    <div
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: "7vh",
-        marginLeft: 20,
-      }}>
+    <div className="minigamemain_div">
       <div
         style={{
           height: "95%",
@@ -218,32 +218,48 @@ function MiniGameMain() {
                 className="userAvatar"
                 src={userData.avatar}
                 alt="useravatar"
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                }}
               />
-
               <img
                 src={getTierImage(userData.coin)}
                 alt="usertier"
                 className="tierImage"
               />
             </div>
+            {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+              <Button sx={{ color: "red", backgroundColor: "white" }}>
+                데이터 삭제
+              </Button>
+            )}
             <div className="profile_userinfo">
               <div className="info coin">
-                <WalletIcon sx={{ color: "gold", fontSize: "50px" }} />
+                <WalletIcon
+                  sx={{
+                    color: "gold",
+                    fontSize: "50px",
+                    "@media (max-width: 500px)": {
+                      // 휴대폰에서의 스타일 조정
+                      fontSize: "30px",
+                    },
+                  }}
+                />
                 <div className="detail">
                   <div className="detail_count">
                     {userData.coin ? userData.coin : 0}
-                  </div>{" "}
+                  </div>
                   <div>coin</div>
                 </div>
               </div>
+
               <div className="info myranking">
                 <SignalCellularAltIcon
-                  sx={{ color: "#6fa0bf", fontSize: "50px" }}
+                  sx={{
+                    color: "#6fa0bf",
+                    fontSize: "50px",
+                    "@media (max-width: 500px)": {
+                      // 휴대폰에서의 스타일 조정
+                      fontSize: "30px",
+                    },
+                  }}
                 />
                 <div className="detail">
                   <div className="detail_count">
@@ -263,11 +279,18 @@ function MiniGameMain() {
               </div>
               <div className="info likes">
                 <VolunteerActivismIcon
-                  sx={{ color: "#f7786b", fontSize: "50px" }}
+                  sx={{
+                    color: "#f7786b",
+                    fontSize: "50px",
+                    "@media (max-width: 500px)": {
+                      // 휴대폰에서의 스타일 조정
+                      fontSize: "30px",
+                    },
+                  }}
                 />
                 <div className="detail">
                   <div className="detail_count">
-                    {userData.likes ? userData.likes : 0}
+                    {userData.likesNum ? userData.likesNum : 0}
                   </div>
                   <div>likes</div>
                 </div>
@@ -343,6 +366,7 @@ function MiniGameMain() {
                 </div>
               </div>
             </div>
+
             <div
               className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
               onClick={handleShowRanking}>
@@ -365,20 +389,38 @@ function MiniGameMain() {
                     <ListItemAvatar>
                       <Avatar
                         variant="rounded"
-                        sx={{ width: 50, height: 50, borderRadius: "50%" }}
+                        sx={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "50%",
+                          "@media (max-width: 500px)": {
+                            // 휴대폰에서의 스타일 조정
+                            width: 30,
+                            height: 30,
+                          },
+                        }}
                         alt="profile image"
                         src={userData.avatar}
                       />
                     </ListItemAvatar>
+
+                    <span className="ranking_username">{userData.name}</span>
+                    <VolunteerActivismIcon
+                      sx={{ fontSize: "20px", color: "#f7786b" }}
+                    />
                     <span
                       style={{
                         fontSize: "20px",
+                        color: "#f7786b",
                       }}>
-                      {userData.name}
+                      {userData.likesNum ? userData.likesNum : 0}
                     </span>
+
                     <div
                       style={{
+                        width: "10%",
                         display: "flex",
+                        justifyContent: "flex-end",
                         alignItems: "center",
                         position: "absolute",
                         right: 10,
@@ -389,7 +431,7 @@ function MiniGameMain() {
                       <img
                         src={getTierImage(userData.coin)}
                         alt="tier"
-                        style={{ width: "50px", height: "50px" }}
+                        style={{ width: "35px", height: "35px" }}
                       />
                     </div>
                   </ListItem>

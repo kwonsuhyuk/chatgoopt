@@ -63,7 +63,7 @@ function ChatMessage({ message, user }) {
                 <ListItemText
                   primary={message.content}
                   align="right"
-                  sx={{ wordBreak: "break-all" }}
+                  sx={{ wordbreak: "break-all" }}
                   primaryTypographyProps={{
                     fontFamily: "Montserrat",
                   }}
@@ -133,7 +133,7 @@ function ChatMessage({ message, user }) {
                   primary={message.content}
                   align="left"
                   primaryTypographyProps={{
-                    wordBreak: "break-all",
+                    wordbreak: "break-all",
                     fontFamily: "Montserrat",
                   }}
                 />

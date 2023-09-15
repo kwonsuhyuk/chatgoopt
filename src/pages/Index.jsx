@@ -67,41 +67,43 @@ function Index() {
       {/* kJlSCkA8utdiBV0JNL2DgiAKUf32 */}
       {/* {X9pU0SNUHieAWtvq5XfgLddRRpV2} */}
 
-      {user.currentUser.uid === "123" ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            fontSize: "50px",
-          }}>
-          부적절한 행위적발로 일시 정지 입니다.
-        </div>
-      ) : !isMobile ? (
-        <>
-          {/* {location.pathname !== "/" && <Header />} */}
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/minigame/*" element={<MiniGame />} />
-            <Route path="/board/*" element={<Board />} />
-            <Route path="/*" element={<Notfound />} />
-          </Routes>
-        </>
-      ) : (
-        <>
-          {location.pathname !== "/" && <Header />}
-          <Routes>
-            <Route path="/" element={<MobileMain />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/minigame/*" element={<MiniGame />} />
-            <Route path="/board/*" element={<Board />} />
-            <Route path="/*" element={<Notfound />} />
-          </Routes>
-        </>
-      )}
+      {
+        user.currentUser.uid === "123" ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              fontSize: "50px",
+            }}>
+            부적절한 행위적발로 일시 정지 입니다.
+          </div>
+        ) : (
+          <>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/minigame/*" element={<MiniGame />} />
+              <Route path="/board/*" element={<Board />} />
+              <Route path="/*" element={<Notfound />} />
+            </Routes>
+          </>
+        )
+        // ) : (
+        //   <>
+        //     {location.pathname !== "/" && <Header />}
+        //     <Routes>
+        //       <Route path="/" element={<MobileMain />} />
+        //       <Route path="/dashboard" element={<Dashboard />} />
+        //       <Route path="/chat" element={<Chat />} />
+        //       <Route path="/minigame/*" element={<MiniGame />} />
+        //       <Route path="/board/*" element={<Board />} />
+        //       <Route path="/*" element={<Notfound />} />
+        //     </Routes>
+        //   </>
+        // )
+      }
     </div>
   );
 }

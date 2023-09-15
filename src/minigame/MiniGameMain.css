@@ -19,6 +19,15 @@
   }
 }
 
+.minigamemain_div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7vh;
+  margin-left: 20;
+  margin-right: 20;
+}
+
 .minigame_profile {
   position: absolute;
   width: 100%;
@@ -40,7 +49,9 @@
 }
 
 .minigame_profile .profile_header .userAvatar {
-  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
   border: 10px solid white;
   position: absolute;
   top: -30px;
@@ -191,6 +202,13 @@
   letter-spacing: 1.5px;
   color: black;
 }
+.ranking_username {
+  font-size: 20px;
+}
+
+.mobile_gamenotice {
+  display: none;
+}
 
 @keyframes slideUp {
   0% {
@@ -198,21 +216,10 @@
     opacity: 0;
   }
   100% {
-    transform: translateY(-62%);
+    transform: translateY(-75%);
     opacity: 1;
   }
 }
-
-/* @keyframes slideDown {
-  0% {
-    transform: translateY(-62%);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-} */
 
 @keyframes motion {
   0% {
@@ -222,5 +229,81 @@
   100% {
     bottom: 5%;
     color: gray;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .minigame_profile .profile_header .userAvatar {
+    left: 10px;
+  }
+  .minigame_profile .profile_header .tierImage {
+    width: 100px;
+    height: 100px;
+  }
+  .mobile_gamenotice {
+    color: #595252;
+    font-family: "Montserrat";
+    font-size: 25px;
+    padding: 20px;
+    height: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .minigame_profile .profile_userinfo {
+    display: flex;
+    width: 100%;
+  }
+  .minigame_profile .profile_userinfo .info {
+    padding: 10px 10px;
+  }
+  .minigame_profile .profile_userrankinfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .minigame_profile .profile_userrankinfo .gamerank {
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  .minigame_profile .profile_userrankinfo .gamerank:nth-child(3) {
+    border-bottom: none;
+  }
+
+  .minigame_profile .profile_userrankinfo .gamerank:nth-child(4) {
+    border: none;
+  }
+
+  .users_ranking.show {
+    animation: mobile-slideUp 2s ease forwards;
+  }
+
+  .minigame_profile .profile_userrankinfo .gamerank .gamename {
+    letter-spacing: 1px;
+  }
+
+  .minigame_profile .ranking_showbutton {
+    font-size: 20px;
+  }
+
+  .minigame_profile .ranking_showbutton.close {
+    font-size: 20px;
+  }
+  .ranking_username {
+    max-width: 35%;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@keyframes mobile-slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-87%);
+    opacity: 1;
   }
 }

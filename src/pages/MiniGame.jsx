@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Avatar, Box, List, ListItem, ListItemAvatar } from "@mui/material";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import DiceGame from "../minigame/DiceGame";
@@ -17,6 +17,7 @@ function MiniGame() {
   const { bg } = useSelector((state) => state);
   const location = useLocation();
   const navigate = useNavigate();
+  const gameRef = useRef(null);
 
   const transitions = useTransition(location, {
     from: { opacity: 0, transform: "translate3d(100%,0px,0px)" },
@@ -26,26 +27,40 @@ function MiniGame() {
 
   const handleMenuClick = (path) => {
     navigate(path); // 라우팅 경로를 변경하여 페이지 전환
+    scrollToTop(); // 스크롤을 게임 컨텐츠로 이동
+  };
+  const scrollToTop = () => {
+    // Scroll to the top using the topRef
+    gameRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <Box
       sx={{
         display: "flex",
-        width: "100vw",
+        width: "100%", // 이 줄을 추가합니다.
         height: "100vh",
         overflow: "auto",
         backgroundImage: `url(${bg.bgImage})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "fixed",
         backgroundSize: "cover",
+
+        // "@media (max-width: 500px)": {
+        //   // 휴대폰에서의 스타일 조정
+        //   display: "flex",
+        //   flexDirection: "column",
+        // },
       }}>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
+          width: "100%",
         }}>
         <div
+          ref={gameRef}
           style={{
             display: "flex",
             alignItems: "center",
@@ -60,13 +75,42 @@ function MiniGame() {
           Chat_Goopt<span className="blinking-text">ㅣ</span>
           <Header />
         </div>
+        <div className="minigame_main">
+          <div
+            className="minigame_menu dice"
+            onClick={() => handleMenuClick("/minigame/dicegame")}>
+            DICE GAME
+          </div>
+          <div
+            className="minigame_menu type"
+            onClick={() => handleMenuClick("/minigame/typegame")}>
+            TYPING GAME
+          </div>
+          <div
+            className="minigame_menu fifa"
+            onClick={() => handleMenuClick("/minigame/fifagame")}>
+            FIFA GAME
+          </div>
+          <div
+            className="minigame_menu lol"
+            onClick={() => handleMenuClick("/minigame/lolgame")}>
+            LOL GAME
+          </div>
+        </div>
         {transitions((style, item, key) => (
           <animated.div
             key={key}
-            style={{ ...style, height: "100%", marginTop: "3vh" }}>
+            style={{
+              ...style,
+              height: "100%",
+              marginTop: "3vh",
+              maxWidth: "100%",
+              marginLeft: 20,
+              marginRight: 20,
+            }}>
             <Routes location={item}>
               <Route path="/" element={<MiniGameMain />} />
-              <Route path="/gamemain" element={<GameMain />} />
+              {/* <Route path="/gamemain" element={<GameMain />} /> */}
               <Route path="/dicegame" element={<DiceGame />} />
               <Route path="/typegame" element={<TypingGame />} />
               <Route path="/fifagame" element={<FiFaGame />} />
@@ -75,28 +119,6 @@ function MiniGame() {
             </Routes>
           </animated.div>
         ))}
-      </div>
-      <div className="minigame_main">
-        <div
-          className="minigame_menu dice"
-          onClick={() => handleMenuClick("/minigame/dicegame")}>
-          DICE GAME
-        </div>
-        <div
-          className="minigame_menu type"
-          onClick={() => handleMenuClick("/minigame/typegame")}>
-          TYPING GAME
-        </div>
-        <div
-          className="minigame_menu fifa"
-          onClick={() => handleMenuClick("/minigame/fifagame")}>
-          FIFA GAME
-        </div>
-        <div
-          className="minigame_menu lol"
-          onClick={() => handleMenuClick("/minigame/lolgame")}>
-          LOL GAME
-        </div>
       </div>
     </Box>
   );

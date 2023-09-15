@@ -21,30 +21,20 @@ function PopularBoard({ isloading, boardList }) {
           <>
             <List
               sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
                 width: "100%",
-                maxWidth: 280,
                 backgroundColor: "rgba(5,5,5,0.3)",
                 boxShadow:
                   "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
                 borderRadius: "10px",
-                border: "1px solid gray",
+                height: "80vh",
                 "@media (max-width: 500px)": {
                   // 휴대폰에서의 스타일 조정
                   maxWidth: 370,
                 },
               }}>
-              <Typography
-                sx={{
-                  fontSize: "20px",
-                  textAlign: "center",
-                  padding: "15px 0 ",
-                  color: "whitesmoke",
-                  fontFamily: "Montserrat",
-                  fontWeight: 500,
-                }}>
-                인기게시물
-              </Typography>
-              <Divider color="white" />
               {boardList?.map((item, index) =>
                 item.id ? (
                   <>
@@ -60,7 +50,6 @@ function PopularBoard({ isloading, boardList }) {
                       notice={item.notice}
                       imageRef={getItemRef(item.id)} // 커스텀 훅을 사용하여 ref 얻기
                     />
-                    <Divider color="white" />
                   </>
                 ) : (
                   <div>error</div>

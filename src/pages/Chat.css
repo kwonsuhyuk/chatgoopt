@@ -19,4 +19,7 @@
   .chatPageMain {
     max-width: 100vw;
   }
+  .chat_content {
+    flex-direction: column;
+  }
 }

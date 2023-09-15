@@ -9,7 +9,6 @@
   transform: translate(-50%, 0);
   flex-direction: column;
   gap: 7vh;
-  margin-left: 20px;
   background-color: lightgreen;
   border-radius: 10px;
 }
@@ -54,6 +53,11 @@
   align-items: center;
 }
 
+.playerImg {
+  width: 250px;
+  height: 250px;
+}
+
 .fifa_mainBox .ranking_showbutton {
   position: absolute;
   bottom: 2%;
@@ -87,6 +91,24 @@
   font-family: "Montserrat";
 }
 
+.nexon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: rgb(52, 91, 125);
+  text-align: center;
+  font-family: "Montserrat";
+}
+.fifa_notice {
+  font-size: 15px;
+  font-family: "Montserrat";
+  color: rgb(52, 91, 125);
+  display: flex;
+  justify-content: center;
+  opacity: 0.5;
+  margin-bottom: 50px;
+}
+
 @keyframes fifarankslideup {
   0% {
     transform: translateY(100%);
@@ -106,5 +128,23 @@
   100% {
     bottom: 3%;
     color: rgb(52, 91, 125);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .fifa_mainBox .fifa_gameBox .gameBox_title .fifagame_title {
+    border: 3px solid rgba(144, 238, 144, 0.8);
+  }
+  .playerImg {
+    width: 150px;
+    height: 150px;
+  }
+  .nexon {
+    font-size: 10px;
+    opacity: 0.5;
+  }
+  .fifa_notice {
+    margin-bottom: 0;
+    font-size: 12px;
   }
 }

@@ -228,7 +228,11 @@ function ChatMain() {
               flexDirection: "column",
             }}>
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} user={user} />
+              <ChatMessage
+                key={message.timestamp}
+                message={message}
+                user={user}
+              />
             ))}
             <div ref={messageEndRef}></div>
           </List>

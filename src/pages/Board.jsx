@@ -32,7 +32,7 @@ function Board() {
           marginBottom: 20,
         }}>
         Chat_Goopt<span className="blinking-text">ㅣ</span>
-        {!isMobile && <Header />}
+        <Header />
       </div>
       <Routes>
         <Route path="/" element={<BoardMain />} />
