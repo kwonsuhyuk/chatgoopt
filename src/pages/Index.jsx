@@ -51,7 +51,7 @@ function Index() {
     if (currentHour >= 7 && currentHour < 16) {
       return dayImg;
     } else if (currentHour >= 16 && currentHour < 20) {
-      return dayImg;
+      return pmImg2;
     } else {
       return nightImg;
     }

@@ -303,7 +303,7 @@
     opacity: 0;
   }
   100% {
-    transform: translateY(-87%);
+    transform: translateY(-95%);
     opacity: 1;
   }
 }

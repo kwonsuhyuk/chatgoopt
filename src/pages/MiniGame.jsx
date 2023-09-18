@@ -115,7 +115,6 @@ function MiniGame() {
               <Route path="/typegame" element={<TypingGame />} />
               <Route path="/fifagame" element={<FiFaGame />} />
               <Route path="/lolgame" element={<LoLGame />} />
-              <Route path="/memorygame" element={<MemoryGame />} />
             </Routes>
           </animated.div>
         ))}
