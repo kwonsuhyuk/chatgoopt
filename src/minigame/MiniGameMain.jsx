@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemAvatar,
-} from "@mui/material";
+import { Avatar, Button, List, ListItem, ListItemAvatar } from "@mui/material";
 
 import bronze from "../img/tier/bronze.png";
 import silver from "../img/tier/silver.png";
@@ -126,8 +119,6 @@ function MiniGameMain() {
         console.error(error);
       });
   }, []);
-
-  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
 
   useEffect(() => {
     const database = getDatabase();

@@ -8,7 +8,6 @@ import Header from "../components/Header";
 
 function Chat() {
   const { bg } = useSelector((state) => state);
-  const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
 
   return (
     <Box className="mainChatBox" sx={{ backgroundImage: `url(${bg.bgImage})` }}>

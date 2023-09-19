@@ -12,6 +12,12 @@
   -webkit-animation: motion 1s ease-in-out 0s infinite alternate;
 }
 
+.dashmain_maindiv {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 93vh;
+}
+
 @keyframes motion {
   0% {
     bottom: 0;
@@ -96,7 +102,6 @@
 
 .todoBoard_Main {
   position: relative;
-  display: inline-block;
   padding: 50px;
   display: flex;
   overflow-y: scroll;
@@ -134,6 +139,13 @@
   }
   .todoBoard_Main {
     gap: 30px;
+  }
+  .scrollDownIn {
+    display: none;
+  }
+  .dashmain_maindiv {
+    display: flex;
+    flex-direction: column;
   }
 }
 

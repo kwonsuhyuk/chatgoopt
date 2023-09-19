@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./MobileMain.css";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import ThemePicker from "../components/ThemePicker";
 import { NavLink } from "react-router-dom";
 
 function MobileMain() {

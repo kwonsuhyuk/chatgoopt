@@ -1,6 +1,5 @@
-import { Box, Button, Checkbox } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import NewBoard from "./NewBoard";
 import LiveBoard from "./LiveBoard";
 import { child, get, getDatabase, ref } from "firebase/database";
@@ -10,7 +9,6 @@ import PopularBoard from "./PopularBoard";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 function BoardMain() {
-  const { theme, bg } = useSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const [boardList, setBoardList] = useState([]);
   const [noticeBoardList, setNoticeBoardList] = useState([]);
@@ -28,6 +26,24 @@ function BoardMain() {
           <>
             <NewBoard />
             <LiveBoard isLoading={isLoading} boardList={boardList} />
+            <button
+              onClick={scrollToTop}
+              style={{
+                backgroundColor: "rgba(5,5,5,0.3)",
+                boxShadow:
+                  "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                margin: "20px",
+                fontSize: "35px",
+                color: "white",
+                borderRadius: "50%",
+                border: "none",
+                zIndex: 150,
+              }}>
+              <ArrowUpwardIcon />
+            </button>
           </>
         );
       case "notice":
@@ -189,24 +205,7 @@ function BoardMain() {
               인기게시판
             </Button>
           </Box>
-          <button
-            onClick={scrollToTop}
-            style={{
-              backgroundColor: "rgba(5,5,5,0.3)",
-              boxShadow:
-                "inset -3px -3px 10px rgba(0, 0, 0, 0.2), inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              margin: "20px",
-              fontSize: "35px",
-              color: "white",
-              borderRadius: "50%",
-              border: "none",
-              zIndex: 150,
-            }}>
-            <ArrowUpwardIcon />
-          </button>
+
           <Box>{renderSelectedBoard()}</Box>
           {/* <LiveBoard isLoading={isLoading} boardList={boardList} /> */}
         </Box>

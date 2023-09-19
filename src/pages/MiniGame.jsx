@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Avatar, Box, List, ListItem, ListItemAvatar } from "@mui/material";
+import React, { useRef } from "react";
+import { Box } from "@mui/material";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import DiceGame from "../minigame/DiceGame";
 import TypingGame from "../minigame/TypingGame";
 import { useSelector } from "react-redux";
 import FiFaGame from "../minigame/FiFaGame";
-import GameMain from "../minigame/GameMain";
 import LoLGame from "../minigame/LoLGame";
-import MemoryGame from "../minigame/MemoryGame";
 import MiniGameMain from "../minigame/MiniGameMain";
 import "./MiniGame.css";
 import { useTransition, animated } from "react-spring";
@@ -96,6 +94,11 @@ function MiniGame() {
             onClick={() => handleMenuClick("/minigame/lolgame")}>
             LOL GAME
           </div>
+          {/* <div
+            className="minigame_menu park"
+            onClick={() => handleMenuClick("/minigame/lolgame")}>
+            PARK GAME
+          </div> */}
         </div>
         {transitions((style, item, key) => (
           <animated.div

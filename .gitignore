@@ -17,7 +17,7 @@ database.rules.json
 storage.rules
 
 /public
-/.firebase
+/firebase
 
 # misc
 .DS_Store

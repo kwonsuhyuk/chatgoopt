@@ -1,23 +1,16 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import "../firebase";
-import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
-import ProfileModal from "./modal/ProfileModal";
+
 import { useCallback } from "react";
-import { Backdrop, Badge, Button, Divider } from "@mui/material";
+import { Badge, Button, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AlarmItem from "./AlarmItem";
 import { clearUserAlarms, setUserAlarms } from "../store/alarmSlice";
@@ -39,12 +32,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const pages = ["dashboard", "chat", "board", "minigame"];
 
 function Header() {
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [showProfileModal, setShowProfileModal] = useState(false);
-  const { user, userAlarms, chatAlarmNum, theme } = useSelector(
-    (state) => state
-  );
-  const [openBack, setOpenBack] = useState(false);
+  const { user, userAlarms, chatAlarmNum } = useSelector((state) => state);
   const location = useLocation();
   const [anchorAlarmEl, setAnchorAlarmEl] = useState(null);
   const [anchorOnlineEl, setAnchorOnlineEl] = useState(null);
@@ -58,10 +46,6 @@ function Header() {
 
   const handleHeaderOpen = () => {
     setHeaderOpen((prev) => !prev);
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
   //모든 유저 목록 가져오기
@@ -182,10 +166,6 @@ function Header() {
     };
   }, [user.currentUser.uid]);
 
-  const handleGoHome = () => {
-    navigate("/");
-  };
-
   useEffect(() => {
     let timer;
     if (isMenuOpen) {
@@ -201,108 +181,121 @@ function Header() {
   }, [isMenuOpen]);
 
   return (
-    <Box sx={{ display: "flex", position: "relative" }}>
-      <GroupIcon
-        onClick={handleOnlineClick}
-        sx={{
-          color: "#5bc236",
-          width: "30px",
-          height: "30px",
-        }}
-      />
-      <Menu
-        open={onlineOpen}
-        anchorEl={anchorOnlineEl}
-        id="online-menu"
-        PaperProps={{
-          style: {
-            height: 500,
-            width: 300,
-            overflow: "scroll",
-            backgroundColor: "whitesmoke",
-            position: "relative",
-          },
-        }}
-        onClose={handleOnlineClose}>
-        {friends.map(
-          (friend) =>
-            user.currentUser.uid !== friend.id && (
-              <MenuItem key={friend.id} sx={{ padding: "20px" }}>
-                <UserStatus user={friend} />
-                <Divider />
-              </MenuItem>
-            )
-        )}
-      </Menu>
-      <IconButton
-        className="alarm_Btn"
-        aria-label={notificationsLabel(100)}
-        sx={{
-          borderRadius: "30px",
-          padding: 0,
-          paddingLeft: "10px",
-        }}>
-        <Badge
-          badgeContent={
-            userAlarms?.alarms.length > 10 ? "10+" : userAlarms.alarms.length
-          }
-          color="error">
-          <NotificationsIcon
-            sx={{
-              color: "#E86B79",
-              width: "30px",
-              height: "30px",
-            }}
-            onClick={handleAlarmClick}
-            aria-controls={alarmOpen ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={alarmOpen ? "true" : undefined}
-          />
-        </Badge>
-      </IconButton>
-      <Menu
-        open={alarmOpen}
-        anchorEl={anchorAlarmEl}
-        id="alarm-menu"
-        PaperProps={{
-          style: {
-            height: 500,
-            width: 300,
-            overflow: "scroll",
-            backgroundColor: "whitesmoke",
-            position: "relative",
-          },
-        }}
-        onClose={handleAlarmClose}>
-        {userAlarms.alarms.map((alarm) => (
-          <AlarmItem
-            key={alarm.id}
-            value={alarm}
-            handleAlarmClose={handleAlarmClose}
-          />
-        ))}
-        <Button
+    <>
+      <Box sx={{ display: "flex", position: "relative" }}>
+        <GroupIcon
+          onClick={handleOnlineClick}
           sx={{
-            color: "red",
-            width: "100%",
-            display: userAlarms.alarms.length === 0 ? "none" : "block",
+            color: "#5bc236",
+            width: "30px",
+            height: "30px",
           }}
-          onClick={handleClearAlarm}>
-          Clear All
-        </Button>
-      </Menu>
+        />
+        <Menu
+          open={onlineOpen}
+          anchorEl={anchorOnlineEl}
+          id="online-menu"
+          PaperProps={{
+            style: {
+              height: 500,
+              width: 300,
+              overflow: "scroll",
+              backgroundColor: "whitesmoke",
+              position: "relative",
+            },
+          }}
+          onClose={handleOnlineClose}>
+          {friends.map(
+            (friend) =>
+              user.currentUser.uid !== friend.id && (
+                <MenuItem key={friend.id} sx={{ padding: "20px" }}>
+                  <UserStatus user={friend} />
+                  <Divider />
+                </MenuItem>
+              )
+          )}
+        </Menu>
+        <IconButton
+          className="alarm_Btn"
+          aria-label={notificationsLabel(100)}
+          sx={{
+            borderRadius: "30px",
+            padding: 0,
+            paddingLeft: "10px",
+          }}>
+          <Badge
+            badgeContent={
+              userAlarms?.alarms.length > 10 ? "10+" : userAlarms.alarms.length
+            }
+            color="error">
+            <NotificationsIcon
+              sx={{
+                color: "#E86B79",
+                width: "30px",
+                height: "30px",
+              }}
+              onClick={handleAlarmClick}
+              aria-controls={alarmOpen ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={alarmOpen ? "true" : undefined}
+            />
+          </Badge>
+        </IconButton>
+        <Menu
+          open={alarmOpen}
+          anchorEl={anchorAlarmEl}
+          id="alarm-menu"
+          PaperProps={{
+            style: {
+              height: 500,
+              width: 300,
+              overflow: "scroll",
+              backgroundColor: "whitesmoke",
+              position: "relative",
+            },
+          }}
+          onClose={handleAlarmClose}>
+          {userAlarms.alarms.map((alarm) => (
+            <AlarmItem
+              key={alarm.id}
+              value={alarm}
+              handleAlarmClose={handleAlarmClose}
+            />
+          ))}
+          <Button
+            sx={{
+              color: "red",
+              width: "100%",
+              display: userAlarms.alarms.length === 0 ? "none" : "block",
+            }}
+            onClick={handleClearAlarm}>
+            Clear All
+          </Button>
+        </Menu>
 
-      <div className="dash_navlink">
-        {pages.map((page) =>
-          page === "chat" ? (
-            <Badge
-              key={page}
-              badgeContent={chatAlarm(chatAlarmNum)}
-              color="error"
-              style={{ padding: 0 }}>
+        <div className="dash_navlink">
+          {pages.map((page) =>
+            page === "chat" ? (
+              <Badge
+                key={page}
+                badgeContent={chatAlarm(chatAlarmNum)}
+                color="error"
+                style={{ padding: 0 }}>
+                <NavLink
+                  key={page}
+                  to={"/" + page}
+                  data-text={page}
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                  }}>
+                  {page}
+                </NavLink>
+              </Badge>
+            ) : (
               <NavLink
                 key={page}
-                to={"/" + page}
+                to={page === "dashboard" ? "/" : "/" + page}
                 data-text={page}
                 style={{
                   textDecoration: "none",
@@ -310,28 +303,34 @@ function Header() {
                 }}>
                 {page}
               </NavLink>
-            </Badge>
-          ) : (
-            <NavLink
-              key={page}
-              to={page === "dashboard" ? "/" : "/" + page}
-              data-text={page}
-              style={{
-                textDecoration: "none",
-                color: "white",
-              }}>
-              {page}
-            </NavLink>
-          )
-        )}
-      </div>
+            )
+          )}
+        </div>
+      </Box>
       <div className="header_menuIcon">
         {!headeropen ? (
-          <MenuIcon onClick={handleHeaderOpen} />
+          <MenuIcon
+            onClick={handleHeaderOpen}
+            sx={{
+              fontSize: "50px",
+              "@media (max-width: 500px)": {
+                // 휴대폰에서의 스타일 조정
+                fontSize: "30px",
+              },
+            }}
+          />
         ) : (
-          <Box sx={{}}>
+          <Box>
             <CloseIcon
-              sx={{ zIndex: 150, color: "white" }}
+              sx={{
+                zIndex: 150,
+                color: "white",
+                fontSize: "50px",
+                "@media (max-width: 500px)": {
+                  // 휴대폰에서의 스타일 조정
+                  fontSize: "30px",
+                },
+              }}
               onClick={handleHeaderOpen}
             />
             <div className="mobile_navlink">
@@ -368,7 +367,7 @@ function Header() {
           </Box>
         )}
       </div>
-    </Box>
+    </>
   );
 }
 export default Header;

@@ -14,9 +14,7 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import "./Dashboard.css";
 import TodoModal from "../components/modal/TodoModal";
 import AddIcon from "@mui/icons-material/Add";
-
 import "../firebase";
-
 import {
   child,
   get,
@@ -41,13 +39,7 @@ import ProfileModal from "../components/modal/ProfileModal";
 
 const MainDiv = styled.div`
   height: 100vh;
-  // background-color: ${({ mainColor }) => mainColor};
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  @media screen and (max-width: 850px) {
-    display:flex;
-    flex-direction:column;
-  `;
+`;
 
 const SubDiv = styled.div`
   overflow-y: scroll;
@@ -307,17 +299,6 @@ function Dashboard() {
   }, [user.currentUser.uid, todos]);
 
   const isMobile = window.innerWidth < 500; // 뷰포트 너비가 500px 미만인 경우 true로 설정
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    // 2초 후에 isVisible 상태를 false로 변경하여 요소를 숨깁니다.
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
-
-    // 컴포넌트가 언마운트되면 타이머를 클리어합니다.
-    return () => clearTimeout(timer);
-  }, []);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
@@ -380,97 +361,98 @@ function Dashboard() {
             display: "flex",
             alignItems: "center",
             fontFamily: `"Orbitron", sans-serif`,
-            position: "absolute",
-            top: 20,
-            left: 20,
             color: "white",
             fontSize: "30px",
             paddingLeft: "0px",
             zIndex: "20",
+            paddingTop: 20,
+            marginLeft: 20,
+            marginBottom: 20,
           }}>
           Chat_Goopt<span className="blinking-text">ㅣ</span>
           <Header />
         </div>
-        <div
-          className="dash_maindiv"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-          }}>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            className="searchBar"
-            ref={boxRef}
-            sx={{
-              width: "70%",
-              textAlign: "center",
-              position: "relative",
-            }}
-            noValidate
-            autoComplete="off">
-            <input
-              type="text"
-              placeholder="Search"
-              className="searchInput"
-              name="search"
-            />
-          </Box>
+        <div className="dashmain_maindiv">
           <div
+            className="dash_maindiv"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+            }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              className="searchBar"
+              ref={boxRef}
+              sx={{
+                width: "70%",
+                textAlign: "center",
+                position: "relative",
+              }}
+              noValidate
+              autoComplete="off">
+              <input
+                type="text"
+                placeholder="Search"
+                className="searchInput"
+                name="search"
+              />
+            </Box>
+            <div
+              style={{
+                fontFamily: `"Orbitron", sans-serif`,
+                fontWeight: 700,
+                color: "white",
+                marginTop: isMobile && "100px",
+                fontSize: isMobile ? "50px" : "90px",
+              }}>
+              {hours}:{minutes}:{seconds}
+            </div>
+            <Weather />
+            <div
+              className="scrollDownIn"
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                padding: "30px",
+                color: "white",
+              }}>
+              Scroll Down <KeyboardDoubleArrowDownIcon />
+            </div>
+          </div>
+          <div>
+            {ismenubaropen && (
+              <div className="bookMark">
+                {bookMarks
+                  .map((value) => <BookMark key={value.id} value={value} />)
+                  .concat(<BookMark key="123123" value={null} />)}
+              </div>
+            )}
+          </div>
+          <div
+            className="bookmarkopenBtn"
             style={{
               fontFamily: `"Orbitron", sans-serif`,
-              fontWeight: 700,
-              color: "white",
-              marginTop: isMobile && "100px",
-              fontSize: isMobile ? "50px" : "90px",
+              position: "absolute",
+              right: 0,
+              top: "50%",
             }}>
-            {hours}:{minutes}:{seconds}
+            {!ismenubaropen ? (
+              <KeyboardDoubleArrowLeftIcon
+                onClick={handlemenubaropen}
+                sx={{ color: "white", fontSize: "55px" }}
+              />
+            ) : (
+              <KeyboardDoubleArrowRightIcon
+                onClick={handlemenubaropen}
+                sx={{ color: "white", fontSize: "55px" }}
+              />
+            )}
           </div>
-          <Weather />
-
-          <div
-            className="scrollDownIn"
-            style={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              padding: "30px",
-              color: "white",
-            }}>
-            Scroll Down <KeyboardDoubleArrowDownIcon />
-          </div>
-        </div>
-        <div>
-          {ismenubaropen && (
-            <div className="bookMark">
-              {bookMarks
-                .map((value) => <BookMark key={value.id} value={value} />)
-                .concat(<BookMark key="123123" value={null} />)}
-            </div>
-          )}
-        </div>
-        <div
-          className="bookmarkopenBtn"
-          style={{
-            fontFamily: `"Orbitron", sans-serif`,
-            position: "absolute",
-            right: 0,
-            top: "50%",
-          }}>
-          {!ismenubaropen ? (
-            <KeyboardDoubleArrowLeftIcon
-              onClick={handlemenubaropen}
-              sx={{ color: "white", fontSize: "55px" }}
-            />
-          ) : (
-            <KeyboardDoubleArrowRightIcon
-              onClick={handlemenubaropen}
-              sx={{ color: "white", fontSize: "55px" }}
-            />
-          )}
         </div>
         <div style={{ position: "absolute", top: 10, right: 20 }}>
           <Box className="profileMenu" sx={{ marginLeft: "30px" }}>
@@ -521,23 +503,6 @@ function Dashboard() {
             handleClose={handleCloseProfileModal}
           />
         </div>
-        {/* <div
-          className="feedback"
-          style={{
-            position: "fixed",
-            bottom: 0,
-            right: 0,
-            padding: "30px",
-          }}>
-          <Fab variant="extended" onClick={() => setFeedBackOpen(true)}>
-            <NavigationIcon sx={{ mr: 1 }} />
-            FeedBack
-          </Fab>
-          <FeedBackModal
-            open={feedBackOpen}
-            handleClose={handleFeedBackClose}
-          />
-        </div> */}
       </MainDiv>
       <SubDiv ref={targetRef} mainColor={theme.mainColor}>
         <div className="todoBoard_Title">

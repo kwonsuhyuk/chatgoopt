@@ -1,5 +1,5 @@
-import { Box, Container } from "@mui/material";
-import React, { useRef } from "react";
+import { Box } from "@mui/material";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFrown } from "@fortawesome/free-regular-svg-icons";

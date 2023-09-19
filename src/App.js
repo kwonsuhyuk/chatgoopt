@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router";
 import Main from "./pages/Main";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./firebase";
 import Index from "./pages/Index";
 import { useDispatch, useSelector } from "react-redux";
