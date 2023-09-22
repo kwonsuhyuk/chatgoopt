@@ -364,12 +364,12 @@ function SpaceGame() {
         position.x + CHAR_SIZE / 2,
         position.y
       );
-      // if (distance <= CHAR_SIZE / 2) {
-      //   setOpenDialog(true);
-      //   setGameStart(false);
-      //   setScoreOn(false);
-      //   setGameOn(false);
-      // }
+      if (distance <= CHAR_SIZE / 2) {
+        setOpenDialog(true);
+        setGameStart(false);
+        setScoreOn(false);
+        setGameOn(false);
+      }
       // console.log(distance);
     });
   }
