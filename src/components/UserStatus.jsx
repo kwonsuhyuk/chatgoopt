@@ -5,7 +5,6 @@ import {
   onValue,
   off,
   onDisconnect,
-  get,
 } from "firebase/database";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import React, { useEffect, useState } from "react";
@@ -50,7 +49,9 @@ function UserStatus({ user }) {
     const hoursSinceLastOnline = Math.floor(minutesSinceLastOnline / 60);
     const daysSinceLastOnline = Math.floor(hoursSinceLastOnline / 24);
 
-    if (daysSinceLastOnline >= 1) {
+    if (daysSinceLastOnline >= 14) {
+      return "최근 접속 기록 없음";
+    } else if (daysSinceLastOnline >= 1) {
       return `${daysSinceLastOnline}일 전에 접속함`;
     } else if (hoursSinceLastOnline >= 1) {
       return `${hoursSinceLastOnline}시간 전에 접속함`;
