@@ -14,7 +14,6 @@ import {
 import Dice from "../components/Dice";
 import { useSelector } from "react-redux";
 import "../firebase";
-<<<<<<< HEAD
 import {
   child,
   get,
@@ -31,11 +30,10 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import loveArrow from "../img/loveArrow.png";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-=======
+
 import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
 import CasinoIcon from "@mui/icons-material/Casino";
 import "./TypingGame.css";
->>>>>>> origin/sungbin
 
 function DiceGame() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -189,7 +187,6 @@ function DiceGame() {
       });
   }, []);
 
-<<<<<<< HEAD
   const rankCoinAdjustments = [
     { adjustment: 100 },
     { adjustment: 70 },
@@ -265,7 +262,8 @@ function DiceGame() {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handlesnackbarClose}>
+        onClick={handlesnackbarClose}
+      >
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -299,178 +297,186 @@ function DiceGame() {
       .catch((error) => {
         console.error(`Error retrieving user data for user ${userId}:`, error);
       });
-=======
-  const handleDiceDelete = () => {
-    const database = getDatabase();
-    const diceRef = ref(database, "minigame/dicegamerank/");
 
-    remove(diceRef)
-      .then(() =>
-        console.log('Data at "minigame/dicegamerank/" has been deleted.')
-      )
-      .catch((error) => console.error("Error deleting data:", error));
->>>>>>> origin/sungbin
-  };
+    const handleDiceDelete = () => {
+      const database = getDatabase();
+      const diceRef = ref(database, "minigame/dicegamerank/");
 
-  return (
-    <div className="dice_mainBox">
-      <div className="dice_gameBox">
-        <div className="gameBox_title">
-          <div className="dicegame_title">DICEGAME</div>
-          <div>
-            <Typography
-              sx={{
-                fontFamily: "Montserrat",
-                color: "white",
-                fontSize: "20px",
-                marginRight: "10px",
-              }}
-              aria-owns={open ? "mouse-over-popover" : undefined}
-              aria-haspopup="true"
-              onMouseEnter={handlePopoverOpen}
-              onMouseLeave={handlePopoverClose}>
-              How To Play
-            </Typography>
-            <Popover
-              id="mouse-over-popover"
-              sx={{
-                pointerEvents: "none",
-              }}
-              open={open}
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              onClose={handlePopoverClose}
-              disableRestoreFocus>
+      remove(diceRef)
+        .then(() =>
+          console.log('Data at "minigame/dicegamerank/" has been deleted.')
+        )
+        .catch((error) => console.error("Error deleting data:", error));
+    };
+
+    return (
+      <div className="dice_mainBox">
+        <div className="dice_gameBox">
+          <div className="gameBox_title">
+            <div className="dicegame_title">DICEGAME</div>
+            <div>
               <Typography
-                sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
-                하루에 한번 주사위를 던져 오늘 행운을 시험하세요!
-                <br />
-                <div className="dice_scoreNotice">
-                  % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin,
-                  5등 : 20coin, 6등이하 : 0, 미참여 : -20coin %
-                </div>
-              </Typography>
-            </Popover>
-          </div>
-        </div>
-<<<<<<< HEAD
-
-        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-          <Button
-            onClick={handleDiceDelete}
-            sx={{ color: "red", backgroundColor: "white" }}>
-            데이터 삭제
-          </Button>
-        )}
-
-=======
-        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-          <Button onClick={handleDiceDelete}>데이터 삭제</Button>
-        )}
->>>>>>> origin/sungbin
-        <div className="gameBox_main">
-          <Dice color="blue" num={diceNum1} />
-          <Dice color="red" num={diceNum2} />
-        </div>
-
-        <div className="gameBox_active">
-          {isDouble && (
-            <div
-              style={{
-                color: "#11609c",
-                fontSize: "30px",
-                fontFamily: "sans-serif",
-              }}>
-              DOUBLE!!
-            </div>
-          )}
-          <Button
-            onClick={throwDice}
-            disabled={isThrowing}
-            className="diceButton"
-            sx={{
-              border: "3px solid pink",
-              backgroundColor: "white",
-              color: "pink",
-            }}>
-            {isThrowing ? "주사위 던지는 중..." : "주사위 던지기"}
-          </Button>
-        </div>
-      </div>
-      <div
-        className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
-        onClick={handleShowRanking}>
-        {!showUserRank ? "Show Ranking" : "Close"}
-        {!showUserRank && <KeyboardDoubleArrowUpIcon />}
-      </div>
-      <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
-        <List className="ranking_mainboard">
-          {rank.map((userData, index) => (
-            <ListItem
-              className="ranking_item"
-              key={userData.id}
-              sx={{
-                backgroundColor:
-                  user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
-              }}>
-              <span>{index + 1}.</span>
-              <ListItemAvatar>
-                <Avatar
-                  variant="rounded"
-                  sx={{ width: 50, height: 50, borderRadius: "50%" }}
-                  alt="profile image"
-                  src={userData.avatar}
-                />
-              </ListItemAvatar>
-              <span
-                style={{
+                sx={{
+                  fontFamily: "Montserrat",
+                  color: "white",
                   fontSize: "20px",
-                }}>
-                {userData.name}
-              </span>
+                  marginRight: "10px",
+                }}
+                aria-owns={open ? "mouse-over-popover" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+              >
+                How To Play
+              </Typography>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Typography
+                  sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}
+                >
+                  하루에 한번 주사위를 던져 오늘 행운을 시험하세요!
+                  <br />
+                  <div className="dice_scoreNotice">
+                    % 1등 : 100 coin, 2등 : 70 coin, 3등 : 50coin, 4등 : 30coin,
+                    5등 : 20coin, 6등이하 : 0, 미참여 : -20coin %
+                  </div>
+                </Typography>
+              </Popover>
+            </div>
+          </div>
+
+          {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+            <Button
+              onClick={handleDiceDelete}
+              sx={{ color: "red", backgroundColor: "white" }}
+            >
+              데이터 삭제
+            </Button>
+          )}
+
+          {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+            <Button onClick={handleDiceDelete}>데이터 삭제</Button>
+          )}
+
+          <div className="gameBox_main">
+            <Dice color="blue" num={diceNum1} />
+            <Dice color="red" num={diceNum2} />
+          </div>
+
+          <div className="gameBox_active">
+            {isDouble && (
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  position: "absolute",
-                  right: 10,
-                }}>
-                {userData.id !== user.currentUser.uid && (
-                  <img
-                    src={loveArrow}
-                    alt="lovearrow"
-                    onClick={() => handleArrowLove(userData.id)}
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50%",
-                      cursor: "pointer",
-                    }}
-                  />
-                )}
-                {userData.diceSum}
-                <CasinoIcon />
+                  color: "#11609c",
+                  fontSize: "30px",
+                  fontFamily: "sans-serif",
+                }}
+              >
+                DOUBLE!!
               </div>
-            </ListItem>
-          ))}
-        </List>
+            )}
+            <Button
+              onClick={throwDice}
+              disabled={isThrowing}
+              className="diceButton"
+              sx={{
+                border: "3px solid pink",
+                backgroundColor: "white",
+                color: "pink",
+              }}
+            >
+              {isThrowing ? "주사위 던지는 중..." : "주사위 던지기"}
+            </Button>
+          </div>
+        </div>
+        <div
+          className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
+          onClick={handleShowRanking}
+        >
+          {!showUserRank ? "Show Ranking" : "Close"}
+          {!showUserRank && <KeyboardDoubleArrowUpIcon />}
+        </div>
+        <div className={`game_user_ranking ${showUserRank ? "show" : ""}`}>
+          <List className="ranking_mainboard">
+            {rank.map((userData, index) => (
+              <ListItem
+                className="ranking_item"
+                key={userData.id}
+                sx={{
+                  backgroundColor:
+                    user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
+                }}
+              >
+                <span>{index + 1}.</span>
+                <ListItemAvatar>
+                  <Avatar
+                    variant="rounded"
+                    sx={{ width: 50, height: 50, borderRadius: "50%" }}
+                    alt="profile image"
+                    src={userData.avatar}
+                  />
+                </ListItemAvatar>
+                <span
+                  style={{
+                    fontSize: "20px",
+                  }}
+                >
+                  {userData.name}
+                </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    position: "absolute",
+                    right: 10,
+                  }}
+                >
+                  {userData.id !== user.currentUser.uid && (
+                    <img
+                      src={loveArrow}
+                      alt="lovearrow"
+                      onClick={() => handleArrowLove(userData.id)}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                        cursor: "pointer",
+                      }}
+                    />
+                  )}
+                  {userData.diceSum}
+                  <CasinoIcon />
+                </div>
+              </ListItem>
+            ))}
+          </List>
+        </div>
+        <Snackbar
+          open={openSnackBard}
+          autoHideDuration={2000}
+          onClose={handlesnackbarClose}
+          message="좋아요를 보냈습니다."
+          action={action}
+        />
       </div>
-      <Snackbar
-        open={openSnackBard}
-        autoHideDuration={2000}
-        onClose={handlesnackbarClose}
-        message="좋아요를 보냈습니다."
-        action={action}
-      />
-    </div>
-  );
+    );
+  };
 }
 
 export default DiceGame;
