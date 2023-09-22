@@ -10,6 +10,7 @@ import MiniGameMain from "../minigame/MiniGameMain";
 import "./MiniGame.css";
 import { useTransition, animated } from "react-spring";
 import Header from "../components/Header";
+import SpaceGame from "../minigame/SpaceGame";
 
 function MiniGame() {
   const { bg } = useSelector((state) => state);
@@ -49,14 +50,16 @@ function MiniGame() {
         //   display: "flex",
         //   flexDirection: "column",
         // },
-      }}>
+      }}
+    >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           width: "100%",
-        }}>
+        }}
+      >
         <div
           ref={gameRef}
           style={{
@@ -69,30 +72,41 @@ function MiniGame() {
             paddingTop: 20,
             marginLeft: 20,
             marginBottom: 20,
-          }}>
+          }}
+        >
           Chat_Goopt<span className="blinking-text">ㅣ</span>
           <Header />
         </div>
         <div className="minigame_main">
           <div
             className="minigame_menu dice"
-            onClick={() => handleMenuClick("/minigame/dicegame")}>
+            onClick={() => handleMenuClick("/minigame/dicegame")}
+          >
             DICE GAME
           </div>
           <div
             className="minigame_menu type"
-            onClick={() => handleMenuClick("/minigame/typegame")}>
+            onClick={() => handleMenuClick("/minigame/typegame")}
+          >
             TYPING GAME
           </div>
           <div
             className="minigame_menu fifa"
-            onClick={() => handleMenuClick("/minigame/fifagame")}>
+            onClick={() => handleMenuClick("/minigame/fifagame")}
+          >
             FIFA GAME
           </div>
           <div
             className="minigame_menu lol"
-            onClick={() => handleMenuClick("/minigame/lolgame")}>
+            onClick={() => handleMenuClick("/minigame/lolgame")}
+          >
             LOL GAME
+          </div>
+          <div
+            className="minigame_menu space"
+            onClick={() => handleMenuClick("/minigame/spacegame")}
+          >
+            SPACE GAME
           </div>
           {/* <div
             className="minigame_menu park"
@@ -110,7 +124,8 @@ function MiniGame() {
               maxWidth: "100%",
               marginLeft: 20,
               marginRight: 20,
-            }}>
+            }}
+          >
             <Routes location={item}>
               <Route path="/" element={<MiniGameMain />} />
               {/* <Route path="/gamemain" element={<GameMain />} /> */}
@@ -118,6 +133,7 @@ function MiniGame() {
               <Route path="/typegame" element={<TypingGame />} />
               <Route path="/fifagame" element={<FiFaGame />} />
               <Route path="/lolgame" element={<LoLGame />} />
+              <Route path="/spacegame" element={<SpaceGame />} />
             </Routes>
           </animated.div>
         ))}
