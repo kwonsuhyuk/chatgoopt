@@ -14,6 +14,7 @@ import {
 import Dice from "../components/Dice";
 import { useSelector } from "react-redux";
 import "../firebase";
+<<<<<<< HEAD
 import {
   child,
   get,
@@ -30,6 +31,11 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import loveArrow from "../img/loveArrow.png";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
+=======
+import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
+import CasinoIcon from "@mui/icons-material/Casino";
+import "./TypingGame.css";
+>>>>>>> origin/sungbin
 
 function DiceGame() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -183,6 +189,7 @@ function DiceGame() {
       });
   }, []);
 
+<<<<<<< HEAD
   const rankCoinAdjustments = [
     { adjustment: 100 },
     { adjustment: 70 },
@@ -292,6 +299,17 @@ function DiceGame() {
       .catch((error) => {
         console.error(`Error retrieving user data for user ${userId}:`, error);
       });
+=======
+  const handleDiceDelete = () => {
+    const database = getDatabase();
+    const diceRef = ref(database, "minigame/dicegamerank/");
+
+    remove(diceRef)
+      .then(() =>
+        console.log('Data at "minigame/dicegamerank/" has been deleted.')
+      )
+      .catch((error) => console.error("Error deleting data:", error));
+>>>>>>> origin/sungbin
   };
 
   return (
@@ -342,6 +360,7 @@ function DiceGame() {
             </Popover>
           </div>
         </div>
+<<<<<<< HEAD
 
         {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
           <Button
@@ -351,6 +370,11 @@ function DiceGame() {
           </Button>
         )}
 
+=======
+        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
+          <Button onClick={handleDiceDelete}>데이터 삭제</Button>
+        )}
+>>>>>>> origin/sungbin
         <div className="gameBox_main">
           <Dice color="blue" num={diceNum1} />
           <Dice color="red" num={diceNum2} />

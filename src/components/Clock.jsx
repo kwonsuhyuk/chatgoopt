@@ -63,15 +63,21 @@ function Clock() {
   return (
     <div
       className={`Clock  ${isDigital ? "flipped" : ""}`}
+<<<<<<< HEAD
       style={{
         boxShadow: `inset -5px -5px 10px ${theme.subColor}, inset 5px 5px 10px rgba(0, 0, 0, 0.2)`,
       }}
       onClick={handleClick}>
+=======
+      onClick={handleClick}
+    >
+>>>>>>> origin/sungbin
       {/* 앞면 요소 */}
       <div className="clockcontainer">
         <div
           className="front"
-          style={{ backgroundImage: 'url("../img/clock.png")' }}>
+          style={{ backgroundImage: 'url("../img/clock.png")' }}
+        >
           <div className="clock-hand point"></div>
           <div
             className="clock-hand hourHand"
@@ -85,7 +91,8 @@ function Clock() {
               height: `${hrHe}px`,
               transformOrigin: `3.5px ${hrHe}px`,
               bottom: `${hrHe}px`,
-            }}></div>
+            }}
+          ></div>
           <div
             className="clock-hand minHand"
             style={{
@@ -98,7 +105,8 @@ function Clock() {
               height: `${mnHe}px`,
               transformOrigin: `2.5px ${mnHe}px`,
               bottom: `${mnHe}px`,
-            }}></div>
+            }}
+          ></div>
           <div
             className="clock-hand secHand"
             style={{
@@ -111,7 +119,8 @@ function Clock() {
               height: `${seHe}px`,
               transformOrigin: `1.5px ${seHe}px`,
               bottom: `${seHe}px`,
-            }}></div>
+            }}
+          ></div>
         </div>
         {/* 뒷면 요소 */}
         <div className="back">

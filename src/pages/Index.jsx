@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Chat from "./Chat";
 import Header from "../components/Header";
 import MiniGame from "./MiniGame";
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import { get, getDatabase, ref } from "firebase/database";
 import { setTheme } from "../store/themeSlice";
@@ -17,6 +18,9 @@ import pmImg from "../img/bg/pm2.jpeg";
 import pmImg2 from "../img/bg/pm3.jpeg";
 import { setBg } from "../store/bgSlice";
 
+=======
+import CatchMind from "./CatchMind";
+>>>>>>> origin/sungbin
 function Index() {
   const location = useLocation();
   const { user } = useSelector((state) => state);
@@ -63,6 +67,7 @@ function Index() {
 
   return (
     <div component={Paper} elevation={10} style={{ height: "100vh" }}>
+<<<<<<< HEAD
       {/* RiIKqlGiIvggJMoP3A4faoPRzig1 */}
       {/* kJlSCkA8utdiBV0JNL2DgiAKUf32 */}
       {/* {X9pU0SNUHieAWtvq5XfgLddRRpV2} */}
@@ -104,6 +109,16 @@ function Index() {
         //   </>
         // )
       }
+=======
+      <Header />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/minigame/*" element={<MiniGame />} />
+        <Route path="/catchmind/*" element={<CatchMind />} />
+        <Route path="/*" element={<Notfound />} />
+      </Routes>
+>>>>>>> origin/sungbin
     </div>
   );
 }

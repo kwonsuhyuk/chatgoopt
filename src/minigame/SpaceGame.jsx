@@ -162,7 +162,8 @@ function SpaceGame() {
   //       const existingData = snapshot.val();
   //       return;
   //     }
-  //asdasdasdas
+
+
   //     const userData = {
   //       name: user.currentUser.displayName,
   //       id: user.currentUser.uid,

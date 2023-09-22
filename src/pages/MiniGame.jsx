@@ -138,6 +138,12 @@ function MiniGame() {
           </animated.div>
         ))}
       </div>
+      <GameMenu />
+      <Routes>
+        {/* 주사위 굴리기 게임 페이지 */}
+        <Route path="/" element={<DiceGame />} />
+        <Route path="/typegame" element={<TypingGame />} />
+      </Routes> origin/sungbin
     </Box>
   );
 }

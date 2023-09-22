@@ -3,6 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFrown } from "@fortawesome/free-regular-svg-icons";
+import "./Notfound.css";
+
 
 function Notfound() {
   return (
@@ -35,16 +37,15 @@ function Notfound() {
           404 ERROR!! Page Not Found
         </Box>
         <Link
-          to="/"
+          to="/" className="btn"
           style={{
             fontSize: `40px`,
             textDecoration: `none`,
-            color: `white`,
             display: `flex`,
             justifyContent: `center`,
             alignItems: `center`,
           }}>
-          {" "}
+          {""}
           Go to home ←
         </Link>
       </Box>

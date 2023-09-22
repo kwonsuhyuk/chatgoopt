@@ -9,8 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import Notfound from "./pages/Notfound";
+<<<<<<< HEAD
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./App.css";
+=======
+import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
+import Canvas from "./pages/Canvas";
+>>>>>>> origin/sungbin
 
 function App() {
   const dispatch = useDispatch();
@@ -91,6 +97,7 @@ function App() {
         path="/signup"
         element={currentUser ? <Navigate to="/" /> : <Signup />}
       />
+       <Route path="/canvas" element={<Canvas />} />
       <Route path="/*" element={<Notfound />} />
     </Routes>
   );
