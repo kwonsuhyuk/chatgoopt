@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import Notfound from "./pages/Notfound";
-import Dashboard from "./pages/Dashboard";
-import Chat from "./pages/Chat";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import Canvas from "./pages/Canvas";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();

@@ -30,9 +30,6 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import loveArrow from "../img/loveArrow.png";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-
-import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
-import CasinoIcon from "@mui/icons-material/Casino";
 import "./TypingGame.css";
 
 function DiceGame() {

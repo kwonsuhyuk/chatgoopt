@@ -106,15 +106,6 @@ function Index() {
         //   </>
         // )
       }
-      =======
-      <Header />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/minigame/*" element={<MiniGame />} />
-        <Route path="/catchmind/*" element={<CatchMind />} />
-        <Route path="/*" element={<Notfound />} />
-      </Routes>
     </div>
   );
 }

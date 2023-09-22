@@ -1,5 +1,4 @@
 import {
-<<<<<<< HEAD
   Avatar,
   Box,
   Button,
@@ -10,17 +9,10 @@ import {
   ListItemAvatar,
   Popover,
   Snackbar,
-=======
-  Box,
-  Button,
-  CircularProgress,
-  Popover,
->>>>>>> origin/sungbin
   TextField,
   Typography,
 } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
-<<<<<<< HEAD
 import {
   child,
   get,
@@ -30,41 +22,28 @@ import {
   set,
   update,
 } from "firebase/database";
-=======
-import { get, getDatabase, ref, remove, set } from "firebase/database";
->>>>>>> origin/sungbin
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import hangul from "hangul-js";
 import "../firebase";
-<<<<<<< HEAD
 import "./TypingGame.css";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import loveArrow from "../img/loveArrow.png";
 import CloseIcon from "@mui/icons-material/Close";
-=======
->>>>>>> origin/sungbin
 
 function TypingGame() {
   const [quote, setQuote] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-<<<<<<< HEAD
   const { user, theme } = useSelector((state) => state);
-=======
-  const { user } = useSelector((state) => state);
->>>>>>> origin/sungbin
   const [typeValue, setTypeValue] = useState("");
   const [typingProgress, setTypingProgress] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [rank, setRank] = useState([]);
-<<<<<<< HEAD
   const [showUserRank, setShowUserRank] = useState(false);
-=======
->>>>>>> origin/sungbin
   // 현재 실시간 정확도 및 타수
   const [typeAcc, setTypeAcc] = useState(0);
   const [typeSpeed, setTypeSpeed] = useState(0);
@@ -75,7 +54,6 @@ function TypingGame() {
   const [totalSpeed, setTotalSpeed] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
-<<<<<<< HEAD
   const [showRank, setShowRank] = useState(false);
   const [openSnackBard, setOpenSnackBard] = useState(false);
 
@@ -92,8 +70,6 @@ function TypingGame() {
       setAllUser([]);
     };
   }, []);
-=======
->>>>>>> origin/sungbin
 
   useEffect(() => {
     const database = getDatabase();
@@ -110,18 +86,11 @@ function TypingGame() {
             avgSpeed: typeData[key].avgSpeed,
             accuracy: typeData[key].accuracy,
             name: typeData[key].name,
-<<<<<<< HEAD
             avatar: typeData[key].avatar,
           }));
 
           // diceSum을 기준으로 내림차순으로 정렬
           rankArray.sort((a, b) => b.avgSpeed - a.avgSpeed);
-=======
-          }));
-
-          // diceSum을 기준으로 내림차순으로 정렬
-          rankArray.sort((a, b) => b.diceSum - a.diceSum);
->>>>>>> origin/sungbin
 
           setRank(rankArray);
           setLoading(true);
@@ -134,13 +103,10 @@ function TypingGame() {
       });
   }, []);
 
-<<<<<<< HEAD
   const handleShowRanking = useCallback(() => {
     setShowUserRank((prev) => !prev);
   }, []);
 
-=======
->>>>>>> origin/sungbin
   const handleInputChange = (event) => {
     const typedValue = event.target.value;
     setTypeValue(typedValue);
@@ -242,10 +208,6 @@ function TypingGame() {
     if (totalAcc < 95) {
       return;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/sungbin
     const database = getDatabase();
     const typeRef = ref(
       database,
@@ -265,10 +227,7 @@ function TypingGame() {
       name: user.currentUser.displayName,
       accuracy: Number(totalAcc),
       avgSpeed: Number(totalSpeed),
-<<<<<<< HEAD
       avatar: user.currentUser.photoURL,
-=======
->>>>>>> origin/sungbin
     };
     await set(typeRef, userData);
     console.log("데이터가 성공적으로 저장되었습니다.");
@@ -332,11 +291,7 @@ function TypingGame() {
   const CircularProgressWithLabel = (props) => {
     return (
       <Box sx={{ position: "relative", display: "inline-flex" }}>
-<<<<<<< HEAD
         <CircularProgress variant="determinate" {...props} color="primary" />
-=======
-        <CircularProgress variant="determinate" {...props} color="error" />
->>>>>>> origin/sungbin
         <Box
           sx={{
             top: 0,
@@ -347,12 +302,9 @@ function TypingGame() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}>
-<<<<<<< HEAD
+          }}
+        >
           <Typography variant="caption" component="div" color="primary">
-=======
-          <Typography variant="caption" component="div" color="error">
->>>>>>> origin/sungbin
             {props.value}%
           </Typography>
         </Box>
@@ -360,7 +312,6 @@ function TypingGame() {
     );
   };
 
-<<<<<<< HEAD
   const rankCoinAdjustments = [
     { adjustment: 120 },
     { adjustment: 90 },
@@ -439,7 +390,8 @@ function TypingGame() {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handlesnackbarClose}>
+        onClick={handlesnackbarClose}
+      >
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -474,24 +426,10 @@ function TypingGame() {
         console.error(`Error retrieving user data for user ${userId}:`, error);
       });
   };
-=======
-  const handleTypeDelete = () => {
-    const database = getDatabase();
-    const typingRef = ref(database, "minigame/typegamerank/");
-
-    remove(typingRef)
-      .then(() =>
-        console.log('Data at "minigame/typegamerank/" has been deleted.')
-      )
-      .catch((error) => console.error("Error deleting data:", error));
-  };
-
->>>>>>> origin/sungbin
   return (
     <div className="typing_mainBox">
       <div className="typing_gameBox">
         <div className="gameBox_title">
-<<<<<<< HEAD
           <div className="typinggame_title">TYPINGGAME</div>
           <div>
             <Typography
@@ -501,14 +439,11 @@ function TypingGame() {
                 fontSize: "20px",
                 marginRight: "10px",
               }}
-=======
-          <div>
-            <Typography
->>>>>>> origin/sungbin
               aria-owns={open ? "mouse-over-popover" : undefined}
               aria-haspopup="true"
               onMouseEnter={handlePopoverOpen}
-              onMouseLeave={handlePopoverClose}>
+              onMouseLeave={handlePopoverClose}
+            >
               How To Play
             </Typography>
             <Popover
@@ -524,13 +459,14 @@ function TypingGame() {
               }}
               transformOrigin={{
                 vertical: "top",
-<<<<<<< HEAD
                 horizontal: "right",
               }}
               onClose={handlePopoverClose}
-              disableRestoreFocus>
+              disableRestoreFocus
+            >
               <Typography
-                sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}>
+                sx={{ p: 1, fontFamily: "Montserrat", color: "black" }}
+              >
                 총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가 기록됩니다.
                 정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요!
                 <br />
@@ -538,25 +474,16 @@ function TypingGame() {
                   1등 : 120coin, 2등 : 90coin, 3등 : 60coin, 4등 : 40coin, 5등 :
                   30coin, 4등이하 : 0coin, 미참가 : -20coin
                 </div>
-=======
-                horizontal: "left",
-              }}
-              onClose={handlePopoverClose}
-              disableRestoreFocus>
-              <Typography sx={{ p: 1 }}>
-                총 3개의 랜덤 명언이 나옵니다 시작하는 순간 타수가 기록됩니다.
-                정확도가 95% 이상이어야 랭킹에 올라갈 수 있으니 주의하세요!
->>>>>>> origin/sungbin
               </Typography>
             </Popover>
           </div>
         </div>
-<<<<<<< HEAD
 
         {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
           <Button
             onClick={handleTypeDelete}
-            sx={{ color: "red", backgroundColor: "white" }}>
+            sx={{ color: "red", backgroundColor: "white" }}
+          >
             데이터 삭제
           </Button>
         )}
@@ -564,11 +491,6 @@ function TypingGame() {
           onClick={handleRefreshClick}
           sx={{ color: "#35637c", marginLeft: "30px" }}
         />
-=======
-        {user.currentUser.uid === "8IAW2DPyJGXAMPIassY57YMpkqB2" && (
-          <Button onClick={handleTypeDelete}>데이터 삭제</Button>
-        )}
->>>>>>> origin/sungbin
         <div className="gameBox_main">
           <div className="typetext">
             {quote.length > 0 && (
@@ -593,28 +515,17 @@ function TypingGame() {
                   style={{
                     fontSize: "12px",
                     paddingLeft: "10px",
-<<<<<<< HEAD
-=======
-                    color: "black",
->>>>>>> origin/sungbin
-                  }}>
+                  }}
+                >
                   -{quote[currentQuoteIndex].author}
                 </span>
               </h1>
             )}
-<<<<<<< HEAD
             <div className="nexttext">
               {currentQuoteIndex < quote.length - 1 && (
                 <h1>NEXT - {quote[currentQuoteIndex + 1].message}</h1>
               )}
             </div>
-=======
-          </div>
-          <div className="nexttext">
-            {currentQuoteIndex < quote.length - 1 && (
-              <h1>NEXT - {quote[currentQuoteIndex + 1].message}</h1>
-            )}
->>>>>>> origin/sungbin
           </div>
           <div className="typecondition">
             <div className="acc">
@@ -622,13 +533,10 @@ function TypingGame() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-<<<<<<< HEAD
                   color: "#35637c",
-=======
-                  color: "#e86b79",
->>>>>>> origin/sungbin
                   marginBottom: "5px",
-                }}>
+                }}
+              >
                 정확도
               </span>
               <CircularProgressWithLabel value={typeAcc} />
@@ -638,11 +546,7 @@ function TypingGame() {
             </div>
             <div className="speed">
               <span>타수/min</span>
-<<<<<<< HEAD
               <span>{typeSpeed}</span>
-=======
-              <span style={{ paddingBottom: "10px" }}>{typeSpeed}</span>
->>>>>>> origin/sungbin
             </div>
           </div>
           <div className="typeinput">
@@ -651,13 +555,8 @@ function TypingGame() {
                 <input
                   type="text"
                   autoComplete="off"
-<<<<<<< HEAD
                   spellCheck="false"
                   onPaste={(e) => e.preventDefault()} // 이 부분을 추가하여 복사 붙여넣기 막음
-=======
-                  autoFocus
-                  spellCheck="false"
->>>>>>> origin/sungbin
                   onChange={handleInputChange}
                   value={typeValue}
                   placeholder="위의 문장을 따라 입력하세요."
@@ -666,11 +565,7 @@ function TypingGame() {
                 <LinearProgress
                   variant="determinate"
                   value={typingProgress}
-<<<<<<< HEAD
                   color="primary"
-=======
-                  color="error"
->>>>>>> origin/sungbin
                   sx={{
                     width: "100%",
                     paddingLeft: "10px",
@@ -681,11 +576,11 @@ function TypingGame() {
             )}
           </div>
         </div>
-<<<<<<< HEAD
       </div>
       <div
         className={`ranking_showbutton ${!showUserRank ? "" : "close"}`}
-        onClick={handleShowRanking}>
+        onClick={handleShowRanking}
+      >
         {!showUserRank ? "Show Ranking" : "Close"}
         {!showUserRank && <KeyboardDoubleArrowUpIcon />}
       </div>
@@ -698,7 +593,8 @@ function TypingGame() {
               sx={{
                 backgroundColor:
                   user.currentUser?.uid === userData.id ? "#b5bf50" : "white",
-              }}>
+              }}
+            >
               <span>{index + 1}.</span>
               <ListItemAvatar>
                 <Avatar
@@ -711,7 +607,8 @@ function TypingGame() {
               <span
                 style={{
                   fontSize: "20px",
-                }}>
+                }}
+              >
                 {userData.name}
               </span>
               <div
@@ -720,7 +617,8 @@ function TypingGame() {
                   alignItems: "center",
                   position: "absolute",
                   right: 10,
-                }}>
+                }}
+              >
                 {userData.id !== user.currentUser.uid && (
                   <img
                     src={loveArrow}
@@ -747,68 +645,6 @@ function TypingGame() {
         message="좋아요를 보냈습니다."
         action={action}
       />
-=======
-        <div className="gameBox_active"></div>
-      </div>
-      <div className="typing_rankBox">
-        <div className="rankBox_title">
-          주간 Ranking
-          <MilitaryTechIcon sx={{ fontSize: "50px", color: "yellow" }} />
-        </div>
-        <div className="rankBox_main">
-          {isLoading && (
-            <>
-              <div className="rank1">
-                1st.{" "}
-                <span
-                  style={{
-                    fontSize: "50px",
-                    color: "yellow",
-                  }}>
-                  "{rank[0]?.name}"
-                </span>
-                {rank[0]?.avgSpeed} 타 / {rank[0]?.accuracy}%
-              </div>
-              <div className="rank2">
-                2nd.{" "}
-                <span
-                  style={{
-                    fontSize: "25px",
-                    color: "lime",
-                  }}>
-                  {rank[1]?.name}
-                </span>
-                {rank[1]?.avgSpeed} 타 / {rank[1]?.accuracy}%
-              </div>
-              <div className="rank3">
-                3nd.
-                <span style={{ fontSize: "25px", color: "lime" }}>
-                  {" "}
-                  {rank[2]?.name}
-                </span>
-                {rank[2]?.avgSpeed} 타 / {rank[2]?.accuracy}%
-              </div>
-              <div className="rank4">
-                4rd.
-                <span style={{ fontSize: "25px", color: "lime" }}>
-                  {" "}
-                  {rank[3]?.name}
-                </span>
-                {rank[3]?.avgSpeed} 타 / {rank[3]?.accuracy}%
-              </div>
-              <div className="rank5">
-                5rd.
-                <span style={{ fontSize: "25px", color: "lime" }}>
-                  {" "}
-                  {rank[4]?.name}
-                </span>
-                {rank[4]?.avgSpeed} 타 / {rank[4]?.accuracy}%
-              </div>
-            </>
-          )}
-        </div>
-      </div>
->>>>>>> origin/sungbin
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>타이핑 결과</DialogTitle>
         <DialogContent>
