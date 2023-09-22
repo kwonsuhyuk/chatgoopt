@@ -163,7 +163,6 @@ function SpaceGame() {
   //       return;
   //     }
 
-
   //     const userData = {
   //       name: user.currentUser.displayName,
   //       id: user.currentUser.uid,
@@ -365,12 +364,12 @@ function SpaceGame() {
         position.x + CHAR_SIZE / 2,
         position.y
       );
-      if (distance <= CHAR_SIZE / 2) {
-        setOpenDialog(true);
-        setGameStart(false);
-        setScoreOn(false);
-        setGameOn(false);
-      }
+      // if (distance <= CHAR_SIZE / 2) {
+      //   setOpenDialog(true);
+      //   setGameStart(false);
+      //   setScoreOn(false);
+      //   setGameOn(false);
+      // }
       // console.log(distance);
     });
   }
@@ -522,7 +521,7 @@ function SpaceGame() {
                 />
               </div>
               <p className="score">Score:{score}</p>
-              <div className="btns">
+              <div className="user_btns">
                 <button className="directionBTn left" onClick={moveCharLeft}>
                   ◀
                 </button>

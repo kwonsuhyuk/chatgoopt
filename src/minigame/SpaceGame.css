@@ -114,21 +114,6 @@
   }
 }
 
-@media screen and (max-width: 500px) {
-  .space_mainBox .space_gameBox .gameBox_main {
-    margin-top: 20px;
-  }
-  .space_mainBox .space_gameBox .gameBox_title .spacegame_title {
-    border: 5px solid #2c2c54;
-  }
-  .space_mainBox {
-    gap: 30px;
-  }
-  .playerImg_space {
-    width: 150px;
-    height: 150px;
-  }
-}
 .game {
   overflow: hidden;
 }
@@ -156,8 +141,8 @@
   padding: 0;
   margin: 0;
 }
-@media screen and (max-width: 1400px) {
-  .btns {
+@media screen and (max-width: 800px) {
+  .user_btns {
     margin: 0;
     padding: 0;
     display: grid;
