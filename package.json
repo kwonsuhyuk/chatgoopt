@@ -27,11 +27,7 @@
     "firebase": "^9.23.0",
     "gsap": "^3.11.5",
     "hangul-js": "^0.2.6",
-<<<<<<< HEAD
-    "mui-color-input": "^2.0.0",
-=======
     "multer": "^1.4.5-lts.1",
->>>>>>> origin/sungbin
     "react": "^18.2.0",
     "react-avatar-editor": "^13.0.0",
     "react-color": "^2.19.3",
