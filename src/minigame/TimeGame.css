@@ -1,0 +1,169 @@
+.time_mainBox {
+  animation: show-profile 1s forwards ease-in-out;
+  position: absolute;
+  width: 100%;
+  height: 95%;
+  top: 0;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, 0);
+  flex-direction: column;
+  gap: 7vh;
+  background-color: #1e272e;
+  border-radius: 10px;
+}
+.time_mainBox .time_gameBox {
+  height: 85%;
+  width: 100%;
+  position: relative;
+}
+
+.time_mainBox .time_gameBox .gameBox_title {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.time_scoreNotice {
+  display: inline;
+  margin-left: 20px;
+  color: rgb(52, 91, 125);
+  font-family: "Montserrat";
+}
+
+.time_mainBox .time_gameBox .gameBox_title .timegame_title {
+  border-radius: 100px;
+  background-color: #1e272e;
+  border: 10px solid #1e272e;
+  position: absolute;
+  color: white;
+  font-size: 30px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  top: -30px;
+  left: 50px;
+  animation: rotate-photo 1s forwards ease-in-out;
+}
+
+.time_mainBox .time_gameBox .gameBox_main {
+  margin-top: 80px;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.time_mainBox .ranking_showbutton {
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+  font-family: "Montserrat";
+  color: white;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  animation: timemotion 1s ease-in-out 0s infinite alternate;
+  -webkit-animation: timemotion 1s ease-in-out 0s infinite alternate;
+}
+
+.game_user_ranking {
+  height: 0;
+  overflow: hidden;
+}
+
+.game_user_ranking.show {
+  position: relative;
+  overflow: scroll;
+  height: 100%;
+  animation: timerankslideup 2s ease forwards;
+  border-radius: 10px 10px 0 0;
+  transform-origin: bottom; /* 애니메이션 출발점 설정 */
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.game_user_ranking.show .ranking_mainboard .ranking_item {
+  font-family: "Montserrat";
+}
+
+.playerImg_time {
+  width: 250px;
+  height: 250px;
+  margin-right: 20px;
+}
+
+@keyframes timerankslideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-20%);
+    opacity: 1;
+  }
+}
+
+@keyframes timemotion {
+  0% {
+    bottom: 2%;
+  }
+
+  100% {
+    bottom: 3%;
+    color: rgb(135, 20, 116);
+  }
+}
+
+.game {
+  overflow: hidden;
+}
+.Time_Container {
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 100%;
+  overflow: none;
+}
+.Time_funtion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.five_box {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.five {
+  font-size: 200px;
+}
+.Time_Btns {
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 900;
+  padding: 15px 45px;
+  color: black;
+  margin: 20px 10px 10px;
+  border-radius: 6px;
+  text-align: center;
+  transition: top 0.01s linear;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.Time_Btns.time_set:hover {
+  background-color: black;
+  color: white;
+}
+.Time_Btns.time_set {
+  background-color: white;
+  box-shadow: 0 0 0 1px white inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset,
+    0 8px 0 0 white, 0 8px 0 1px rgba(0, 0, 0, 0.4),
+    0 8px 8px 1px rgba(0, 0, 0, 0.5);
+}
+.Time_Btns.time_set:active {
+  box-shadow: 0 0 0 1px white inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+}
