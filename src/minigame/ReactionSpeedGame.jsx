@@ -213,7 +213,7 @@ function ReactionSpeedGame() {
     } else {
       setText("Waiting...");
     }
-  });
+  }, [second, randomSecond]);
   const handleGameStart = () => {
     setGameOn(true);
     setSceond(0);
@@ -224,7 +224,7 @@ function ReactionSpeedGame() {
     if (count > 2) {
       setOpenDialog(true);
     }
-  });
+  }, [count]);
   const resetGame = () => {
     setSceond(0);
     setMillisecond(0);
