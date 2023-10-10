@@ -241,6 +241,7 @@ function SpaceGame() {
         case "ArrowLeft":
           e.preventDefault();
           setDirection(DIRECTIONS.LEFT);
+
           break;
         // case "ArrowUp":
         //   setDirection(DIRECTIONS.UP);
@@ -248,6 +249,7 @@ function SpaceGame() {
         case "ArrowRight":
           e.preventDefault();
           setDirection(DIRECTIONS.RIGHT);
+
           break;
         // case "ArrowDown":
         //   setDirection(DIRECTIONS.DOWN);
@@ -274,10 +276,12 @@ function SpaceGame() {
 
       switch (direction) {
         case DIRECTIONS.LEFT:
-          newX = Math.max(newX - 5, 0); // 왼쪽으로 이동, 최소값 0
+          newX = Math.max(newX - 10, 0); // 왼쪽으로 이동, 최소값 0
+          setDirection("Stop");
           break;
         case DIRECTIONS.RIGHT:
-          newX = Math.min(newX + 5, CANVAS_WIDTH - CHAR_SIZE); // 오른쪽으로 이동, 최대값 (CANVAS_WIDTH - 캐릭터사이즈)
+          newX = Math.min(newX + 10, CANVAS_WIDTH - CHAR_SIZE); // 오른쪽으로 이동, 최대값 (CANVAS_WIDTH - 캐릭터사이즈)
+          setDirection("Stop");
           break;
         default:
           setDirection("Stop");
@@ -318,7 +322,7 @@ function SpaceGame() {
         char.onload = null; // 컴포넌트가 언마운트되면 onload 이벤트 핸들러 제거
       };
     }
-  }, [position, imageLoaded, direction]);
+  }, [position, imageLoaded]);
 
   useEffect(() => {
     const RandomCoordinate = () => {
@@ -364,6 +368,7 @@ function SpaceGame() {
         position.x + CHAR_SIZE / 2,
         position.y
       );
+      //게임 수정할떄 여기 주석처리 하면 편함
       if (distance <= CHAR_SIZE / 2) {
         setOpenDialog(true);
         setGameStart(false);

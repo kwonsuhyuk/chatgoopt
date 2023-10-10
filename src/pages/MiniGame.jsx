@@ -12,6 +12,7 @@ import { useTransition, animated } from "react-spring";
 import Header from "../components/Header";
 import SpaceGame from "../minigame/SpaceGame";
 import TimeGame from "../minigame/TimeGame";
+import ReactionGame from "../minigame/ReactionSpeedGame";
 function MiniGame() {
   const { bg } = useSelector((state) => state);
   const location = useLocation();
@@ -114,11 +115,12 @@ function MiniGame() {
           >
             GUESS GAME
           </div>
-          {/* <div
-            className="minigame_menu park"
-            onClick={() => handleMenuClick("/minigame/lolgame")}>
-            PARK GAME
-          </div> */}
+          <div
+            className="minigame_menu reaction"
+            onClick={() => handleMenuClick("/minigame/reactionspeedgame")}
+          >
+            REACTION GAME
+          </div>
         </div>
         {transitions((style, item, key) => (
           <animated.div
@@ -141,6 +143,7 @@ function MiniGame() {
               <Route path="/lolgame" element={<LoLGame />} />
               <Route path="/spacegame" element={<SpaceGame />} />
               <Route path="/timegame" element={<TimeGame />} />
+              <Route path="/reactionspeedgame" element={<ReactionGame />} />
             </Routes>
           </animated.div>
         ))}

@@ -50,6 +50,10 @@
   background-color: #1e272e;
   /* background-image: url("../img/gamepageImg/lolgamepage.jpeg"); */
 }
+.minigame_main .minigame_menu.reaction {
+  background-color: #1e90ff;
+  /* background-image: url("../img/gamepageImg/lolgamepage.jpeg"); */
+}
 
 @media screen and (max-width: 500px) {
   .minigame_main .minigame_menu:hover {
