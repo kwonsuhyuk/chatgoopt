@@ -1,0 +1,162 @@
+.firstDiv {
+  position: relative;
+  font-family: "Raleway Dots", cursive;
+  font-weight: 700;
+}
+
+.scrollDownIn {
+  position: absolute;
+  bottom: 0;
+  color: gray;
+  animation: motion 1s ease-in-out 0s infinite alternate;
+  -webkit-animation: motion 1s ease-in-out 0s infinite alternate;
+}
+
+.dashmain_maindiv {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 93vh;
+}
+
+@keyframes motion {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: 30px;
+    color: white;
+  }
+}
+
+.secondDiv {
+  padding-bottom: 150px;
+}
+
+.bookMark {
+  -webkit-user-select: none; /* Chrome, Safari, Opera */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* 일반적인 문법 */
+  margin: 100px 50px;
+  gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.searchInput {
+  position: relative;
+  outline: none;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+  text-align: left;
+  font-family: "Raleway Dots", "monserrat", monospace;
+  font-weight: 700;
+  background-color: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 3px solid whitesmoke;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 30px;
+  color: white;
+}
+.searchInput::placeholder {
+  color: white;
+}
+
+.todoBoard_Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoBtn {
+  margin-top: 30px;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  border-radius: 50%;
+  background: whitesmoke;
+  border: none;
+}
+
+.todoBtn:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  background: whitesmoke;
+  box-shadow: inset -4px -4px 8px white, inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.todoBoard_Main {
+  position: relative;
+  padding: 50px;
+  display: flex;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+@media screen and (max-width: 1300px) {
+  .bookmarkopenBtn {
+    display: none;
+  }
+  .dash_maindiv {
+    margin-top: 200px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .firstDiv {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .calendar_weather {
+    display: none;
+  }
+  .secondDiv .searchInput {
+    margin-bottom: 50px;
+  }
+  .bookMark {
+    display: flex;
+    margin: 10px 40px;
+    gap: 50px;
+  }
+  .secondDiv {
+    padding-bottom: 100px;
+  }
+  .todoBoard_Main {
+    gap: 30px;
+  }
+  .scrollDownIn {
+    display: none;
+  }
+  .dashmain_maindiv {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .searchBar {
+    display: none;
+  }
+  .clock {
+    margin: 50px;
+  }
+  .bookMark {
+    display: none;
+  }
+}

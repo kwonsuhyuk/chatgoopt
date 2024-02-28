@@ -8,27 +8,66 @@ import {
   Typography,
 } from "@mui/material";
 import { gsap } from "gsap";
-import React, { useEffect, useRef } from "react";
-import TagIcon from "@mui/icons-material/Tag";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import LoginIcon from "@mui/icons-material/Login";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Link } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function Signin() {
   const boxRef = useRef(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const login = useCallback(async (email, password) => {
+    setLoading(true);
+    const auth = getAuth();
+    await signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      const errorMessage = error.message;
+      setError(errorMessage);
+    });
+    setLoading(false);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const email = data.get("email");
+      const password = data.get("password");
+
+      if (!email || !password) {
+        setError("모든 항목을 입력해주세요");
+        return;
+      }
+      login(email, password);
+    },
+    [login]
+  );
 
   useEffect(() => {
     const box = boxRef.current;
-    gsap.fromTo(box, { opacity: "0" }, { opacity: "1", duration: 1 });
+    gsap.fromTo(
+      box,
+      { backgroundColor: "black" },
+      { backgroundColor: "white", duration: 1 }
+    );
   }, []);
+
+  useEffect(() => {
+    if (!error) return;
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  }, [error]);
 
   return (
     <div
       ref={boxRef}
       style={{
         height: "100vh",
-        backgroundColor: "black",
+        backgroundColor: "white",
       }}>
-      {" "}
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -38,16 +77,16 @@ function Signin() {
             alignItems: "center",
             height: "100vh",
           }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <TagIcon />
+          <Avatar sx={{ m: 1, bgcolor: "black" }}>
+            <LoginIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            로그인
+          <Typography component="h1" variant="h5" color="black">
+            Login
           </Typography>
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -67,17 +106,17 @@ function Signin() {
               type="password"
             />
 
-            {/* {error ? (
+            {error ? (
               <Alert sx={{ mt: 3 }} severity="error">
                 {error}
               </Alert>
-            ) : null} */}
+            ) : null}
             <LoadingButton
               type="submit"
               fullWidth
-              variant="contained"
-              color="secondary"
-              // loading={loading}
+              variant="outlined"
+              color="primary"
+              loading={loading}
               sx={{ mt: 3, mb: 2 }}>
               로그인
             </LoadingButton>
@@ -85,7 +124,7 @@ function Signin() {
               <Grid item>
                 <Link
                   to="/signup"
-                  style={{ textDecoration: "none", color: "blue" }}>
+                  style={{ textDecoration: "none", color: "gray" }}>
                   계정이 없나요? 회원가입으로 이동
                 </Link>
               </Grid>

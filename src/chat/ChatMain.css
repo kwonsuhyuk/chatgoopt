@@ -1,0 +1,79 @@
+#app-pin-wrapper {
+  transform: translate(-50%, -30%) scale(0.8);
+  transition: opacity 250ms, transform 250ms;
+  z-index: 2;
+}
+
+#app-pin-wrapper #app-pin-hidden-input {
+  background-color: transparent;
+  border: none;
+  height: 0px;
+  outline: none;
+  pointer-events: none;
+  width: 0px;
+}
+
+#app-pin-wrapper #app-pin {
+  display: flex;
+  gap: 10px;
+}
+
+#app-pin-wrapper #app-pin .app-pin-digit {
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: inset -3px -3px 1px white, inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+  display: inline-flex;
+  font-size: 3em;
+  height: 100px;
+  justify-content: center;
+  position: relative;
+  transition: background-color 250ms, border-color 250ms;
+  width: 80px;
+  color: gray;
+}
+
+#app-pin-wrapper #app-pin .app-pin-digit.error {
+  border: 2px solid red;
+}
+
+.moveEmoji {
+  animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.chat_basic {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat_basic h1 {
+  font-size: 50px;
+  color: gray;
+  letter-spacing: 15px;
+  font-family: "Dancing Script", cursive;
+}
+
+@media screen and (max-width: 850px) {
+  .chat_basic h1 {
+    text-align: center;
+  }
+}

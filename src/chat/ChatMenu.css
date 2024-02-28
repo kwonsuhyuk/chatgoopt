@@ -1,0 +1,12 @@
+.chatMenuTitle {
+  overflow: auto;
+  width: 240px;
+  margin: 0;
+}
+
+@media screen and (max-width: 850px) {
+  .chatMenuTitle {
+    width: 100%;
+    padding: 0;
+  }
+}

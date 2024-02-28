@@ -1,0 +1,131 @@
+.lol_mainBox {
+  animation: show-profile 1s forwards ease-in-out;
+  position: absolute;
+  width: 100%;
+  height: 95%;
+  top: 0;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, 0);
+  flex-direction: column;
+  gap: 7vh;
+  background-color: #d8bfd8;
+  border-radius: 10px;
+}
+.lol_mainBox .lol_gameBox {
+  height: 85%;
+  width: 100%;
+  position: relative;
+}
+
+.lol_mainBox .lol_gameBox .gameBox_title {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.lol_scoreNotice {
+  display: inline;
+  margin-left: 20px;
+  color: rgb(52, 91, 125);
+  font-family: "Montserrat";
+}
+
+.lol_mainBox .lol_gameBox .gameBox_title .lolgame_title {
+  border-radius: 100px;
+  background-color: #d8bfd8;
+  border: 10px solid #d8bfd8;
+  position: absolute;
+  color: white;
+  font-size: 30px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  top: -30px;
+  left: 50px;
+  animation: rotate-photo 1s forwards ease-in-out;
+}
+
+.lol_mainBox .lol_gameBox .gameBox_main {
+  margin-top: 80px;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lol_mainBox .ranking_showbutton {
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+  font-family: "Montserrat";
+  color: white;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  animation: lolmotion 1s ease-in-out 0s infinite alternate;
+  -webkit-animation: lolmotion 1s ease-in-out 0s infinite alternate;
+}
+
+.game_user_ranking {
+  height: 0;
+  overflow: hidden;
+}
+
+.game_user_ranking.show {
+  position: relative;
+  overflow: scroll;
+  height: 100%;
+  animation: lolrankslideup 2s ease forwards;
+  border-radius: 10px 10px 0 0;
+  transform-origin: bottom; /* 애니메이션 출발점 설정 */
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.game_user_ranking.show .ranking_mainboard .ranking_item {
+  font-family: "Montserrat";
+}
+
+.playerImg_lol {
+  width: 250px;
+  height: 250px;
+  margin-right: 20px;
+}
+
+@keyframes lolrankslideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-20%);
+    opacity: 1;
+  }
+}
+
+@keyframes lolmotion {
+  0% {
+    bottom: 2%;
+  }
+
+  100% {
+    bottom: 3%;
+    color: rgb(135, 20, 116);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .lol_mainBox .lol_gameBox .gameBox_main {
+    margin-top: 20px;
+  }
+  .lol_mainBox .lol_gameBox .gameBox_title .lolgame_title {
+    border: 5px solid #d8bfd8;
+  }
+  .lol_mainBox {
+    gap: 30px;
+  }
+  .playerImg_lol {
+    width: 150px;
+    height: 150px;
+  }
+}

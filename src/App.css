@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box;
+}
+
+#logo {
+  z-index: 100;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20em;
+  height: 4em;
+  margin-left: -10em;
+  margin-top: -4em;
+  font-size: 16px;
+  transform: translateZ(9999px);
+  perspective: 800;
+  transition: top 2s ease-in-out;
+}
+
+.symbol {
+  position: relative;
+  float: left;
+  width: 4em;
+  height: 4em;
+  transition: transform 2s linear;
+  transform-style: preserve-3d;
+  transform-origin: 2em 2em;
+  transition: all 2s ease-in-out;
+  animation: fall 2s 1 ease-in-out;
+  color: whitesmoke;
+}
+
+.symbol .symbol_letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading .symbol {
+  top: 0;
+  animation: rotateX 1s infinite ease-in-out;
+}
+
+.symbol:nth-child(1) {
+  z-index: 1;
+  animation-delay: 400ms;
+}
+.symbol:nth-child(2) {
+  z-index: 2;
+  animation-delay: 500ms;
+}
+.symbol:nth-child(3) {
+  z-index: 3;
+  animation-delay: 600ms;
+}
+.symbol:nth-child(4) {
+  z-index: 2;
+  animation-delay: 700ms;
+}
+.symbol:nth-child(5) {
+  z-index: 1;
+  animation-delay: 800ms;
+}
+
+@keyframes rotateX {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(270deg);
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: rotateX(0deg) translateY(0em);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(120deg) translateY(60em);
+    opacity: 0;
+  }
+}
+
+.symbol > div {
+  position: absolute;
+  width: 4em;
+  height: 4em;
+  transform-style: preserve-3d;
+  background-color: white;
+}
+
+.symbol div:nth-child(1) {
+  transform: translateZ(2em);
+}
+.symbol div:nth-child(2) {
+  transform: rotateY(90deg) translateZ(2em);
+  background-color: #a0a0a0;
+}
+.symbol div:nth-child(3) {
+  transform: rotateY(180deg) translateZ(2em);
+  background-color: #d0d0d0;
+}
+.symbol div:nth-child(4) {
+  transform: rotateY(-90deg) translateZ(2em);
+  background-color: #a0a0a0;
+}
+.symbol div:nth-child(5) {
+  transform: rotateX(-90deg) translateZ(2em) rotate(180deg);
+  background-color: #e0e0e0;
+}
+.symbol div:nth-child(6) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotateX(90deg) translateZ(2em);
+  background-color: black;
+}
+
+.symbol > div:first-child {
+  background-color: black;
+}
+
+.symbol > div:first-child:before,
+.symbol > div:first-child:after {
+  content: "";
+  position: absolute;
+}

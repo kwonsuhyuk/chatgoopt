@@ -1,0 +1,202 @@
+.typing_mainBox {
+  animation: show-profile 1s forwards ease-in-out;
+  position: absolute;
+  width: 100%;
+  height: 95%;
+  top: 0;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, 0);
+  flex-direction: column;
+  gap: 7vh;
+  background-color: skyblue;
+  border-radius: 10px;
+}
+
+.typing_mainBox .typing_gameBox {
+  height: 85%;
+  width: 100%;
+  position: relative;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_title {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_title .typinggame_title {
+  border-radius: 100px;
+  background-color: skyblue;
+  border: 10px solid rgba(135, 206, 235, 0.3);
+  position: absolute;
+  color: white;
+  font-size: 30px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  top: -30px;
+  left: 50px;
+  animation: rotate-photo 1s forwards ease-in-out;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  margin: 0 2%;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typetext {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-size: 18px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .nexttext {
+  color: #e9e9e9;
+  font-size: 15px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #35637c;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition .currentIndex {
+  font-size: 25px;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typecondition .speed {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typeinput {
+  overflow: scroll;
+  width: 80%;
+  position: relative;
+}
+
+.typing_mainBox .typing_gameBox .gameBox_main .typeinput .typeinput_input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border-bottom: 2px solid #35637c;
+  width: 100%;
+  margin: 0;
+  font-size: 20px;
+  font-family: "Montserrat";
+}
+
+.typing_mainBox
+  .typing_gameBox
+  .gameBox_main
+  .typeinput
+  .typeinput_input::placeholder {
+  font-family: "Montserrat";
+}
+
+.typing_scoreNotice {
+  display: inline;
+  margin-left: 20px;
+  color: rgb(52, 91, 125);
+  font-family: "Montserrat";
+}
+
+/* ranking */
+
+.typing_mainBox .ranking_showbutton {
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+  font-family: "Montserrat";
+  color: white;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  animation: Typemotion 1s ease-in-out 0s infinite alternate;
+  -webkit-animation: Typemotion 1s ease-in-out 0s infinite alternate;
+}
+
+.game_user_ranking {
+  height: 0;
+  overflow: hidden;
+}
+
+.game_user_ranking.show {
+  position: relative;
+  overflow: scroll;
+  height: 100%;
+  animation: typerankslideup 2s ease forwards;
+  border-radius: 10px 10px 0 0;
+  transform-origin: bottom; /* 애니메이션 출발점 설정 */
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.game_user_ranking.show .ranking_mainboard .ranking_item {
+  font-family: "Montserrat";
+}
+
+@keyframes typerankslideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-20%);
+    opacity: 1;
+  }
+}
+
+@keyframes Typemotion {
+  0% {
+    bottom: 2%;
+  }
+
+  100% {
+    bottom: 3%;
+    color: rgb(32, 112, 144);
+  }
+}
+
+@keyframes mobile-typerankslideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-30%);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .typing_mainBox .typing_gameBox .gameBox_main .typetext {
+    font-size: 15px;
+    gap: 10px;
+  }
+  .typing_mainBox .typing_gameBox .gameBox_main .nexttext {
+    font-size: 12px;
+  }
+  .typing_mainBox .typing_gameBox .gameBox_title .typinggame_title {
+    border: 3px solid rgba(135, 206, 235, 0.3);
+  }
+
+  .typing_mainBox .typing_gameBox .gameBox_main {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .game_user_ranking.show {
+    animation: mobile-typerankslideup 2s ease forwards;
+  }
+}

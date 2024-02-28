@@ -1,0 +1,67 @@
+{
+  "rules": {
+    "unreadCounts": {
+      "$userId": {
+        "$channelId": {
+          ".write": "$userId === auth.uid"
+        }
+      }
+    },
+    "channels": {
+      ".read": "auth != null",
+      "$channelId": {
+        ".write": "auth !=null"
+      }
+    },
+    "messages": {
+      "$channelId": {
+        ".read": "auth != null",
+        ".indexOn": "timestamp",
+        "$messageId": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        "alarms": {
+          ".indexOn": "timestamp",
+          "$alarmId": {
+            ".read": "$uid === auth.uid",
+            ".write": "auth != null"
+          }
+        }
+      }
+    },
+    "minigame": {
+      "dicegamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      },
+      "typegamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      },
+      "fifagamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      },
+      "lolgamerank": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "board": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$boardId": {
+        "comments": {
+          ".indexOn": ["likesCount"]
+        }
+      }
+    }
+  }
+}

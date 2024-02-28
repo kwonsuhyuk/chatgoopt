@@ -13,7 +13,11 @@
 
 #firebase
 /firebase
+database.rules.json
+storage.rules
 
+/public
+/firebase
 
 # misc
 .DS_Store

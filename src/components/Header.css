@@ -1,0 +1,281 @@
+.navLink {
+  position: relative;
+  color: black;
+  display: inline-block;
+  text-decoration: none;
+  font-family: "Raleway Dots", cursive;
+  font-weight: 700;
+  margin-left: 2rem;
+  text-transform: upperCase;
+  padding: 15px 25px;
+  border-radius: 20px;
+  border: none;
+}
+
+.navLink:last-child {
+  margin-right: 3rem;
+}
+
+.navLink.active::before {
+  content: attr(data-text); /* data-text 속성 값을 텍스트로 사용 */
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 20px;
+  background: whitesmoke;
+  box-shadow: inset -5px -5px 10px white, inset 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.backdrop_main {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.backdrop_main .backdrop_headerEX {
+  position: absolute;
+  top: 20px;
+  left: 800px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .backdrop_profileEX {
+  position: absolute;
+  top: 20px;
+  right: -150px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .backdrop_alarmEX {
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .backdrop_searchBarEX {
+  position: absolute;
+  top: 200px;
+  left: 500px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .backdrop_bookMarkEX {
+  position: absolute;
+  top: 550px;
+  right: 0;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .backdrop_clockEX {
+  position: absolute;
+  top: 600px;
+  left: 650px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_main .pageEX {
+  background-color: white;
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 500px;
+  height: 100px;
+  color: whitesmoke;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.backdrop_main .backdrop_feedbackEX {
+  position: absolute;
+  bottom: 0px;
+  right: 50px;
+  width: 500px;
+  height: 100px;
+}
+
+.pageEX_letter {
+  color: black;
+}
+
+.backdrop_chat {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.backdrop_chat .backdrop_chatMenu {
+  position: absolute;
+  top: 80px;
+  left: 130px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_chat .backdrop_chatMenuEX {
+  position: absolute;
+  top: 380px;
+  left: 30px;
+  width: 500px;
+  height: 100px;
+}
+
+.backdrop_chat .backdrop_chatAlarm {
+  position: absolute;
+  top: 180px;
+  left: 500px;
+  width: 500px;
+  height: 100px;
+}
+
+.header_nav {
+  height: 100%;
+  padding-left: 50px;
+}
+
+.header_menuIcon {
+  display: none;
+}
+
+.mobile_navlink {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat";
+  position: absolute;
+  animation: movenavbars 1s ease-in forwards;
+  text-transform: uppercase;
+  gap: 20px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.dash_navlink {
+  margin-left: 50px;
+  display: flex;
+  gap: 30px;
+  font-family: "Montserrat";
+  transform: translateX(30%);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+@keyframes movenavbars {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  70% {
+    transform: translateX(-90%);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .header_nav {
+    display: flex;
+  }
+  .chatgoopt {
+    padding: 0;
+  }
+  .profileMenu {
+    display: none;
+  }
+}
+
+/* 미디어쿼리 */
+@media screen and (max-width: 850px) {
+  .profileMenu {
+    display: none;
+  }
+
+  .chatgoopt {
+    display: none;
+  }
+  .dash_navlink {
+    display: none;
+  }
+
+  .chatgoopt {
+    display: none;
+  }
+
+  .header_menuIcon {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    display: block;
+    z-index: 99;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header_nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 25vw;
+    padding: 0px;
+  }
+
+  .header_nav .navLink {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .dash_navlink {
+    display: none;
+  }
+
+  .chatgoopt {
+    display: none;
+  }
+
+  .header_menuIcon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: block;
+    z-index: 99;
+  }
+  .mobile_navlink {
+    align-items: flex-end;
+  }
+}
+
+@keyframes blinkingAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blinking-text {
+  animation: blinkingAnimation 1s infinite;
+}

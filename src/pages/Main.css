@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "naming";
+  src: url("../DancingScript-VariableFont_wght.ttf");
+}
+
+.main_box {
+  position: relative;
+  background-color: black;
+  height: 100vmin;
+  overflow: hidden;
+}
+
+.main_box .letterBox {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+.main_box .letterBox .chat {
+  font-family: "Raleway Dots", cursive;
+  font-weight: 800;
+  color: whitesmoke;
+  animation: fade-in 2s ease-in-out forwards;
+}
+
+.main_box .letterBox .goopt {
+  font-family: "Raleway Dots", cursive;
+  font-weight: bold;
+  color: wheat;
+  animation: fade-in 2s ease-in-out forwards;
+}
+
+.login_signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 100px;
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+}
+
+.login_signup .signin {
+  letter-spacing: 5px;
+  font-family: "naming";
+  font-size: 70px;
+  color: whitesmoke;
+  text-decoration: none;
+  padding-left: 30px;
+  position: relative;
+  width: 300px;
+  z-index: 5;
+}
+
+.login_signup .signin:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 0;
+  background-color: yellowgreen;
+  animation: highlight 1s linear;
+  z-index: -1; /* 형광펜을 글씨 아래로 이동 */
+}
+
+.login_signup .signup {
+  position: relative;
+  letter-spacing: 5px;
+  font-family: "naming";
+  font-size: 50px;
+  color: whitesmoke;
+  text-decoration: none;
+  width: 300px;
+  z-index: 5;
+}
+
+.login_signup .signup:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 0;
+  background-color: orange;
+  animation: highlight 1s linear;
+  z-index: -1; /* 형광펜을 글씨 아래로 이동 */
+}
+
+.madeBy {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: white;
+  font-family: "naming";
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes highlight {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* 웹 반응성 디자인 */
+
+/* 휴대폰 디자인 */
+
+@media screen and (max-width: 500px) {
+  .main_box {
+    height: 100vh;
+  }
+  .letterBox {
+    display: flex;
+    justify-content: center;
+  }
+  .madeBy {
+    display: none;
+  }
+  .login_signup {
+    padding-bottom: 50px;
+    padding-left: 20px;
+  }
+
+  .login_signup .signin {
+    font-size: 30px;
+  }
+  .login_signup .signup {
+    font-size: 30px;
+  }
+
+  .main_box {
+    position: relative;
+    padding-top: 30px;
+  }
+
+  .letterBox {
+    display: flex;
+    flex-shrink: 0;
+    width: 5%;
+  }
+
+  .chat,
+  .goopt {
+    font-size: 100px;
+    font-family: "Raleway Dots", cursive;
+    font-weight: bold;
+    color: wheat;
+    animation: fade-in 2s ease-in-out forwards;
+  }
+}

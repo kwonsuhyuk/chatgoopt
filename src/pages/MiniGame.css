@@ -1,0 +1,81 @@
+.minigame_main {
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  gap: 2vw;
+}
+
+.minigame_main .minigame_menu {
+  width: 25%;
+  height: 95%;
+  opacity: 0.7;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  text-align: center;
+  color: white;
+  background-color: rgba(5, 5, 5, 0.3);
+  box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.2),
+    inset 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.minigame_main .minigame_menu:hover {
+  animation: moveImage 1s linear 0.1s forwards;
+}
+
+.minigame_main .minigame_menu.dice {
+  background-color: pink;
+  /* background-image: url("../img/gamepageImg/dicegamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.type {
+  background-color: skyblue;
+  /* background-image: url("../img/gamepageImg/typinggamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.fifa {
+  background-color: lightgreen;
+  /* background-image: url("../img/gamepageImg/fifagamepage.jpeg"); */
+}
+.minigame_main .minigame_menu.lol {
+  background-color: #d8bfd8;
+  /* background-image: url("../img/gamepageImg/lolgamepage.jpeg"); */
+}
+
+@media screen and (max-width: 500px) {
+  .minigame_main .minigame_menu:hover {
+    animation: moveImageInMobile 0.2s ease-in 0.1s forwards;
+  }
+  .minigame_main .minigame_menu {
+    font-size: 20px;
+  }
+}
+
+@keyframes moveImage {
+  0% {
+    width: 25%;
+  }
+  50% {
+    width: 50%;
+    opacity: 0.8;
+  }
+  100% {
+    width: 80%;
+    opacity: 1;
+  }
+}
+
+@keyframes moveImageInMobile {
+  0% {
+    height: 25%;
+  }
+  50% {
+    height: 50%;
+    opacity: 0.8;
+  }
+  100% {
+    height: 70%;
+    opacity: 1;
+  }
+}
