@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Alert,
   Avatar,
@@ -6,9 +8,10 @@ import {
   Grid,
   TextField,
   Typography,
+  Button,
 } from "@mui/material";
 import { gsap } from "gsap";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Link } from "react-router-dom";
@@ -44,6 +47,10 @@ function Signin() {
     },
     [login]
   );
+
+  const handleGuestLogin = useCallback(() => {
+    login("test@naver.com", "qweqwe");
+  }, [login]);
 
   useEffect(() => {
     const box = boxRef.current;
@@ -120,6 +127,15 @@ function Signin() {
               sx={{ mt: 3, mb: 2 }}>
               로그인
             </LoadingButton>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleGuestLogin}
+              disabled={loading}
+              sx={{ mb: 2 }}>
+              Guest 로그인
+            </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link
